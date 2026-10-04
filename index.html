@@ -1,328 +1,1156 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KREDAR</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
+<title>KREDAR</title>
 
-        body {
-            background: #f4f6f8;
-            color: #17202a;
-        }
+<style>
 
-        .header {
-            background: #0b1f33;
-            color: white;
-            padding: 22px;
-            text-align: center;
-        }
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
 
-        .logo {
-            font-size: 30px;
-            font-weight: bold;
-            letter-spacing: 2px;
-        }
+body{
+    background:#f4f6f8;
+    color:#17202a;
+}
 
-        .subtitle {
-            margin-top: 6px;
-            font-size: 14px;
-            opacity: 0.8;
-        }
+.header{
+    background:linear-gradient(135deg,#071b2e,#17466d);
+    color:white;
+    padding:25px 20px;
+    text-align:center;
+}
 
-        .container {
-            max-width: 600px;
-            margin: auto;
-            padding: 20px;
-        }
+.logo{
+    font-size:32px;
+    font-weight:bold;
+    letter-spacing:2px;
+}
 
-        .welcome {
-            margin-bottom: 20px;
-        }
+.subtitle{
+    margin-top:7px;
+    font-size:14px;
+    opacity:.8;
+}
 
-        .welcome h2 {
-            margin-bottom: 8px;
-        }
+.container{
+    max-width:650px;
+    margin:auto;
+    padding:20px;
+}
 
-        .welcome p {
-            color: #667085;
-        }
+.welcome{
+    margin-bottom:18px;
+}
 
-        .balance {
-            background: linear-gradient(135deg, #0b1f33, #173d61);
-            color: white;
-            padding: 25px;
-            border-radius: 18px;
-            margin-bottom: 20px;
-        }
+.welcome h2{
+    margin-bottom:7px;
+}
 
-        .balance-title {
-            font-size: 14px;
-            opacity: 0.8;
-        }
+.welcome p{
+    color:#667085;
+}
 
-        .balance-number {
-            font-size: 32px;
-            font-weight: bold;
-            margin-top: 8px;
-        }
+.balance{
+    background:linear-gradient(135deg,#0b1f33,#17466d);
+    color:white;
+    padding:25px;
+    border-radius:20px;
+    margin-bottom:18px;
+    box-shadow:0 8px 25px rgba(0,0,0,.12);
+}
 
-        .payment {
-            margin-top: 15px;
-            font-size: 14px;
-        }
+.balance-title{
+    font-size:14px;
+    opacity:.8;
+}
 
-        .cards {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-            margin-bottom: 20px;
-        }
+.balance-number{
+    font-size:34px;
+    font-weight:bold;
+    margin-top:8px;
+}
 
-        .card {
-            background: white;
-            padding: 20px;
-            border-radius: 16px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
-        }
+.payment{
+    margin-top:12px;
+    font-size:14px;
+}
 
-        .card-icon {
-            font-size: 25px;
-            margin-bottom: 10px;
-        }
+.cards{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-bottom:18px;
+}
 
-        .card-title {
-            font-size: 14px;
-            color: #667085;
-        }
+.card{
+    background:white;
+    padding:18px;
+    border-radius:17px;
+    box-shadow:0 3px 12px rgba(0,0,0,.06);
+}
 
-        .card-value {
-            font-size: 19px;
-            font-weight: bold;
-            margin-top: 6px;
-        }
+.card-icon{
+    font-size:24px;
+    margin-bottom:8px;
+}
 
-        .section {
-            background: white;
-            padding: 20px;
-            border-radius: 16px;
-            margin-bottom: 15px;
-        }
+.card-title{
+    font-size:13px;
+    color:#667085;
+}
 
-        .section h3 {
-            margin-bottom: 15px;
-        }
+.card-value{
+    font-size:19px;
+    font-weight:bold;
+    margin-top:5px;
+}
 
-        .loan {
-            display: flex;
-            justify-content: space-between;
-            padding: 14px 0;
-            border-bottom: 1px solid #eee;
-        }
+.section{
+    background:white;
+    padding:20px;
+    border-radius:18px;
+    margin-bottom:16px;
+    box-shadow:0 3px 12px rgba(0,0,0,.04);
+}
 
-        .loan:last-child {
-            border-bottom: none;
-        }
+.section h3{
+    margin-bottom:15px;
+}
 
-        .loan-name {
-            font-weight: bold;
-        }
+.loan{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 0;
+    border-bottom:1px solid #eee;
+}
 
-        .loan-info {
-            color: #667085;
-            font-size: 13px;
-            margin-top: 4px;
-        }
+.loan:last-child{
+    border-bottom:none;
+}
 
-        .loan-price {
-            font-weight: bold;
-            text-align: right;
-        }
+.loan-name{
+    font-weight:bold;
+}
 
-        .button {
-            width: 100%;
-            padding: 15px;
-            background: #0b1f33;
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            cursor: pointer;
-        }
+.loan-info{
+    color:#667085;
+    font-size:13px;
+    margin-top:5px;
+}
 
-        .button:hover {
-            background: #173d61;
-        }
+.loan-price{
+    font-weight:bold;
+    text-align:right;
+}
 
-        .ai {
-            background: #eef6ff;
-            border: 1px solid #d5e8ff;
-        }
+.button{
+    width:100%;
+    padding:15px;
+    background:#0b1f33;
+    color:white;
+    border:none;
+    border-radius:12px;
+    font-size:16px;
+    cursor:pointer;
+}
 
-        .ai-title {
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
+.button:hover{
+    background:#17466d;
+}
 
-        .footer {
-            text-align: center;
-            padding: 25px;
-            color: #98a2b3;
-            font-size: 12px;
-        }
+.add-button{
+    background:#1677ff;
+    margin-bottom:18px;
+}
 
-        @media (max-width: 450px) {
-            .cards {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+.add-button:hover{
+    background:#095dcc;
+}
+
+.delete-button{
+    background:#ffe9e9;
+    color:#c62828;
+    padding:7px 10px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    margin-top:8px;
+    font-size:12px;
+}
+
+.ai{
+    background:#eef6ff;
+    border:1px solid #d5e8ff;
+}
+
+.ai-title{
+    font-weight:bold;
+    margin-bottom:8px;
+    font-size:17px;
+}
+
+.modal{
+    display:none;
+    position:fixed;
+    z-index:100;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,.55);
+    padding:20px;
+    overflow:auto;
+}
+
+.modal-content{
+    background:white;
+    max-width:550px;
+    margin:30px auto;
+    padding:25px;
+    border-radius:20px;
+}
+
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.close{
+    font-size:28px;
+    cursor:pointer;
+    color:#777;
+}
+
+.form-group{
+    margin-bottom:15px;
+}
+
+.form-group label{
+    display:block;
+    margin-bottom:6px;
+    font-size:14px;
+    font-weight:bold;
+}
+
+.form-group input{
+    width:100%;
+    padding:13px;
+    border:1px solid #d0d5dd;
+    border-radius:10px;
+    font-size:15px;
+}
+
+.form-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.empty{
+    text-align:center;
+    padding:25px 10px;
+    color:#667085;
+}
+
+.footer{
+    text-align:center;
+    padding:25px;
+    color:#98a2b3;
+    font-size:12px;
+}
+
+@media(max-width:450px){
+
+    .cards{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .form-row{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
 </head>
 
 <body>
 
-    <div class="header">
-        <div class="logo">KREDAR</div>
-        <div class="subtitle">Kreditlərini idarə et. Maliyyəni nəzarətdə saxla.</div>
+<div class="header">
+
+    <div class="logo">KREDAR</div>
+
+    <div class="subtitle">
+        Kreditlərini idarə et. Maliyyəni nəzarətdə saxla.
     </div>
 
-    <div class="container">
+</div>
 
-        <div class="welcome">
-            <h2>Xoş gəldin 👋</h2>
-            <p>Maliyyə vəziyyətinə bir ekrandan nəzarət et.</p>
+
+<div class="container">
+
+    <div class="welcome">
+
+        <h2>Xoş gəldin 👋</h2>
+
+        <p>
+            Bütün kreditlərini bir ekrandan idarə et.
+        </p>
+
+    </div>
+
+
+    <!-- BALANCE -->
+
+    <div class="balance">
+
+        <div class="balance-title">
+            Ümumi qalıq borc
         </div>
 
-        <div class="balance">
-            <div class="balance-title">Ümumi kredit borcun</div>
-            <div class="balance-number">44,380 ₼</div>
-
-            <div class="payment">
-                Aylıq ödəniş: <strong>1,309 ₼</strong>
-            </div>
+        <div class="balance-number" id="totalDebt">
+            0 ₼
         </div>
 
-        <div class="cards">
+        <div class="payment">
+            Aylıq ümumi ödəniş:
+            <strong id="totalPayment">0 ₼</strong>
+        </div>
 
-            <div class="card">
-                <div class="card-icon">💳</div>
-                <div class="card-title">Aktiv kreditlər</div>
-                <div class="card-value">2</div>
+    </div>
+
+
+    <!-- ADD CREDIT -->
+
+    <button
+        class="button add-button"
+        onclick="openModal()">
+
+        + Yeni kredit əlavə et
+
+    </button>
+
+
+    <!-- CARDS -->
+
+    <div class="cards">
+
+        <div class="card">
+
+            <div class="card-icon">
+                💳
             </div>
 
-            <div class="card">
-                <div class="card-icon">📅</div>
-                <div class="card-title">Növbəti ödəniş</div>
-                <div class="card-value">1,309 ₼</div>
+            <div class="card-title">
+                Aktiv kreditlər
             </div>
 
-            <div class="card">
-                <div class="card-icon">📊</div>
-                <div class="card-title">Kredit yükü</div>
-                <div class="card-value">Orta</div>
-            </div>
+            <div
+                class="card-value"
+                id="creditCount">
 
-            <div class="card">
-                <div class="card-icon">⭐</div>
-                <div class="card-title">Kredit statusu</div>
-                <div class="card-value">Yaxşı</div>
+                0
+
             </div>
 
         </div>
 
-        <div class="section">
-            <h3>Kreditlərim</h3>
+
+        <div class="card">
+
+            <div class="card-icon">
+                💰
+            </div>
+
+            <div class="card-title">
+                Aylıq ödəniş
+            </div>
+
+            <div
+                class="card-value"
+                id="monthlyPayment">
+
+                0 ₼
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-icon">
+                📅
+            </div>
+
+            <div class="card-title">
+                Növbəti ödəniş
+            </div>
+
+            <div
+                class="card-value"
+                id="nextPayment">
+
+                -
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-icon">
+                📊
+            </div>
+
+            <div class="card-title">
+                Kredit statusu
+            </div>
+
+            <div
+                class="card-value"
+                id="status">
+
+                -
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- CREDIT LIST -->
+
+    <div class="section">
+
+        <h3>Kreditlərim</h3>
+
+        <div id="loanList">
+
+            <div class="empty">
+
+                Hələ kredit əlavə edilməyib.
+
+                <br><br>
+
+                Yuxarıdakı
+                <strong>“Yeni kredit əlavə et”</strong>
+                düyməsinə bas.
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- AI -->
+
+    <div class="section ai">
+
+        <div class="ai-title">
+            🤖 KREDAR AI
+        </div>
+
+        <p id="aiText">
+
+            Kreditlərini əlavə et.
+            KREDAR AI borc vəziyyətini analiz edib
+            sənə daha sonra fərdi plan təqdim edəcək.
+
+        </p>
+
+        <br>
+
+        <button
+            class="button"
+            onclick="aiMessage()">
+
+            AI məsləhəti al
+
+        </button>
+
+    </div>
+
+
+    <!-- OTHER -->
+
+    <div class="section">
+
+        <h3>Digər xidmətlər</h3>
+
+        <button
+            class="button"
+            onclick="calculator()">
+
+            🧮 Kredit kalkulyatoru
+
+        </button>
+
+        <br><br>
+
+        <button
+            class="button"
+            onclick="historyMessage()">
+
+            📄 Kredit tarixçəm
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<div class="footer">
+
+    © 2026 KREDAR — Maliyyəni idarə et.
+
+</div>
+
+
+
+<!-- MODAL -->
+
+<div
+    class="modal"
+    id="creditModal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h2>Yeni kredit</h2>
+
+            <span
+                class="close"
+                onclick="closeModal()">
+
+                ×
+
+            </span>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Kreditin adı
+            </label>
+
+            <input
+                type="text"
+                id="creditName"
+                placeholder="Məs: Bank krediti">
+
+        </div>
+
+
+        <div class="form-row">
+
+            <div class="form-group">
+
+                <label>
+                    İlkin məbləğ (₼)
+                </label>
+
+                <input
+                    type="number"
+                    id="creditAmount"
+                    placeholder="50000">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Qalıq borc (₼)
+                </label>
+
+                <input
+                    type="number"
+                    id="creditBalance"
+                    placeholder="44380">
+
+            </div>
+
+        </div>
+
+
+        <div class="form-row">
+
+            <div class="form-group">
+
+                <label>
+                    İllik faiz (%)
+                </label>
+
+                <input
+                    type="number"
+                    id="creditRate"
+                    placeholder="14"
+                    step="0.01">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Aylıq ödəniş (₼)
+                </label>
+
+                <input
+                    type="number"
+                    id="creditPayment"
+                    placeholder="1309">
+
+            </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Növbəti ödəniş tarixi
+            </label>
+
+            <input
+                type="date"
+                id="creditDate">
+
+        </div>
+
+
+        <button
+            class="button"
+            onclick="addCredit()">
+
+            Krediti əlavə et
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+let credits =
+    JSON.parse(
+        localStorage.getItem("kredarCredits")
+    ) || [];
+
+
+function formatMoney(number){
+
+    return Number(number).toLocaleString(
+        "az-AZ",
+        {
+            minimumFractionDigits:0,
+            maximumFractionDigits:2
+        }
+    ) + " ₼";
+
+}
+
+
+function openModal(){
+
+    document.getElementById(
+        "creditModal"
+    ).style.display="block";
+
+}
+
+
+function closeModal(){
+
+    document.getElementById(
+        "creditModal"
+    ).style.display="none";
+
+}
+
+
+function addCredit(){
+
+    const name =
+        document.getElementById(
+            "creditName"
+        ).value.trim();
+
+    const amount =
+        parseFloat(
+            document.getElementById(
+                "creditAmount"
+            ).value
+        );
+
+    const balance =
+        parseFloat(
+            document.getElementById(
+                "creditBalance"
+            ).value
+        );
+
+    const rate =
+        parseFloat(
+            document.getElementById(
+                "creditRate"
+            ).value
+        );
+
+    const payment =
+        parseFloat(
+            document.getElementById(
+                "creditPayment"
+            ).value
+        );
+
+    const date =
+        document.getElementById(
+            "creditDate"
+        ).value;
+
+
+    if(
+        !name ||
+        isNaN(amount) ||
+        isNaN(balance) ||
+        isNaN(rate) ||
+        isNaN(payment)
+    ){
+
+        alert(
+            "Zəhmət olmasa bütün əsas məlumatları daxil edin."
+        );
+
+        return;
+
+    }
+
+
+    const credit = {
+
+        id:Date.now(),
+
+        name:name,
+
+        amount:amount,
+
+        balance:balance,
+
+        rate:rate,
+
+        payment:payment,
+
+        date:date
+
+    };
+
+
+    credits.push(credit);
+
+
+    localStorage.setItem(
+        "kredarCredits",
+        JSON.stringify(credits)
+    );
+
+
+    closeModal();
+
+
+    clearForm();
+
+
+    render();
+
+}
+
+
+function deleteCredit(id){
+
+    if(
+        !confirm(
+            "Bu krediti silmək istəyirsən?"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    credits =
+        credits.filter(
+            credit =>
+            credit.id !== id
+        );
+
+
+    localStorage.setItem(
+        "kredarCredits",
+        JSON.stringify(credits)
+    );
+
+
+    render();
+
+}
+
+
+function clearForm(){
+
+    document.getElementById(
+        "creditName"
+    ).value="";
+
+    document.getElementById(
+        "creditAmount"
+    ).value="";
+
+    document.getElementById(
+        "creditBalance"
+    ).value="";
+
+    document.getElementById(
+        "creditRate"
+    ).value="";
+
+    document.getElementById(
+        "creditPayment"
+    ).value="";
+
+    document.getElementById(
+        "creditDate"
+    ).value="";
+
+}
+
+
+function render(){
+
+    const totalDebt =
+        credits.reduce(
+            (sum,credit) =>
+            sum + Number(credit.balance),
+            0
+        );
+
+
+    const totalPayment =
+        credits.reduce(
+            (sum,credit) =>
+            sum + Number(credit.payment),
+            0
+        );
+
+
+    document.getElementById(
+        "totalDebt"
+    ).textContent =
+        formatMoney(totalDebt);
+
+
+    document.getElementById(
+        "totalPayment"
+    ).textContent =
+        formatMoney(totalPayment);
+
+
+    document.getElementById(
+        "monthlyPayment"
+    ).textContent =
+        formatMoney(totalPayment);
+
+
+    document.getElementById(
+        "creditCount"
+    ).textContent =
+        credits.length;
+
+
+    const loanList =
+        document.getElementById(
+            "loanList"
+        );
+
+
+    if(credits.length === 0){
+
+        loanList.innerHTML = `
+            <div class="empty">
+                Hələ kredit əlavə edilməyib.
+                <br><br>
+                Yuxarıdakı
+                <strong>“Yeni kredit əlavə et”</strong>
+                düyməsinə bas.
+            </div>
+        `;
+
+        document.getElementById(
+            "nextPayment"
+        ).textContent="-";
+
+        document.getElementById(
+            "status"
+        ).textContent="-";
+
+        return;
+
+    }
+
+
+    loanList.innerHTML =
+        credits.map(
+            credit => `
 
             <div class="loan">
+
                 <div>
-                    <div class="loan-name">Bank krediti</div>
-                    <div class="loan-info">14% illik faiz</div>
+
+                    <div class="loan-name">
+                        ${escapeHtml(credit.name)}
+                    </div>
+
+                    <div class="loan-info">
+
+                        ${credit.rate}% illik faiz
+
+                        <br>
+
+                        Aylıq ödəniş:
+                        ${formatMoney(credit.payment)}
+
+                        ${
+                            credit.date
+                            ?
+                            `<br>Növbəti ödəniş:
+                            ${formatDate(credit.date)}`
+                            :
+                            ""
+                        }
+
+                    </div>
+
+                    <button
+                        class="delete-button"
+                        onclick="deleteCredit(${credit.id})">
+
+                        Krediti sil
+
+                    </button>
+
                 </div>
+
 
                 <div class="loan-price">
-                    44,380 ₼
+
+                    ${formatMoney(credit.balance)}
+
+                    <div
+                        style="
+                        color:#667085;
+                        font-size:11px;
+                        margin-top:4px;
+                        ">
+
+                        qalıq borc
+
+                    </div>
+
                 </div>
+
             </div>
 
-            <div class="loan">
-                <div>
-                    <div class="loan-name">Aylıq ödəniş</div>
-                    <div class="loan-info">Növbəti ödəniş</div>
-                </div>
+        `
+        ).join("");
 
-                <div class="loan-price">
-                    1,309 ₼
-                </div>
-            </div>
-        </div>
 
-        <div class="section ai">
+    let nearestDate = null;
 
-            <div class="ai-title">🤖 KREDAR AI</div>
 
-            <p>
-                Kreditlərini daha tez bağlamaq üçün
-                fərdi maliyyə planı almaq istəyirsən?
-            </p>
+    credits.forEach(
+        credit => {
 
-            <br>
+            if(!credit.date){
+                return;
+            }
 
-            <button class="button" onclick="aiMessage()">
-                AI məsləhəti al
-            </button>
 
-        </div>
+            if(
+                !nearestDate ||
+                new Date(credit.date)
+                <
+                new Date(nearestDate)
+            ){
 
-        <div class="section">
+                nearestDate =
+                    credit.date;
 
-            <h3>Digər xidmətlər</h3>
+            }
 
-            <button class="button" onclick="showMessage('Kredit kalkulyatoru')">
-                🧮 Kredit kalkulyatoru
-            </button>
+        }
+    );
 
-            <br><br>
 
-            <button class="button" onclick="showMessage('Kredit tarixçəsi')">
-                📄 Kredit tarixçəm
-            </button>
+    document.getElementById(
+        "nextPayment"
+    ).textContent =
+        nearestDate
+        ?
+        formatDate(nearestDate)
+        :
+        "-";
 
-            <br><br>
 
-            <button class="button" onclick="showMessage('Bank təklifləri')">
-                🏦 Bank təklifləri
-            </button>
+    document.getElementById(
+        "status"
+    ).textContent =
+        totalDebt > 0
+        ?
+        "Aktiv"
+        :
+        "Bağlanıb";
 
-        </div>
 
-    </div>
+    document.getElementById(
+        "aiText"
+    ).textContent =
+        "Sənin " +
+        credits.length +
+        " aktiv kreditin var. Ümumi qalıq borcun " +
+        formatMoney(totalDebt) +
+        " təşkil edir. Növbəti mərhələdə KREDAR AI bu məlumatlara əsasən borcu daha tez bağlamaq üçün plan hazırlayacaq.";
 
-    <div class="footer">
-        © 2026 KREDAR — Maliyyəni idarə et.
-    </div>
+}
 
-    <script>
 
-        function aiMessage() {
-            alert(
-                "KREDAR AI:\n\n" +
-                "Kreditlərini daha sürətli bağlamaq üçün " +
-                "əlavə ödəniş planı hazırlaya bilərik."
+function formatDate(date){
+
+    const d =
+        new Date(date);
+
+    return d.toLocaleDateString(
+        "az-AZ"
+    );
+
+}
+
+
+function escapeHtml(text){
+
+    const div =
+        document.createElement("div");
+
+    div.textContent=text;
+
+    return div.innerHTML;
+
+}
+
+
+function aiMessage(){
+
+    if(credits.length === 0){
+
+        alert(
+            "Əvvəlcə kreditini əlavə et."
+        );
+
+        return;
+
+    }
+
+
+    const totalDebt =
+        credits.reduce(
+            (sum,c) =>
+            sum + Number(c.balance),
+            0
+        );
+
+
+    const totalPayment =
+        credits.reduce(
+            (sum,c) =>
+            sum + Number(c.payment),
+            0
+        );
+
+
+    alert(
+        "KREDAR AI 🤖\n\n" +
+
+        "Ümumi qalıq borc: " +
+        formatMoney(totalDebt) +
+
+        "\nAylıq ödəniş: " +
+        formatMoney(totalPayment) +
+
+        "\n\nNövbəti versiyada AI sənin gəlirini, xərclərini, faizlərini və kredit müddətlərini analiz edərək fərdi borc bağlama planı hazırlayacaq."
+    );
+
+}
+
+
+function calculator(){
+
+    alert(
+        "Kredit kalkulyatoru növbəti mərhələdə aktiv ediləcək."
+    );
+
+}
+
+
+function historyMessage(){
+
+    alert(
+        "Kredit tarixçəsi bölməsi gələcək versiyada AKB/MKR inteqrasiyası üçün hazırlanacaq."
+    );
+
+}
+
+
+window.onclick =
+    function(event){
+
+        const modal =
+            document.getElementById(
+                "creditModal"
             );
+
+        if(event.target === modal){
+
+            closeModal();
+
         }
 
-        function showMessage(service) {
-            alert(service + " bölməsi növbəti versiyada aktiv olacaq.");
-        }
+    };
 
-    </script>
+
+render();
+
+</script>
 
 </body>
 </html>
