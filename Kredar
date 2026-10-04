@@ -1,0 +1,329 @@
+html
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KREDAR</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6f8;
+            color: #17202a;
+        }
+
+        .header {
+            background: #0b1f33;
+            color: white;
+            padding: 22px;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 30px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            margin-top: 6px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .welcome {
+            margin-bottom: 20px;
+        }
+
+        .welcome h2 {
+            margin-bottom: 8px;
+        }
+
+        .welcome p {
+            color: #667085;
+        }
+
+        .balance {
+            background: linear-gradient(135deg, #0b1f33, #173d61);
+            color: white;
+            padding: 25px;
+            border-radius: 18px;
+            margin-bottom: 20px;
+        }
+
+        .balance-title {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .balance-number {
+            font-size: 32px;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+
+        .payment {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        .card-icon {
+            font-size: 25px;
+            margin-bottom: 10px;
+        }
+
+        .card-title {
+            font-size: 14px;
+            color: #667085;
+        }
+
+        .card-value {
+            font-size: 19px;
+            font-weight: bold;
+            margin-top: 6px;
+        }
+
+        .section {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 15px;
+        }
+
+        .section h3 {
+            margin-bottom: 15px;
+        }
+
+        .loan {
+            display: flex;
+            justify-content: space-between;
+            padding: 14px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .loan:last-child {
+            border-bottom: none;
+        }
+
+        .loan-name {
+            font-weight: bold;
+        }
+
+        .loan-info {
+            color: #667085;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        .loan-price {
+            font-weight: bold;
+            text-align: right;
+        }
+
+        .button {
+            width: 100%;
+            padding: 15px;
+            background: #0b1f33;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background: #173d61;
+        }
+
+        .ai {
+            background: #eef6ff;
+            border: 1px solid #d5e8ff;
+        }
+
+        .ai-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 25px;
+            color: #98a2b3;
+            font-size: 12px;
+        }
+
+        @media (max-width: 450px) {
+            .cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="logo">KREDAR</div>
+        <div class="subtitle">Kreditlərini idarə et. Maliyyəni nəzarətdə saxla.</div>
+    </div>
+
+    <div class="container">
+
+        <div class="welcome">
+            <h2>Xoş gəldin 👋</h2>
+            <p>Maliyyə vəziyyətinə bir ekrandan nəzarət et.</p>
+        </div>
+
+        <div class="balance">
+            <div class="balance-title">Ümumi kredit borcun</div>
+            <div class="balance-number">44,380 ₼</div>
+
+            <div class="payment">
+                Aylıq ödəniş: <strong>1,309 ₼</strong>
+            </div>
+        </div>
+
+        <div class="cards">
+
+            <div class="card">
+                <div class="card-icon">💳</div>
+                <div class="card-title">Aktiv kreditlər</div>
+                <div class="card-value">2</div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">📅</div>
+                <div class="card-title">Növbəti ödəniş</div>
+                <div class="card-value">1,309 ₼</div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">📊</div>
+                <div class="card-title">Kredit yükü</div>
+                <div class="card-value">Orta</div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">⭐</div>
+                <div class="card-title">Kredit statusu</div>
+                <div class="card-value">Yaxşı</div>
+            </div>
+
+        </div>
+
+        <div class="section">
+            <h3>Kreditlərim</h3>
+
+            <div class="loan">
+                <div>
+                    <div class="loan-name">Bank krediti</div>
+                    <div class="loan-info">14% illik faiz</div>
+                </div>
+
+                <div class="loan-price">
+                    44,380 ₼
+                </div>
+            </div>
+
+            <div class="loan">
+                <div>
+                    <div class="loan-name">Aylıq ödəniş</div>
+                    <div class="loan-info">Növbəti ödəniş</div>
+                </div>
+
+                <div class="loan-price">
+                    1,309 ₼
+                </div>
+            </div>
+        </div>
+
+        <div class="section ai">
+
+            <div class="ai-title">🤖 KREDAR AI</div>
+
+            <p>
+                Kreditlərini daha tez bağlamaq üçün
+                fərdi maliyyə planı almaq istəyirsən?
+            </p>
+
+            <br>
+
+            <button class="button" onclick="aiMessage()">
+                AI məsləhəti al
+            </button>
+
+        </div>
+
+        <div class="section">
+
+            <h3>Digər xidmətlər</h3>
+
+            <button class="button" onclick="showMessage('Kredit kalkulyatoru')">
+                🧮 Kredit kalkulyatoru
+            </button>
+
+            <br><br>
+
+            <button class="button" onclick="showMessage('Kredit tarixçəsi')">
+                📄 Kredit tarixçəm
+            </button>
+
+            <br><br>
+
+            <button class="button" onclick="showMessage('Bank təklifləri')">
+                🏦 Bank təklifləri
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="footer">
+        © 2026 KREDAR — Maliyyəni idarə et.
+    </div>
+
+    <script>
+
+        function aiMessage() {
+            alert(
+                "KREDAR AI:\n\n" +
+                "Kreditlərini daha sürətli bağlamaq üçün " +
+                "əlavə ödəniş planı hazırlaya bilərik."
+            );
+        }
+
+        function showMessage(service) {
+            alert(service + " bölməsi növbəti versiyada aktiv olacaq.");
+        }
+
+    </script>
+
+</body>
+</html>
