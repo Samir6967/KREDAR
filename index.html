@@ -5,26 +5,40 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KREDAR</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
 <style>
+
 *{
   box-sizing:border-box;
   margin:0;
   padding:0;
-  font-family:Arial,Helvetica,sans-serif !important;
+  font-family:"Noto Sans",Arial,sans-serif !important;
   font-style:normal !important;
+}
+
+html,body{
+  width:100%;
+  min-height:100%;
 }
 
 body{
   background:#eef2f7;
   color:#172033;
-  min-height:100vh;
 }
 
 button,
 input,
-select{
-  font-family:Arial,Helvetica,sans-serif !important;
+select,
+textarea{
+  font-family:"Noto Sans",Arial,sans-serif !important;
   font-style:normal !important;
+}
+
+button{
+  cursor:pointer;
 }
 
 .app{
@@ -38,6 +52,8 @@ select{
   box-shadow:0 0 30px rgba(0,0,0,.08);
 }
 
+/* STATUS BAR */
+
 .statusbar{
   height:28px;
   background:#071a35;
@@ -50,9 +66,11 @@ select{
   font-weight:600;
 }
 
+/* HEADER */
+
 .topbar{
   background:#071a35;
-  color:white;
+  color:#fff;
   padding:18px 20px 22px;
 }
 
@@ -72,6 +90,8 @@ select{
   color:#aebbd0;
 }
 
+/* CONTENT */
+
 .content{
   padding:16px;
 }
@@ -85,9 +105,10 @@ select{
 }
 
 /* BALANCE */
+
 .balance-card{
   background:linear-gradient(135deg,#0a2547,#0d3d70);
-  color:white;
+  color:#fff;
   border-radius:22px;
   padding:22px;
   box-shadow:0 12px 30px rgba(7,26,53,.20);
@@ -118,11 +139,12 @@ select{
 }
 
 .balance-bottom strong{
-  color:white;
+  color:#fff;
   font-size:14px;
 }
 
 /* STATS */
+
 .stats{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -149,6 +171,8 @@ select{
   color:#172033;
 }
 
+/* SECTION */
+
 .section-head{
   display:flex;
   align-items:center;
@@ -166,7 +190,8 @@ select{
   color:#7b8799;
 }
 
-/* BANK CARDS */
+/* BANK CARD */
+
 .bank-card{
   background:#fff;
   border-radius:18px;
@@ -242,6 +267,7 @@ select{
 }
 
 /* BUTTON */
+
 .primary{
   width:100%;
   border:0;
@@ -260,6 +286,7 @@ select{
 }
 
 /* EMPTY */
+
 .empty{
   background:#fff;
   border-radius:18px;
@@ -275,6 +302,7 @@ select{
 }
 
 /* CALCULATOR */
+
 .calc-card{
   background:#fff;
   border-radius:20px;
@@ -339,27 +367,8 @@ select{
   color:#1267b1;
 }
 
-/* AI */
-.ai-card{
-  background:linear-gradient(135deg,#101f38,#173a65);
-  color:#fff;
-  border-radius:20px;
-  padding:22px;
-}
-
-.ai-title{
-  font-size:20px;
-  font-weight:800;
-  margin-bottom:8px;
-}
-
-.ai-text{
-  color:#c8d5e5;
-  font-size:13px;
-  line-height:1.6;
-}
-
 /* PROFILE */
+
 .profile-card{
   background:#fff;
   border-radius:20px;
@@ -393,6 +402,7 @@ select{
 }
 
 /* MODAL */
+
 .modal{
   display:none;
   position:fixed;
@@ -419,8 +429,12 @@ select{
 }
 
 @keyframes up{
-  from{transform:translateY(100%)}
-  to{transform:translateY(0)}
+  from{
+    transform:translateY(100%);
+  }
+  to{
+    transform:translateY(0);
+  }
 }
 
 .modal-head{
@@ -443,6 +457,8 @@ select{
   font-size:20px;
   cursor:pointer;
 }
+
+/* DETAIL */
 
 .detail-hero{
   background:linear-gradient(135deg,#0a2547,#0d3d70);
@@ -503,6 +519,7 @@ select{
 }
 
 /* FAB */
+
 .fab{
   position:fixed;
   right:max(calc((100vw - 430px)/2 + 18px),18px);
@@ -520,6 +537,7 @@ select{
 }
 
 /* BOTTOM NAV */
+
 .bottom-nav{
   position:fixed;
   bottom:0;
@@ -560,8 +578,10 @@ select{
   font-weight:700;
 }
 
-/* RESPONSIVE */
+/* DESKTOP */
+
 @media(min-width:431px){
+
   body{
     padding:20px 0;
   }
@@ -580,7 +600,9 @@ select{
   .fab{
     bottom:100px;
   }
+
 }
+
 </style>
 </head>
 
@@ -594,45 +616,94 @@ select{
   </div>
 
   <header class="topbar">
-    <div class="logo">KRED<span>AR</span></div>
-    <div class="subtitle">Kreditlərini bir yerdən idarə et</div>
+
+    <div class="logo">
+      KRED<span>AR</span>
+    </div>
+
+    <div class="subtitle">
+      Kreditlərini bir yerdən idarə et
+    </div>
+
   </header>
+
 
   <main class="content">
 
-    <!-- ANA -->
+    <!-- ANA SƏHİFƏ -->
+
     <section id="homePage" class="page active">
 
       <div class="balance-card">
-        <div class="balance-label">ÜMUMİ QALIQ BORC</div>
-        <div class="balance-number" id="totalDebt">0 ₼</div>
+
+        <div class="balance-label">
+          ÜMUMİ QALIQ BORC
+        </div>
+
+        <div class="balance-number" id="totalDebt">
+          0 ₼
+        </div>
 
         <div class="balance-bottom">
-          <span>Aylıq ümumi ödəniş</span>
-          <strong id="totalPayment">0 ₼</strong>
+
+          <span>
+            Aylıq ümumi ödəniş
+          </span>
+
+          <strong id="totalPayment">
+            0 ₼
+          </strong>
+
         </div>
+
       </div>
+
 
       <div class="stats">
 
         <div class="stat-card">
-          <div class="stat-label">Aktiv kreditlər</div>
-          <div class="stat-value" id="creditCount">0</div>
+
+          <div class="stat-label">
+            Aktiv kreditlər
+          </div>
+
+          <div class="stat-value" id="creditCount">
+            0
+          </div>
+
         </div>
+
 
         <div class="stat-card">
-          <div class="stat-label">Növbəti ödəniş</div>
-          <div class="stat-value" id="nextPayment">—</div>
+
+          <div class="stat-label">
+            Növbəti ödəniş
+          </div>
+
+          <div class="stat-value" id="nextPayment">
+            —
+          </div>
+
         </div>
 
       </div>
 
+
       <div class="section-head">
-        <h2>Banklardakı kreditlər</h2>
-        <span>Ətraflı bax</span>
+
+        <h2>
+          Banklardakı kreditlər
+        </h2>
+
+        <span>
+          Ətraflı bax
+        </span>
+
       </div>
 
+
       <div id="bankList"></div>
+
 
       <button class="primary" onclick="openAddModal()">
         ＋ Yeni kredit əlavə et
@@ -642,14 +713,24 @@ select{
 
 
     <!-- KREDİTLƏR -->
+
     <section id="creditsPage" class="page">
 
       <div class="section-head">
-        <h2>Mənim kreditlərim</h2>
-        <span id="creditCount2">0 kredit</span>
+
+        <h2>
+          Mənim kreditlərim
+        </h2>
+
+        <span id="creditCount2">
+          0 kredit
+        </span>
+
       </div>
 
+
       <div id="creditPageList"></div>
+
 
       <button class="primary" onclick="openAddModal()">
         ＋ Yeni kredit əlavə et
@@ -659,46 +740,101 @@ select{
 
 
     <!-- KALKULYATOR -->
+
     <section id="calculatorPage" class="page">
 
       <div class="calc-card">
 
-        <h2>Kredit kalkulyatoru</h2>
+        <h2>
+          Kredit kalkulyatoru
+        </h2>
+
 
         <div class="field">
-          <label>Kredit məbləği</label>
-          <input id="calcAmount" type="number" placeholder="50000">
+
+          <label>
+            Kredit məbləği
+          </label>
+
+          <input
+            id="calcAmount"
+            type="number"
+            placeholder="50000"
+          >
+
         </div>
 
-        <div class="field">
-          <label>İllik faiz (%)</label>
-          <input id="calcRate" type="number" step="0.1" placeholder="14">
-        </div>
 
         <div class="field">
-          <label>Müddət (ay)</label>
-          <input id="calcMonths" type="number" placeholder="48">
+
+          <label>
+            İllik faiz (%)
+          </label>
+
+          <input
+            id="calcRate"
+            type="number"
+            step="0.1"
+            placeholder="14"
+          >
+
         </div>
+
+
+        <div class="field">
+
+          <label>
+            Müddət (ay)
+          </label>
+
+          <input
+            id="calcMonths"
+            type="number"
+            placeholder="48"
+          >
+
+        </div>
+
 
         <button class="primary" onclick="calculateLoan()">
           Hesabla
         </button>
 
+
         <div class="calc-result" id="calcResult">
-          <div>
-            <span>Aylıq ödəniş</span>
-            <strong>—</strong>
-          </div>
 
           <div>
-            <span>Ümumi ödəniş</span>
-            <strong>—</strong>
+            <span>
+              Aylıq ödəniş
+            </span>
+
+            <strong>
+              —
+            </strong>
           </div>
 
+
           <div>
-            <span>Ümumi faiz</span>
-            <strong>—</strong>
+            <span>
+              Ümumi ödəniş
+            </span>
+
+            <strong>
+              —
+            </strong>
           </div>
+
+
+          <div>
+            <span>
+              Ümumi faiz
+            </span>
+
+            <strong>
+              —
+            </strong>
+          </div>
+
         </div>
 
       </div>
@@ -707,13 +843,18 @@ select{
 
 
     <!-- PROFİL -->
+
     <section id="profilePage" class="page">
 
       <div class="profile-card">
 
-        <div class="profile-logo">K</div>
+        <div class="profile-logo">
+          K
+        </div>
 
-        <h2>KREDAR</h2>
+        <h2>
+          KREDAR
+        </h2>
 
         <p>
           Kreditlərinizi, aylıq ödənişlərinizi və
@@ -723,8 +864,8 @@ select{
         <br>
 
         <p>
-          KREDAR — maliyyə idarəetməsini sadələşdirən
-          rəqəmsal platforma.
+          KREDAR — maliyyə idarəetməsini
+          sadələşdirən rəqəmsal platforma.
         </p>
 
       </div>
@@ -734,31 +875,78 @@ select{
   </main>
 
 
-  <!-- FLOATING BUTTON -->
-  <button class="fab" onclick="openAddModal()">＋</button>
+  <!-- PLUS -->
+
+  <button class="fab" onclick="openAddModal()">
+    ＋
+  </button>
 
 
-  <!-- BOTTOM NAV -->
+  <!-- ALT MENYU -->
+
   <nav class="bottom-nav">
 
-    <button class="nav-btn active" onclick="showPage('homePage',this)">
-      <div class="icon">⌂</div>
-      <span>Ana</span>
+    <button
+      class="nav-btn active"
+      onclick="showPage('homePage',this)"
+    >
+
+      <div class="icon">
+        ⌂
+      </div>
+
+      <span>
+        Ana
+      </span>
+
     </button>
 
-    <button class="nav-btn" onclick="showPage('creditsPage',this)">
-      <div class="icon">▣</div>
-      <span>Kreditlər</span>
+
+    <button
+      class="nav-btn"
+      onclick="showPage('creditsPage',this)"
+    >
+
+      <div class="icon">
+        ▣
+      </div>
+
+      <span>
+        Kreditlər
+      </span>
+
     </button>
 
-    <button class="nav-btn" onclick="showPage('calculatorPage',this)">
-      <div class="icon">▤</div>
-      <span>Kalkulyator</span>
+
+    <button
+      class="nav-btn"
+      onclick="showPage('calculatorPage',this)"
+    >
+
+      <div class="icon">
+        ▤
+      </div>
+
+      <span>
+        Kalkulyator
+      </span>
+
     </button>
 
-    <button class="nav-btn" onclick="showPage('profilePage',this)">
-      <div class="icon">●</div>
-      <span>Profil</span>
+
+    <button
+      class="nav-btn"
+      onclick="showPage('profilePage',this)"
+    >
+
+      <div class="icon">
+        ●
+      </div>
+
+      <span>
+        Profil
+      </span>
+
     </button>
 
   </nav>
@@ -766,44 +954,123 @@ select{
 </div>
 
 
-<!-- ADD CREDIT MODAL -->
+<!-- YENİ KREDİ MODALI -->
+
 <div class="modal" id="addModal">
 
   <div class="modal-box">
 
     <div class="modal-head">
-      <h2>Yeni kredit</h2>
-      <button class="close" onclick="closeModal('addModal')">×</button>
+
+      <h2>
+        Yeni kredit
+      </h2>
+
+      <button
+        class="close"
+        onclick="closeModal('addModal')"
+      >
+        ×
+      </button>
+
     </div>
 
+
     <div class="field">
-      <label>Bank</label>
+
+      <label>
+        Bank
+      </label>
 
       <select id="creditName">
 
-        <option value="">Bank seçin</option>
+        <option value="">
+          Bank seçin
+        </option>
 
-        <option>AccessBank</option>
-        <option>AFB Bank</option>
-        <option>Azərbaycan Beynəlxalq Bankı (ABB)</option>
-        <option>Azərbaycan Sənaye Bankı (ASB)</option>
-        <option>Azər-Türk Bank</option>
-        <option>Bank Avrasiya</option>
-        <option>Bank of Baku</option>
-        <option>Bank Respublika</option>
-        <option>Premium Bank</option>
-        <option>Bank VTB (Azərbaycan)</option>
-        <option>Expressbank</option>
-        <option>Kapital Bank</option>
-        <option>Melli İran Bankı – Bakı filialı</option>
-        <option>Yelo Bank</option>
-        <option>PAŞA Bank</option>
-        <option>Rabitəbank</option>
-        <option>TuranBank</option>
-        <option>Unibank</option>
-        <option>Xalq Bank</option>
-        <option>Yapı Kredi Bank Azərbaycan</option>
-        <option>Ziraat Bank Azərbaycan</option>
+        <option>
+          AccessBank
+        </option>
+
+        <option>
+          AFB Bank
+        </option>
+
+        <option>
+          Azərbaycan Beynəlxalq Bankı (ABB)
+        </option>
+
+        <option>
+          Azərbaycan Sənaye Bankı (ASB)
+        </option>
+
+        <option>
+          Azər-Türk Bank
+        </option>
+
+        <option>
+          Bank Avrasiya
+        </option>
+
+        <option>
+          Bank of Baku
+        </option>
+
+        <option>
+          Bank Respublika
+        </option>
+
+        <option>
+          Premium Bank
+        </option>
+
+        <option>
+          Bank VTB (Azərbaycan)
+        </option>
+
+        <option>
+          Expressbank
+        </option>
+
+        <option>
+          Kapital Bank
+        </option>
+
+        <option>
+          Melli İran Bankı – Bakı filialı
+        </option>
+
+        <option>
+          Yelo Bank
+        </option>
+
+        <option>
+          PAŞA Bank
+        </option>
+
+        <option>
+          Rabitəbank
+        </option>
+
+        <option>
+          TuranBank
+        </option>
+
+        <option>
+          Unibank
+        </option>
+
+        <option>
+          Xalq Bank
+        </option>
+
+        <option>
+          Yapı Kredi Bank Azərbaycan
+        </option>
+
+        <option>
+          Ziraat Bank Azərbaycan
+        </option>
 
       </select>
 
@@ -811,36 +1078,84 @@ select{
 
 
     <div class="field">
-      <label>İlkin kredit məbləği</label>
-      <input id="creditAmount" type="number" placeholder="50000">
+
+      <label>
+        İlkin kredit məbləği
+      </label>
+
+      <input
+        id="creditAmount"
+        type="number"
+        placeholder="50000"
+      >
+
     </div>
 
 
     <div class="field">
-      <label>Qalıq borc</label>
-      <input id="creditBalance" type="number" placeholder="44380">
+
+      <label>
+        Qalıq borc
+      </label>
+
+      <input
+        id="creditBalance"
+        type="number"
+        placeholder="44380"
+      >
+
     </div>
 
 
     <div class="field">
-      <label>İllik faiz (%)</label>
-      <input id="creditRate" type="number" step="0.1" placeholder="14">
+
+      <label>
+        İllik faiz (%)
+      </label>
+
+      <input
+        id="creditRate"
+        type="number"
+        step="0.1"
+        placeholder="14"
+      >
+
     </div>
 
 
     <div class="field">
-      <label>Aylıq ödəniş</label>
-      <input id="creditPayment" type="number" placeholder="1309">
+
+      <label>
+        Aylıq ödəniş
+      </label>
+
+      <input
+        id="creditPayment"
+        type="number"
+        placeholder="1309"
+      >
+
     </div>
 
 
     <div class="field">
-      <label>Növbəti ödəniş tarixi</label>
-      <input id="creditDate" type="date">
+
+      <label>
+        Növbəti ödəniş tarixi
+      </label>
+
+      <input
+        id="creditDate"
+        type="date"
+      >
+
     </div>
 
 
-    <button class="primary" onclick="addCredit()">
+    <button
+      class="primary"
+      onclick="addCredit()"
+    >
       Krediti əlavə et
     </button>
 
@@ -849,15 +1164,27 @@ select{
 </div>
 
 
-<!-- DETAIL MODAL -->
+<!-- ƏTRAFLI MƏLUMAT MODALI -->
+
 <div class="modal" id="detailModal">
 
   <div class="modal-box">
 
     <div class="modal-head">
-      <h2>Kredit məlumatları</h2>
-      <button class="close" onclick="closeModal('detailModal')">×</button>
+
+      <h2>
+        Kredit məlumatları
+      </h2>
+
+      <button
+        class="close"
+        onclick="closeModal('detailModal')"
+      >
+        ×
+      </button>
+
     </div>
+
 
     <div id="detailContent"></div>
 
@@ -868,134 +1195,219 @@ select{
 
 <script>
 
-let credits = JSON.parse(localStorage.getItem("kredarCredits")) || [];
+let credits =
+  JSON.parse(
+    localStorage.getItem("kredarCredits")
+  ) || [];
 
 
-/* MONEY */
+/* PUL */
+
 function money(value){
-  return Number(value || 0).toLocaleString("az-AZ",{
-    minimumFractionDigits:0,
-    maximumFractionDigits:0
-  }) + " ₼";
+
+  return Number(value || 0)
+    .toLocaleString("az-AZ",{
+      minimumFractionDigits:0,
+      maximumFractionDigits:0
+    }) + " ₼";
+
 }
 
 
-/* DATE */
+/* TARİX */
+
 function formatDate(date){
 
-  if(!date) return "—";
+  if(!date){
+    return "—";
+  }
 
   const d = new Date(date);
 
-  if(isNaN(d)) return date;
+  if(isNaN(d)){
+    return date;
+  }
 
-  return d.toLocaleDateString("az-AZ",{
-    day:"2-digit",
-    month:"2-digit",
-    year:"numeric"
-  });
+  return d.toLocaleDateString(
+    "az-AZ",
+    {
+      day:"2-digit",
+      month:"2-digit",
+      year:"numeric"
+    }
+  );
 
 }
 
 
-/* MONTH CALCULATION */
-function remainingMonthsNumber(balance,rate,payment){
+/* QALAN AYLAR */
+
+function remainingMonthsNumber(
+  balance,
+  rate,
+  payment
+){
 
   balance = Number(balance);
   rate = Number(rate);
   payment = Number(payment);
 
-  if(balance <= 0) return 0;
-
-  if(payment <= 0) return 0;
-
-  const monthlyRate = rate / 100 / 12;
-
-  if(monthlyRate === 0){
-    return Math.ceil(balance/payment);
+  if(balance <= 0){
+    return 0;
   }
 
-  if(payment <= balance * monthlyRate){
+  if(payment <= 0){
     return 0;
+  }
+
+  const monthlyRate =
+    rate / 100 / 12;
+
+  if(monthlyRate === 0){
+
+    return Math.ceil(
+      balance / payment
+    );
+
+  }
+
+  if(
+    payment <=
+    balance * monthlyRate
+  ){
+
+    return 0;
+
   }
 
   const months =
     -Math.log(
-      1 - (balance * monthlyRate / payment)
+      1 -
+      (
+        balance *
+        monthlyRate /
+        payment
+      )
     ) /
-    Math.log(1 + monthlyRate);
+    Math.log(
+      1 + monthlyRate
+    );
 
   return Math.ceil(months);
+
 }
 
 
-/* DURATION TEXT */
+/* MÜDDƏT */
+
 function durationText(months){
 
   if(!months || months <= 0){
     return "—";
   }
 
-  const years = Math.floor(months / 12);
-  const remaining = months % 12;
+  const years =
+    Math.floor(months / 12);
+
+  const remaining =
+    months % 12;
+
 
   if(years > 0 && remaining > 0){
-    return years + " il " + remaining + " ay";
+
+    return years +
+      " il " +
+      remaining +
+      " ay";
+
   }
+
 
   if(years > 0){
+
     return years + " il";
+
   }
 
+
   return remaining + " ay";
+
 }
 
 
-/* END DATE */
+/* BİTMƏ TARİXİ */
+
 function calculateEndDate(c){
 
-  if(!c.date) return "—";
+  if(!c.date){
+    return "—";
+  }
 
-  const months = remainingMonthsNumber(
-    c.balance,
-    c.rate,
-    c.payment
+  const months =
+    remainingMonthsNumber(
+      c.balance,
+      c.rate,
+      c.payment
+    );
+
+  if(!months){
+    return "—";
+  }
+
+  const d =
+    new Date(c.date);
+
+  d.setMonth(
+    d.getMonth() + months
   );
 
-  if(!months) return "—";
-
-  const d = new Date(c.date);
-
-  d.setMonth(d.getMonth() + months);
-
-  return d.toLocaleDateString("az-AZ",{
-    day:"2-digit",
-    month:"2-digit",
-    year:"numeric"
-  });
+  return d.toLocaleDateString(
+    "az-AZ",
+    {
+      day:"2-digit",
+      month:"2-digit",
+      year:"numeric"
+    }
+  );
 
 }
 
 
-/* PROGRESS */
+/* PROQRES */
+
 function progressPercent(c){
 
-  const initial = Number(c.amount || 0);
-  const balance = Number(c.balance || 0);
+  const initial =
+    Number(c.amount || 0);
 
-  if(initial <= 0) return 0;
+  const balance =
+    Number(c.balance || 0);
+
+  if(initial <= 0){
+    return 0;
+  }
 
   let progress =
-    ((initial - balance) / initial) * 100;
+    (
+      (initial - balance) /
+      initial
+    ) * 100;
 
-  if(progress < 0) progress = 0;
-  if(progress > 100) progress = 100;
+  if(progress < 0){
+    progress = 0;
+  }
+
+  if(progress > 100){
+    progress = 100;
+  }
 
   return progress.toFixed(1);
+
 }
 
 
-/* ESCAPE */
+/* MƏTN TƏHLÜKƏSİZLİYİ */
+
 function esc(text){
 
   return String(text || "")
@@ -1008,21 +1420,27 @@ function esc(text){
 }
 
 
-/* BANK CARD */
+/* BANK KARTI */
+
 function bankCard(c){
 
-  const p = progressPercent(c);
+  const p =
+    progressPercent(c);
 
-  const months = remainingMonthsNumber(
-    c.balance,
-    c.rate,
-    c.payment
-  );
+  const months =
+    remainingMonthsNumber(
+      c.balance,
+      c.rate,
+      c.payment
+    );
+
 
   return `
 
-    <div class="bank-card"
-         onclick="openDetails(${c.id})">
+    <div
+      class="bank-card"
+      onclick="openDetails(${c.id})"
+    >
 
       <div class="bank-head">
 
@@ -1040,74 +1458,118 @@ function bankCard(c){
       <div class="bank-row">
 
         <div class="bank-item">
-          <label>Qalıq borc</label>
-          <strong>${money(c.balance)}</strong>
+
+          <label>
+            Qalıq borc
+          </label>
+
+          <strong>
+            ${money(c.balance)}
+          </strong>
+
         </div>
 
+
         <div class="bank-item">
-          <label>Aylıq ödəniş</label>
-          <strong>${money(c.payment)}</strong>
+
+          <label>
+            Aylıq ödəniş
+          </label>
+
+          <strong>
+            ${money(c.payment)}
+          </strong>
+
         </div>
 
       </div>
 
 
       <div class="progress">
-        <span style="width:${p}%"></span>
+
+        <span
+          style="width:${p}%"
+        ></span>
+
       </div>
 
 
       <div class="bank-hint">
+
         Ətraflı məlumat üçün toxun ·
-        Təxmini müddət: ${durationText(months)}
+        Təxmini müddət:
+        ${durationText(months)}
+
       </div>
 
     </div>
 
   `;
+
 }
 
 
 /* RENDER */
+
 function render(){
 
   const totalDebt =
     credits.reduce(
-      (sum,c)=>sum + Number(c.balance || 0),
+      (sum,c)=>
+        sum + Number(c.balance || 0),
       0
     );
+
 
   const totalPayment =
     credits.reduce(
-      (sum,c)=>sum + Number(c.payment || 0),
+      (sum,c)=>
+        sum + Number(c.payment || 0),
       0
     );
 
 
-  document.getElementById("totalDebt").textContent =
+  document.getElementById(
+    "totalDebt"
+  ).textContent =
     money(totalDebt);
 
-  document.getElementById("totalPayment").textContent =
+
+  document.getElementById(
+    "totalPayment"
+  ).textContent =
     money(totalPayment);
 
-  document.getElementById("creditCount").textContent =
+
+  document.getElementById(
+    "creditCount"
+  ).textContent =
     credits.length;
 
-  document.getElementById("creditCount2").textContent =
+
+  document.getElementById(
+    "creditCount2"
+  ).textContent =
     credits.length + " kredit";
 
 
-  /* NEXT PAYMENT */
+  /* NÖVBƏTİ ÖDƏNİŞ */
 
   let next = null;
 
+
   credits.forEach(c=>{
 
-    if(!c.date) return;
+    if(!c.date){
+      return;
+    }
 
-    const d = new Date(c.date);
+    const d =
+      new Date(c.date);
 
-    if(isNaN(d)) return;
+    if(isNaN(d)){
+      return;
+    }
 
     if(!next || d < next){
       next = d;
@@ -1116,19 +1578,30 @@ function render(){
   });
 
 
-  document.getElementById("nextPayment").textContent =
+  document.getElementById(
+    "nextPayment"
+  ).textContent =
+
     next
-      ? next.toLocaleDateString("az-AZ",{
-          day:"2-digit",
-          month:"2-digit"
-        })
+
+      ? next.toLocaleDateString(
+          "az-AZ",
+          {
+            day:"2-digit",
+            month:"2-digit"
+          }
+        )
+
       : "—";
 
 
-  /* HOME LIST */
+  /* ANA SƏHİFƏ */
 
   const bankList =
-    document.getElementById("bankList");
+    document.getElementById(
+      "bankList"
+    );
+
 
   if(credits.length === 0){
 
@@ -1136,7 +1609,9 @@ function render(){
 
       <div class="empty">
 
-        <div class="empty-icon">₼</div>
+        <div class="empty-icon">
+          ₼
+        </div>
 
         <div>
           Hələ kredit əlavə edilməyib.
@@ -1149,15 +1624,20 @@ function render(){
   }else{
 
     bankList.innerHTML =
-      credits.map(bankCard).join("");
+      credits
+        .map(bankCard)
+        .join("");
 
   }
 
 
-  /* CREDIT PAGE */
+  /* KREDİTLƏR SƏHİFƏSİ */
 
   const creditPageList =
-    document.getElementById("creditPageList");
+    document.getElementById(
+      "creditPageList"
+    );
+
 
   if(credits.length === 0){
 
@@ -1172,7 +1652,9 @@ function render(){
   }else{
 
     creditPageList.innerHTML =
-      credits.map(bankCard).join("");
+      credits
+        .map(bankCard)
+        .join("");
 
   }
 
@@ -1185,40 +1667,74 @@ function render(){
 }
 
 
-/* ADD CREDIT */
+/* KREDİT ƏLAVƏ ET */
+
 function addCredit(){
 
   const name =
-    document.getElementById("creditName").value;
+    document.getElementById(
+      "creditName"
+    ).value;
+
 
   const amount =
-    Number(document.getElementById("creditAmount").value);
+    Number(
+      document.getElementById(
+        "creditAmount"
+      ).value
+    );
+
 
   const balance =
-    Number(document.getElementById("creditBalance").value);
+    Number(
+      document.getElementById(
+        "creditBalance"
+      ).value
+    );
+
 
   const rate =
-    Number(document.getElementById("creditRate").value);
+    Number(
+      document.getElementById(
+        "creditRate"
+      ).value
+    );
+
 
   const payment =
-    Number(document.getElementById("creditPayment").value);
+    Number(
+      document.getElementById(
+        "creditPayment"
+      ).value
+    );
+
 
   const date =
-    document.getElementById("creditDate").value;
+    document.getElementById(
+      "creditDate"
+    ).value;
 
 
   if(!name){
 
-    alert("Zəhmət olmasa bankı seçin.");
+    alert(
+      "Zəhmət olmasa bankı seçin."
+    );
 
     return;
 
   }
 
 
-  if(!amount || !balance || !payment){
+  if(
+    !amount ||
+    !balance ||
+    !payment
+  ){
 
-    alert("Kredit məlumatlarını tam doldurun.");
+    alert(
+      "Kredit məlumatlarını tam doldurun."
+    );
 
     return;
 
@@ -1255,25 +1771,44 @@ function addCredit(){
 }
 
 
-/* CLEAR */
+/* FORMU TƏMİZLƏ */
+
 function clearAddForm(){
 
-  document.getElementById("creditName").value = "";
+  document.getElementById(
+    "creditName"
+  ).value = "";
 
-  document.getElementById("creditAmount").value = "";
 
-  document.getElementById("creditBalance").value = "";
+  document.getElementById(
+    "creditAmount"
+  ).value = "";
 
-  document.getElementById("creditRate").value = "";
 
-  document.getElementById("creditPayment").value = "";
+  document.getElementById(
+    "creditBalance"
+  ).value = "";
 
-  document.getElementById("creditDate").value = "";
+
+  document.getElementById(
+    "creditRate"
+  ).value = "";
+
+
+  document.getElementById(
+    "creditPayment"
+  ).value = "";
+
+
+  document.getElementById(
+    "creditDate"
+  ).value = "";
 
 }
 
 
-/* SAVE */
+/* SAXLA */
+
 function saveAndRender(){
 
   localStorage.setItem(
@@ -1286,13 +1821,19 @@ function saveAndRender(){
 }
 
 
-/* DETAILS */
+/* ƏTRAFLI MƏLUMAT */
+
 function openDetails(id){
 
   const c =
-    credits.find(x=>x.id === id);
+    credits.find(
+      x=>x.id === id
+    );
 
-  if(!c) return;
+
+  if(!c){
+    return;
+  }
 
 
   const months =
@@ -1303,13 +1844,19 @@ function openDetails(id){
     );
 
 
-  document.getElementById("detailContent").innerHTML = `
+  document.getElementById(
+    "detailContent"
+  ).innerHTML = `
 
     <div class="detail-hero">
 
-      <small>Bank</small>
+      <small>
+        Bank
+      </small>
 
-      <h3>${esc(c.name)}</h3>
+      <h3>
+        ${esc(c.name)}
+      </h3>
 
       <div>
         ${c.rate}% illik faiz
@@ -1320,49 +1867,93 @@ function openDetails(id){
 
     <div class="detail-grid">
 
+
       <div class="detail-item">
-        <label>Qalıq borc</label>
-        <strong>${money(c.balance)}</strong>
+
+        <label>
+          Qalıq borc
+        </label>
+
+        <strong>
+          ${money(c.balance)}
+        </strong>
+
       </div>
 
 
       <div class="detail-item">
-        <label>Aylıq ödəniş</label>
-        <strong>${money(c.payment)}</strong>
+
+        <label>
+          Aylıq ödəniş
+        </label>
+
+        <strong>
+          ${money(c.payment)}
+        </strong>
+
       </div>
 
 
       <div class="detail-item">
-        <label>İlkin məbləğ</label>
-        <strong>${money(c.amount)}</strong>
+
+        <label>
+          İlkin məbləğ
+        </label>
+
+        <strong>
+          ${money(c.amount)}
+        </strong>
+
       </div>
 
 
       <div class="detail-item">
-        <label>Növbəti ödəniş</label>
-        <strong>${formatDate(c.date)}</strong>
+
+        <label>
+          Növbəti ödəniş
+        </label>
+
+        <strong>
+          ${formatDate(c.date)}
+        </strong>
+
       </div>
 
 
       <div class="detail-item">
-        <label>Təxmini müddət</label>
-        <strong>${durationText(months)}</strong>
+
+        <label>
+          Təxmini müddət
+        </label>
+
+        <strong>
+          ${durationText(months)}
+        </strong>
+
       </div>
 
 
       <div class="detail-item">
-        <label>Təxmini bitmə</label>
-        <strong>${calculateEndDate(c)}</strong>
+
+        <label>
+          Təxmini bitmə
+        </label>
+
+        <strong>
+          ${calculateEndDate(c)}
+        </strong>
+
       </div>
+
 
     </div>
 
 
-    <button class="delete"
-            onclick="deleteCredit(${c.id})">
-
+    <button
+      class="delete"
+      onclick="deleteCredit(${c.id})"
+    >
       Krediti sil
-
     </button>
 
   `;
@@ -1373,26 +1964,36 @@ function openDetails(id){
 }
 
 
-/* DELETE */
+/* KREDİTİ SİL */
+
 function deleteCredit(id){
 
-  if(!confirm("Bu krediti silmək istəyirsiniz?")){
+  if(
+    !confirm(
+      "Bu krediti silmək istəyirsiniz?"
+    )
+  ){
     return;
   }
 
 
   credits =
-    credits.filter(c=>c.id !== id);
+    credits.filter(
+      c=>c.id !== id
+    );
 
 
   saveAndRender();
 
-  closeModal("detailModal");
+  closeModal(
+    "detailModal"
+  );
 
 }
 
 
-/* MODAL */
+/* MODAL AÇ */
+
 function openAddModal(){
 
   document
@@ -1401,6 +2002,8 @@ function openAddModal(){
 
 }
 
+
+/* MODAL AÇ */
 
 function openModal(id){
 
@@ -1411,6 +2014,8 @@ function openModal(id){
 }
 
 
+/* MODAL BAĞLA */
+
 function closeModal(id){
 
   document
@@ -1420,30 +2025,45 @@ function closeModal(id){
 }
 
 
-/* OUTSIDE MODAL CLICK */
-document.querySelectorAll(".modal")
-.forEach(modal=>{
+/* MODALIN ÇÖLÜNƏ BASANDA BAĞLA */
 
-  modal.addEventListener("click",function(e){
+document
+  .querySelectorAll(".modal")
+  .forEach(modal=>{
 
-    if(e.target === modal){
+    modal.addEventListener(
+      "click",
+      function(e){
 
-      modal.classList.remove("active");
+        if(e.target === modal){
 
-    }
+          modal.classList.remove(
+            "active"
+          );
+
+        }
+
+      }
+    );
 
   });
 
-});
 
+/* SƏHİFƏ KEÇİDİ */
 
-/* PAGE NAVIGATION */
-function showPage(pageId,button){
+function showPage(
+  pageId,
+  button
+){
 
   document
     .querySelectorAll(".page")
     .forEach(page=>{
-      page.classList.remove("active");
+
+      page.classList.remove(
+        "active"
+      );
+
     });
 
 
@@ -1455,31 +2075,57 @@ function showPage(pageId,button){
   document
     .querySelectorAll(".nav-btn")
     .forEach(btn=>{
-      btn.classList.remove("active");
+
+      btn.classList.remove(
+        "active"
+      );
+
     });
 
 
-  button.classList.add("active");
+  button.classList.add(
+    "active"
+  );
 
 }
 
 
-/* CALCULATOR */
+/* KALKULYATOR */
+
 function calculateLoan(){
 
   const amount =
-    Number(document.getElementById("calcAmount").value);
+    Number(
+      document.getElementById(
+        "calcAmount"
+      ).value
+    );
+
 
   const rate =
-    Number(document.getElementById("calcRate").value);
+    Number(
+      document.getElementById(
+        "calcRate"
+      ).value
+    );
+
 
   const months =
-    Number(document.getElementById("calcMonths").value);
+    Number(
+      document.getElementById(
+        "calcMonths"
+      ).value
+    );
 
 
-  if(!amount || !months){
+  if(
+    !amount ||
+    !months
+  ){
 
-    alert("Məbləğ və müddəti daxil edin.");
+    alert(
+      "Məbləğ və müddəti daxil edin."
+    );
 
     return;
 
@@ -1495,15 +2141,24 @@ function calculateLoan(){
 
   if(monthlyRate === 0){
 
-    payment = amount / months;
+    payment =
+      amount / months;
 
   }else{
 
     payment =
       amount *
       monthlyRate *
-      Math.pow(1 + monthlyRate,months) /
-      (Math.pow(1 + monthlyRate,months)-1);
+      Math.pow(
+        1 + monthlyRate,
+        months
+      ) /
+      (
+        Math.pow(
+          1 + monthlyRate,
+          months
+        ) - 1
+      );
 
   }
 
@@ -1511,25 +2166,51 @@ function calculateLoan(){
   const total =
     payment * months;
 
+
   const interest =
     total - amount;
 
 
-  document.getElementById("calcResult").innerHTML = `
+  document.getElementById(
+    "calcResult"
+  ).innerHTML = `
 
     <div>
-      <span>Aylıq ödəniş</span>
-      <strong>${money(payment)}</strong>
+
+      <span>
+        Aylıq ödəniş
+      </span>
+
+      <strong>
+        ${money(payment)}
+      </strong>
+
     </div>
 
-    <div>
-      <span>Ümumi ödəniş</span>
-      <strong>${money(total)}</strong>
-    </div>
 
     <div>
-      <span>Ümumi faiz</span>
-      <strong>${money(interest)}</strong>
+
+      <span>
+        Ümumi ödəniş
+      </span>
+
+      <strong>
+        ${money(total)}
+      </strong>
+
+    </div>
+
+
+    <div>
+
+      <span>
+        Ümumi faiz
+      </span>
+
+      <strong>
+        ${money(interest)}
+      </strong>
+
     </div>
 
   `;
@@ -1537,27 +2218,39 @@ function calculateLoan(){
 }
 
 
-/* TIME */
+/* SAAT */
+
 function updateTime(){
 
-  const now = new Date();
+  const now =
+    new Date();
 
-  document.getElementById("statusTime")
-    .textContent =
-      now.toLocaleTimeString("az-AZ",{
+
+  document.getElementById(
+    "statusTime"
+  ).textContent =
+
+    now.toLocaleTimeString(
+      "az-AZ",
+      {
         hour:"2-digit",
         minute:"2-digit"
-      });
+      }
+    );
 
 }
 
 
-/* START */
+/* BAŞLA */
+
 render();
 
 updateTime();
 
-setInterval(updateTime,60000);
+setInterval(
+  updateTime,
+  60000
+);
 
 </script>
 
