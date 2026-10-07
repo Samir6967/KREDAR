@@ -310,8 +310,6 @@ body{
     </div>
 
 
-    <!-- BALANCE -->
-
     <div class="balance">
 
         <div class="balance-title">
@@ -330,8 +328,6 @@ body{
     </div>
 
 
-    <!-- ADD CREDIT -->
-
     <button
         class="button add-button"
         onclick="openModal()">
@@ -340,8 +336,6 @@ body{
 
     </button>
 
-
-    <!-- CARDS -->
 
     <div class="cards">
 
@@ -431,8 +425,6 @@ body{
     </div>
 
 
-    <!-- CREDIT LIST -->
-
     <div class="section">
 
         <h3>Kreditlərim</h3>
@@ -455,8 +447,6 @@ body{
 
     </div>
 
-
-    <!-- AI -->
 
     <div class="section ai">
 
@@ -484,8 +474,6 @@ body{
 
     </div>
 
-
-    <!-- OTHER -->
 
     <div class="section">
 
@@ -521,9 +509,6 @@ body{
 </div>
 
 
-
-<!-- MODAL -->
-
 <div
     class="modal"
     id="creditModal">
@@ -547,48 +532,48 @@ body{
 
         <div class="form-group">
 
-    <label>
-        Bankın adı
-    </label>
+            <label>
+                Bankın adı
+            </label>
 
-    <select
-        id="creditName"
-        style="
-        width:100%;
-        padding:13px;
-        border:1px solid #d0d5dd;
-        border-radius:10px;
-        font-size:15px;
-        background:white;
-        ">
+            <select
+                id="creditName"
+                style="
+                width:100%;
+                padding:13px;
+                border:1px solid #d0d5dd;
+                border-radius:10px;
+                font-size:15px;
+                background:white;
+                ">
 
-        <option value="">Bank seçin</option>
+                <option value="">Bank seçin</option>
 
-        <option value="AccessBank">AccessBank</option>
-        <option value="AFB Bank">AFB Bank</option>
-        <option value="Azərbaycan Beynəlxalq Bankı (ABB)">Azərbaycan Beynəlxalq Bankı (ABB)</option>
-        <option value="Azərbaycan Sənaye Bankı (ASB)">Azərbaycan Sənaye Bankı (ASB)</option>
-        <option value="Azər-Türk Bank">Azər-Türk Bank</option>
-        <option value="Bank Avrasiya">Bank Avrasiya</option>
-        <option value="Bank of Baku">Bank of Baku</option>
-        <option value="Bank Respublika">Bank Respublika</option>
-        <option value="Premium Bank">Premium Bank</option>
-        <option value="Bank VTB (Azərbaycan)">Bank VTB (Azərbaycan)</option>
-        <option value="Expressbank">Expressbank</option>
-        <option value="Kapital Bank">Kapital Bank</option>
-        <option value="Melli İran Bankı – Bakı filialı">Melli İran Bankı – Bakı filialı</option>
-        <option value="Yelo Bank">Yelo Bank</option>
-        <option value="PAŞA Bank">PAŞA Bank</option>
-        <option value="Rabitəbank">Rabitəbank</option>
-        <option value="TuranBank">TuranBank</option>
-        <option value="Unibank">Unibank</option>
-        <option value="Xalq Bank">Xalq Bank</option>
-        <option value="Yapı Kredi Bank Azərbaycan">Yapı Kredi Bank Azərbaycan</option>
-        <option value="Ziraat Bank Azərbaycan">Ziraat Bank Azərbaycan</option>
+                <option value="AccessBank">AccessBank</option>
+                <option value="AFB Bank">AFB Bank</option>
+                <option value="Azərbaycan Beynəlxalq Bankı (ABB)">Azərbaycan Beynəlxalq Bankı (ABB)</option>
+                <option value="Azərbaycan Sənaye Bankı (ASB)">Azərbaycan Sənaye Bankı (ASB)</option>
+                <option value="Azər-Türk Bank">Azər-Türk Bank</option>
+                <option value="Bank Avrasiya">Bank Avrasiya</option>
+                <option value="Bank of Baku">Bank of Baku</option>
+                <option value="Bank Respublika">Bank Respublika</option>
+                <option value="Premium Bank">Premium Bank</option>
+                <option value="Bank VTB (Azərbaycan)">Bank VTB (Azərbaycan)</option>
+                <option value="Expressbank">Expressbank</option>
+                <option value="Kapital Bank">Kapital Bank</option>
+                <option value="Melli İran Bankı – Bakı filialı">Melli İran Bankı – Bakı filialı</option>
+                <option value="Yelo Bank">Yelo Bank</option>
+                <option value="PAŞA Bank">PAŞA Bank</option>
+                <option value="Rabitəbank">Rabitəbank</option>
+                <option value="TuranBank">TuranBank</option>
+                <option value="Unibank">Unibank</option>
+                <option value="Xalq Bank">Xalq Bank</option>
+                <option value="Yapı Kredi Bank Azərbaycan">Yapı Kredi Bank Azərbaycan</option>
+                <option value="Ziraat Bank Azərbaycan">Ziraat Bank Azərbaycan</option>
 
-    </select>
+            </select>
 
-</div>
+        </div>
 
 
         <div class="form-row">
@@ -680,7 +665,6 @@ body{
     </div>
 
 </div>
-
 
 
 <script>
@@ -997,32 +981,36 @@ function render(){
 
                 <div class="loan-price">
 
-    ${formatMoney(credit.balance)}
+                    ${formatMoney(credit.balance)}
 
-    <div
-        style="
-        color:#667085;
-        font-size:11px;
-        margin-top:4px;
-        ">
+                    <div
+                        style="
+                        color:#667085;
+                        font-size:11px;
+                        margin-top:4px;
+                        ">
 
-        qalıq borc
+                        qalıq borc
 
-    </div>
+                    </div>
 
-    <div
-        style="
-        color:#1677ff;
-        font-size:11px;
-        margin-top:7px;
-        ">
+                    <div
+                        style="
+                        color:#1677ff;
+                        font-size:11px;
+                        margin-top:7px;
+                        ">
 
-        Təxmini bitmə:
-        ${calculateRemainingMonths(credit.balance, credit.rate, credit.payment)}
+                        Təxmini bitmə:
+                        ${calculateRemainingMonths(
+                            credit.balance,
+                            credit.rate,
+                            credit.payment
+                        )}
 
-    </div>
+                    </div>
 
-</div>
+                </div>
 
             </div>
 
@@ -1096,32 +1084,41 @@ function calculateRemainingMonths(balance, rate, payment){
     payment = Number(payment);
 
     if(
+        !isFinite(balance) ||
+        !isFinite(rate) ||
+        !isFinite(payment) ||
         balance <= 0 ||
         payment <= 0
     ){
+
         return "-";
+
     }
+
 
     const monthlyRate =
         rate / 100 / 12;
 
+
     if(monthlyRate === 0){
 
-        const months =
-            Math.ceil(balance / payment);
-
-        return formatCreditDuration(months);
+        return formatCreditDuration(
+            Math.ceil(balance / payment)
+        );
 
     }
 
-    const interest =
+
+    const monthlyInterest =
         balance * monthlyRate;
 
-    if(payment <= interest){
+
+    if(payment <= monthlyInterest){
 
         return "Müddət hesablanmır";
 
     }
+
 
     const months =
         Math.ceil(
@@ -1129,10 +1126,19 @@ function calculateRemainingMonths(balance, rate, payment){
                 1 -
                 (monthlyRate * balance / payment)
             ) /
-            Math.log(
-                1 + monthlyRate
-            )
+            Math.log(1 + monthlyRate)
         );
+
+
+    if(
+        !isFinite(months) ||
+        months <= 0
+    ){
+
+        return "-";
+
+    }
+
 
     return formatCreditDuration(months);
 
@@ -1141,13 +1147,21 @@ function calculateRemainingMonths(balance, rate, payment){
 
 function formatCreditDuration(months){
 
+    months = Number(months);
+
+
     const years =
         Math.floor(months / 12);
+
 
     const remainingMonths =
         months % 12;
 
-    if(years > 0 && remainingMonths > 0){
+
+    if(
+        years > 0 &&
+        remainingMonths > 0
+    ){
 
         return years +
             " il " +
@@ -1156,13 +1170,27 @@ function formatCreditDuration(months){
 
     }
 
+
     if(years > 0){
 
         return years + " il";
 
     }
 
+
     return months + " ay";
+
+}
+
+
+function formatDate(date){
+
+    const d =
+        new Date(date);
+
+    return d.toLocaleDateString(
+        "az-AZ"
+    );
 
 }
 
@@ -1261,8 +1289,12 @@ window.onclick =
 render();
 
 </script>
+
+
 <!-- KREDAR KREDIT KALKULYATORU -->
+
 <style>
+
 .kredar-calc {
     max-width: 600px;
     margin: 30px auto;
@@ -1348,7 +1380,9 @@ render();
     font-size: 21px;
     color: #17202a;
 }
+
 </style>
+
 
 <div class="kredar-calc">
 
@@ -1357,27 +1391,43 @@ render();
     <p>Kreditinizi əvvəlcədən hesablayın</p>
 
     <div class="kredar-field">
-        <label for="kredarAmount">Kredit məbləği (AZN)</label>
+
+        <label for="kredarAmount">
+            Kredit məbləği (AZN)
+        </label>
+
         <input
             type="number"
             id="kredarAmount"
             placeholder="Məsələn: 10000"
             value="10000"
         >
+
     </div>
 
+
     <div class="kredar-field">
-        <label for="kredarMonths">Müddət (ay)</label>
+
+        <label for="kredarMonths">
+            Müddət (ay)
+        </label>
+
         <input
             type="number"
             id="kredarMonths"
             placeholder="Məsələn: 24"
             value="24"
         >
+
     </div>
 
+
     <div class="kredar-field">
-        <label for="kredarRate">İllik faiz (%)</label>
+
+        <label for="kredarRate">
+            İllik faiz (%)
+        </label>
+
         <input
             type="number"
             id="kredarRate"
@@ -1385,47 +1435,91 @@ render();
             value="14"
             step="0.1"
         >
+
     </div>
 
+
     <button onclick="kredarCalculate()">
+
         Hesabla
+
     </button>
 
-    <div class="kredar-result" id="kredarResult">
+
+    <div
+        class="kredar-result"
+        id="kredarResult">
 
         <div class="kredar-result-box">
-            <span>Aylıq ödəniş</span>
-            <strong id="kredarMonthly">0 AZN</strong>
+
+            <span>
+                Aylıq ödəniş
+            </span>
+
+            <strong id="kredarMonthly">
+                0 AZN
+            </strong>
+
         </div>
 
-        <div class="kredar-result-box">
-            <span>Ümumi geri ödəniş</span>
-            <strong id="kredarTotal">0 AZN</strong>
-        </div>
 
         <div class="kredar-result-box">
-            <span>Ümumi faiz xərci</span>
-            <strong id="kredarInterest">0 AZN</strong>
+
+            <span>
+                Ümumi geri ödəniş
+            </span>
+
+            <strong id="kredarTotal">
+                0 AZN
+            </strong>
+
+        </div>
+
+
+        <div class="kredar-result-box">
+
+            <span>
+                Ümumi faiz xərci
+            </span>
+
+            <strong id="kredarInterest">
+                0 AZN
+            </strong>
+
         </div>
 
     </div>
 
 </div>
 
+
 <script>
+
 function kredarCalculate() {
 
-    const amount = parseFloat(
-        document.getElementById("kredarAmount").value
-    );
+    const amount =
+        parseFloat(
+            document.getElementById(
+                "kredarAmount"
+            ).value
+        );
 
-    const months = parseInt(
-        document.getElementById("kredarMonths").value
-    );
 
-    const annualRate = parseFloat(
-        document.getElementById("kredarRate").value
-    );
+    const months =
+        parseInt(
+            document.getElementById(
+                "kredarMonths"
+            ).value
+        );
+
+
+    const annualRate =
+        parseFloat(
+            document.getElementById(
+                "kredarRate"
+            ).value
+        );
+
 
     if (
         isNaN(amount) ||
@@ -1435,51 +1529,101 @@ function kredarCalculate() {
         months <= 0 ||
         annualRate < 0
     ) {
-        alert("Zəhmət olmasa məlumatları düzgün daxil edin.");
+
+        alert(
+            "Zəhmət olmasa məlumatları düzgün daxil edin."
+        );
+
         return;
+
     }
 
-    const monthlyRate = annualRate / 100 / 12;
+
+    const monthlyRate =
+        annualRate / 100 / 12;
+
 
     let monthlyPayment;
 
+
     if (monthlyRate === 0) {
 
-        monthlyPayment = amount / months;
+        monthlyPayment =
+            amount / months;
 
     } else {
 
         monthlyPayment =
             amount *
             monthlyRate *
-            Math.pow(1 + monthlyRate, months) /
-            (Math.pow(1 + monthlyRate, months) - 1);
+            Math.pow(
+                1 + monthlyRate,
+                months
+            ) /
+            (
+                Math.pow(
+                    1 + monthlyRate,
+                    months
+                ) - 1
+            );
+
     }
 
-    const totalPayment = monthlyPayment * months;
 
-    const totalInterest = totalPayment - amount;
+    const totalPayment =
+        monthlyPayment * months;
 
-    document.getElementById("kredarMonthly").textContent =
-        monthlyPayment.toLocaleString("az-AZ", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        }) + " AZN";
 
-    document.getElementById("kredarTotal").textContent =
-        totalPayment.toLocaleString("az-AZ", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        }) + " AZN";
+    const totalInterest =
+        totalPayment - amount;
 
-    document.getElementById("kredarInterest").textContent =
-        totalInterest.toLocaleString("az-AZ", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        }) + " AZN";
 
-    document.getElementById("kredarResult").style.display = "block";
+    document.getElementById(
+        "kredarMonthly"
+    ).textContent =
+
+        monthlyPayment.toLocaleString(
+            "az-AZ",
+            {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }
+        ) + " AZN";
+
+
+    document.getElementById(
+        "kredarTotal"
+    ).textContent =
+
+        totalPayment.toLocaleString(
+            "az-AZ",
+            {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }
+        ) + " AZN";
+
+
+    document.getElementById(
+        "kredarInterest"
+    ).textContent =
+
+        totalInterest.toLocaleString(
+            "az-AZ",
+            {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }
+        ) + " AZN";
+
+
+    document.getElementById(
+        "kredarResult"
+    ).style.display = "block";
+
 }
+
 </script>
+
 </body>
 </html>
