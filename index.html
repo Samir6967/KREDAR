@@ -997,20 +997,32 @@ function render(){
 
                 <div class="loan-price">
 
-                    ${formatMoney(credit.balance)}
+    ${formatMoney(credit.balance)}
 
-                    <div
-                        style="
-                        color:#667085;
-                        font-size:11px;
-                        margin-top:4px;
-                        ">
+    <div
+        style="
+        color:#667085;
+        font-size:11px;
+        margin-top:4px;
+        ">
 
-                        qalıq borc
+        qalıq borc
 
-                    </div>
+    </div>
 
-                </div>
+    <div
+        style="
+        color:#1677ff;
+        font-size:11px;
+        margin-top:7px;
+        ">
+
+        Təxmini bitmə:
+        ${calculateRemainingMonths(credit.balance, credit.rate, credit.payment)}
+
+    </div>
+
+</div>
 
             </div>
 
@@ -1077,14 +1089,80 @@ function render(){
 }
 
 
-function formatDate(date){
+function calculateRemainingMonths(balance, rate, payment){
 
-    const d =
-        new Date(date);
+    balance = Number(balance);
+    rate = Number(rate);
+    payment = Number(payment);
 
-    return d.toLocaleDateString(
-        "az-AZ"
-    );
+    if(
+        balance <= 0 ||
+        payment <= 0
+    ){
+        return "-";
+    }
+
+    const monthlyRate =
+        rate / 100 / 12;
+
+    if(monthlyRate === 0){
+
+        const months =
+            Math.ceil(balance / payment);
+
+        return formatCreditDuration(months);
+
+    }
+
+    const interest =
+        balance * monthlyRate;
+
+    if(payment <= interest){
+
+        return "Müddət hesablanmır";
+
+    }
+
+    const months =
+        Math.ceil(
+            -Math.log(
+                1 -
+                (monthlyRate * balance / payment)
+            ) /
+            Math.log(
+                1 + monthlyRate
+            )
+        );
+
+    return formatCreditDuration(months);
+
+}
+
+
+function formatCreditDuration(months){
+
+    const years =
+        Math.floor(months / 12);
+
+    const remainingMonths =
+        months % 12;
+
+    if(years > 0 && remainingMonths > 0){
+
+        return years +
+            " il " +
+            remainingMonths +
+            " ay";
+
+    }
+
+    if(years > 0){
+
+        return years + " il";
+
+    }
+
+    return months + " ay";
 
 }
 
