@@ -1151,6 +1151,225 @@ window.onclick =
 render();
 
 </script>
+<!-- KREDAR KREDIT KALKULYATORU -->
+<style>
+.kredar-calc {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 25px;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    font-family: Arial, sans-serif;
+}
 
+.kredar-calc h2 {
+    margin-top: 0;
+    color: #17202a;
+    text-align: center;
+}
+
+.kredar-calc p {
+    text-align: center;
+    color: #6b7280;
+}
+
+.kredar-field {
+    margin-bottom: 18px;
+}
+
+.kredar-field label {
+    display: block;
+    margin-bottom: 7px;
+    font-weight: bold;
+    color: #17202a;
+}
+
+.kredar-field input {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #d5d9df;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+}
+
+.kredar-field input:focus {
+    border-color: #2563eb;
+}
+
+.kredar-calc button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background: #2563eb;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.kredar-calc button:hover {
+    opacity: 0.9;
+}
+
+.kredar-result {
+    margin-top: 22px;
+    display: none;
+}
+
+.kredar-result-box {
+    padding: 15px;
+    margin-top: 10px;
+    background: #f4f7fb;
+    border-radius: 12px;
+}
+
+.kredar-result-box span {
+    display: block;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.kredar-result-box strong {
+    display: block;
+    margin-top: 5px;
+    font-size: 21px;
+    color: #17202a;
+}
+</style>
+
+<div class="kredar-calc">
+
+    <h2>💳 Kredit kalkulyatoru</h2>
+
+    <p>Kreditinizi əvvəlcədən hesablayın</p>
+
+    <div class="kredar-field">
+        <label for="kredarAmount">Kredit məbləği (AZN)</label>
+        <input
+            type="number"
+            id="kredarAmount"
+            placeholder="Məsələn: 10000"
+            value="10000"
+        >
+    </div>
+
+    <div class="kredar-field">
+        <label for="kredarMonths">Müddət (ay)</label>
+        <input
+            type="number"
+            id="kredarMonths"
+            placeholder="Məsələn: 24"
+            value="24"
+        >
+    </div>
+
+    <div class="kredar-field">
+        <label for="kredarRate">İllik faiz (%)</label>
+        <input
+            type="number"
+            id="kredarRate"
+            placeholder="Məsələn: 14"
+            value="14"
+            step="0.1"
+        >
+    </div>
+
+    <button onclick="kredarCalculate()">
+        Hesabla
+    </button>
+
+    <div class="kredar-result" id="kredarResult">
+
+        <div class="kredar-result-box">
+            <span>Aylıq ödəniş</span>
+            <strong id="kredarMonthly">0 AZN</strong>
+        </div>
+
+        <div class="kredar-result-box">
+            <span>Ümumi geri ödəniş</span>
+            <strong id="kredarTotal">0 AZN</strong>
+        </div>
+
+        <div class="kredar-result-box">
+            <span>Ümumi faiz xərci</span>
+            <strong id="kredarInterest">0 AZN</strong>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+function kredarCalculate() {
+
+    const amount = parseFloat(
+        document.getElementById("kredarAmount").value
+    );
+
+    const months = parseInt(
+        document.getElementById("kredarMonths").value
+    );
+
+    const annualRate = parseFloat(
+        document.getElementById("kredarRate").value
+    );
+
+    if (
+        isNaN(amount) ||
+        isNaN(months) ||
+        isNaN(annualRate) ||
+        amount <= 0 ||
+        months <= 0 ||
+        annualRate < 0
+    ) {
+        alert("Zəhmət olmasa məlumatları düzgün daxil edin.");
+        return;
+    }
+
+    const monthlyRate = annualRate / 100 / 12;
+
+    let monthlyPayment;
+
+    if (monthlyRate === 0) {
+
+        monthlyPayment = amount / months;
+
+    } else {
+
+        monthlyPayment =
+            amount *
+            monthlyRate *
+            Math.pow(1 + monthlyRate, months) /
+            (Math.pow(1 + monthlyRate, months) - 1);
+    }
+
+    const totalPayment = monthlyPayment * months;
+
+    const totalInterest = totalPayment - amount;
+
+    document.getElementById("kredarMonthly").textContent =
+        monthlyPayment.toLocaleString("az-AZ", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }) + " AZN";
+
+    document.getElementById("kredarTotal").textContent =
+        totalPayment.toLocaleString("az-AZ", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }) + " AZN";
+
+    document.getElementById("kredarInterest").textContent =
+        totalInterest.toLocaleString("az-AZ", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }) + " AZN";
+
+    document.getElementById("kredarResult").style.display = "block";
+}
+</script>
 </body>
 </html>
