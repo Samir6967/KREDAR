@@ -1009,7 +1009,15 @@ function render(){
                         )}
 
                     </div>
+<br>
 
+Təxmini bitmə tarixi:
+${calculateEndDate(
+    credit.date,
+    credit.balance,
+    credit.rate,
+    credit.payment
+)}
                 </div>
 
             </div>
@@ -1182,7 +1190,95 @@ function formatCreditDuration(months){
 
 }
 
+function calculateEndDate(date, balance, rate, payment){
 
+    if(!date){
+        return "-";
+    }
+
+    const months =
+        calculateRemainingMonthsNumber(
+            balance,
+            rate,
+            payment
+        );
+
+    if(!months){
+        return "-";
+    }
+
+    const endDate =
+        new Date(date);
+
+    endDate.setMonth(
+        endDate.getMonth() + months - 1
+    );
+
+    return formatDate(endDate);
+
+}
+
+
+function calculateRemainingMonthsNumber(
+    balance,
+    rate,
+    payment
+){
+
+    balance = Number(balance);
+    rate = Number(rate);
+    payment = Number(payment);
+
+    if(
+        !isFinite(balance) ||
+        !isFinite(rate) ||
+        !isFinite(payment) ||
+        balance <= 0 ||
+        payment <= 0
+    ){
+        return 0;
+    }
+
+    const monthlyRate =
+        rate / 100 / 12;
+
+    if(monthlyRate === 0){
+
+        return Math.ceil(
+            balance / payment
+        );
+
+    }
+
+    const monthlyInterest =
+        balance * monthlyRate;
+
+    if(payment <= monthlyInterest){
+
+        return 0;
+
+    }
+
+    const months =
+        Math.ceil(
+            -Math.log(
+                1 -
+                (
+                    monthlyRate *
+                    balance /
+                    payment
+                )
+            ) /
+            Math.log(
+                1 + monthlyRate
+            )
+        );
+
+    return isFinite(months)
+        ? months
+        : 0;
+
+}
 function formatDate(date){
 
     const d =
