@@ -2402,7 +2402,308 @@ function updateTime(){
     );
 
 }
+/* FINAL BANK LOGOS */
 
+Object.assign(bankData, {
+
+  "AccessBank":{
+    logo:"https://images.seeklogo.com/logo-png/23/1/accessbank-azerbaijan-logo-png_seeklogo-232079.png",
+    short:"AB"
+  },
+
+  "AFB Bank":{
+    logo:"https://afb.az/assets/images/newShareImage.jpeg",
+    short:"AFB"
+  },
+
+  "Azərbaycan Beynəlxalq Bankı (ABB)":{
+    logo:"https://commons.wikimedia.org/wiki/Special:FilePath/ABB%20Logo.png",
+    short:"ABB"
+  },
+
+  "Azərbaycan Sənaye Bankı (ASB)":{
+    logo:"https://1is.az/back/assets/images/companies/1159933817-ASB_bank_logo_Album_.jpg",
+    short:"ASB"
+  },
+
+  "Azər-Türk Bank":{
+    logo:"https://commons.wikimedia.org/wiki/Special:FilePath/LOGO%201600%201200%20JPG.jpg",
+    short:"ATB"
+  },
+
+  "Bank Avrasiya":{
+    logo:"https://banco.az/sites/default/files/banklogo/bank_avrasiya.jpg",
+    short:"BA"
+  },
+
+  "Bank of Baku":{
+    logo:"https://commons.wikimedia.org/wiki/Special:FilePath/Bank%20of%20Baku%20logo.png",
+    short:"BOB"
+  },
+
+  "Bank Respublika":{
+    logo:"https://commons.wikimedia.org/wiki/Special:FilePath/Bank%20Respublika.svg",
+    short:"BR"
+  },
+
+  "Premium Bank":{
+    logo:"https://www.premiumbank.az/site/assets/files/2317/premium_bnak.jpg",
+    short:"PB"
+  },
+
+  "Bank VTB (Azərbaycan)":{
+    logo:"https://commons.wikimedia.org/wiki/Special:FilePath/VTB%20Logo%202018.svg",
+    short:"VTB"
+  },
+
+  "Expressbank":{
+    logo:"https://commons.wikimedia.org/wiki/Special:FilePath/Expressbanklogotip.svg",
+    short:"EB"
+  },
+
+  "Kapital Bank":{
+    logo:"https://commons.wikimedia.org/wiki/Special:FilePath/Kapital%20Bank%20logo%202025.png",
+    short:"KB"
+  },
+
+  "Melli İran Bankı – Bakı filialı":{
+    logo:"https://commons.wikimedia.org/wiki/Special:FilePath/Bank%20Melli%20Iran%20Logo.svg",
+    short:"BMI"
+  },
+
+  "Yelo Bank":{
+    logo:"https://commons.wikimedia.org/wiki/Special:FilePath/The%20Official%20Logo%20Of%20Yelo%20Bank%20Azerbaijan%20created%20in%202019.png",
+    short:"Y"
+  },
+
+  "PAŞA Bank":{
+    logo:"https://commons.wikimedia.org/wiki/Special:FilePath/PASHA%20Bank%20logo.png",
+    short:"PAŞA"
+  },
+
+  "Rabitəbank":{
+    logo:"https://commons.wikimedia.org/wiki/Special:FilePath/Rabit%C9%99bank%C4%B1n%20loqosu.jpg",
+    short:"RB"
+  },
+
+  "TuranBank":{
+    logo:"https://vakansiya.org/uploads/images/202411/image_870x580_6735c66c39735.webp",
+    short:"TB"
+  },
+
+  "Unibank":{
+    logo:"https://commons.wikimedia.org/wiki/Special:FilePath/Unibank%20Logo.png",
+    short:"UB"
+  },
+
+  "Xalq Bank":{
+    logo:"https://commons.wikimedia.org/wiki/Special:FilePath/Xalqbanklogo.jpg",
+    short:"XB"
+  },
+
+  "Yapı Kredi Bank Azərbaycan":{
+    logo:"https://commons.wikimedia.org/wiki/Special:FilePath/Yap%C4%B1%20kredi%20logo.png",
+    short:"YK"
+  },
+
+  "Ziraat Bank Azərbaycan":{
+    logo:"https://commons.wikimedia.org/wiki/Special:FilePath/Ziraat%20Bankas%C4%B1%202025%20Logo.svg",
+    short:"ZB"
+  }
+
+});
+
+
+/* REAL LOGO RENDER */
+
+logoHTML = function(name){
+
+  const bank =
+    bankData[name] || {
+      logo:"",
+      short:"B"
+    };
+
+  if(!bank.logo){
+
+    return `
+      <div class="bank-logo-fallback">
+        ${esc(bank.short)}
+      </div>
+    `;
+
+  }
+
+  return `
+
+    <img
+      src="${bank.logo}"
+      alt="${esc(name)} loqosu"
+      loading="lazy"
+      style="
+        width:auto;
+        height:auto;
+        max-width:100%;
+        max-height:100%;
+        object-fit:contain;
+        display:block;
+      "
+      onerror="
+        this.style.display='none';
+        this.nextElementSibling.style.display='flex';
+      "
+    >
+
+    <div
+      class="bank-logo-fallback"
+      style="display:none"
+    >
+      ${esc(bank.short)}
+    </div>
+
+  `;
+
+};
+
+
+/* PREMIUM BANK SUMMARY */
+
+function renderBankSummary(){
+
+  const container =
+    document.getElementById("bankSummary");
+
+  if(credits.length===0){
+
+    container.innerHTML="";
+    return;
+
+  }
+
+  const grouped = {};
+
+  credits.forEach(c=>{
+
+    if(!grouped[c.name]){
+
+      grouped[c.name] = {
+        name:c.name,
+        balance:0,
+        count:0
+      };
+
+    }
+
+    grouped[c.name].balance +=
+      Number(c.balance || 0);
+
+    grouped[c.name].count++;
+
+  });
+
+
+  container.innerHTML =
+    Object.values(grouped).map(c=>`
+
+      <div
+        class="bank-mini-card"
+        onclick="openDetails(
+          ${credits.find(x=>x.name===c.name).id}
+        )"
+      >
+
+        <div class="mini-top">
+
+          <div class="bank-logo">
+            ${logoHTML(c.name)}
+          </div>
+
+          <div class="bank-mini-name">
+            ${esc(c.name)}
+          </div>
+
+        </div>
+
+        <div class="bank-mini-label">
+          ${c.count} kredit · qalıq borc
+        </div>
+
+        <div class="bank-mini-value">
+          ${money(c.balance)}
+        </div>
+
+      </div>
+
+    `).join("");
+
+}
+
+
+/* LOGOLAR ÜÇÜN PREMIUM GÖRÜNÜŞ */
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+  const style=document.createElement("style");
+
+  style.innerHTML=`
+
+    .bank-logo{
+      width:48px !important;
+      height:48px !important;
+      min-width:48px !important;
+      padding:6px !important;
+      border-radius:14px !important;
+      background:#fff !important;
+      border:1px solid #e7edf4 !important;
+      box-shadow:0 3px 10px rgba(20,40,70,.06);
+    }
+
+    .bank-logo img{
+      width:auto !important;
+      height:auto !important;
+      max-width:100% !important;
+      max-height:100% !important;
+      object-fit:contain !important;
+    }
+
+    .detail-hero-logo{
+      width:64px !important;
+      height:64px !important;
+      min-width:64px !important;
+      padding:7px !important;
+      border-radius:17px !important;
+    }
+
+    .detail-hero-logo img{
+      width:auto !important;
+      height:auto !important;
+      max-width:100% !important;
+      max-height:100% !important;
+      object-fit:contain !important;
+    }
+
+    .bank-card{
+      border:1px solid #e5ebf2 !important;
+      box-shadow:
+        0 10px 30px rgba(17,37,65,.09),
+        0 2px 5px rgba(17,37,65,.03) !important;
+    }
+
+    .bank-card:hover{
+      transform:translateY(-1px);
+      box-shadow:
+        0 14px 34px rgba(17,37,65,.12) !important;
+    }
+
+    .bank-name{
+      letter-spacing:-.15px;
+    }
+
+  `;
+
+  document.head.appendChild(style);
+
+});
 
 /* START */
 
