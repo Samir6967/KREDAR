@@ -1,2744 +1,523 @@
+
 <!DOCTYPE html>
 <html lang="az">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>KREDAR — Kredit idarəetmə platforması</title>
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:"Noto Sans",Arial,sans-serif
-}
-
-body{
-  background:#e9eef5;
-  color:#152238
-}
-
-button,input,select{
-  font:inherit
-}
-
-button{
-  cursor:pointer
-}
-
-.app{
-  width:100%;
-  max-width:430px;
-  min-height:100vh;
-  margin:auto;
-  background:#f5f7fb;
-  padding-bottom:88px;
-  position:relative
-}
-
-.statusbar{
-  height:28px;
-  background:#061a35;
-  color:#fff;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:0 16px;
-  font-size:11px;
-  font-weight:700
-}
-
-.topbar{
-  background:#061a35;
-  color:#fff;
-  padding:17px 20px 23px
-}
-
-.logo{
-  font-size:27px;
-  font-weight:800
-}
-
-.logo span{
-  color:#45a8ff
-}
-
-.subtitle{
-  margin-top:4px;
-  font-size:11px;
-  color:#aebdd2
-}
-
-.content{
-  padding:16px
-}
-
-.page{
-  display:none
-}
-
-.page.active{
-  display:block
-}
-
-.balance-card{
-  background:linear-gradient(135deg,#09264a,#0d477e);
-  color:#fff;
-  border-radius:23px;
-  padding:23px;
-  box-shadow:0 15px 35px rgba(5,28,58,.22);
-  margin-bottom:16px
-}
-
-.balance-label{
-  font-size:10px;
-  color:#bdcde0;
-  font-weight:800;
-  letter-spacing:1px
-}
-
-.balance-number{
-  font-size:32px;
-  font-weight:800;
-  margin-top:6px
-}
-
-.balance-bottom{
-  border-top:1px solid rgba(255,255,255,.14);
-  margin-top:17px;
-  padding-top:13px;
-  display:flex;
-  justify-content:space-between;
-  font-size:12px;
-  color:#c8d6e7
-}
-
-.balance-bottom strong{
-  color:#fff;
-  font-size:14px
-}
-
-.alert-card{
-  background:#fff;
-  border:1px solid #e6edf5;
-  border-radius:20px;
-  padding:15px;
-  margin-bottom:17px;
-  box-shadow:0 7px 22px rgba(20,40,70,.07)
-}
-
-.alert-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:11px
-}
-
-.alert-head h3{
-  font-size:15px
-}
-
-.alert-head span{
-  font-size:9px;
-  color:#8995a6
-}
-
-.reminder{
-  border-radius:15px;
-  padding:12px;
-  margin-top:8px;
-  border:1px solid #edf1f5;
-  background:#fafcff
-}
-
-.reminder.warn{
-  background:#fff9ec;
-  border-color:#f5dfab
-}
-
-.reminder.danger{
-  background:#fff0f0;
-  border-color:#f1c6c6
-}
-
-.reminder.today{
-  background:#edf6ff;
-  border-color:#cfe5fb
-}
-
-.reminder-top{
-  display:flex;
-  justify-content:space-between;
-  gap:8px
-}
-
-.reminder-bank{
-  font-size:12px;
-  font-weight:800
-}
-
-.reminder-status{
-  font-size:9px;
-  font-weight:800;
-  color:#1976d2
-}
-
-.warn .reminder-status{
-  color:#b47700
-}
-
-.danger .reminder-status{
-  color:#d93025
-}
-
-.reminder-info{
-  font-size:10px;
-  color:#687588;
-  margin-top:5px
-}
-
-.reminder-actions{
-  display:flex;
-  gap:8px;
-  margin-top:9px
-}
-
-.pay-mini{
-  border:0;
-  background:#1976d2;
-  color:#fff;
-  border-radius:9px;
-  padding:8px 10px;
-  font-size:10px;
-  font-weight:800
-}
-
-.dismiss-mini{
-  border:0;
-  background:#eef2f6;
-  color:#667386;
-  border-radius:9px;
-  padding:8px 10px;
-  font-size:10px
-}
-
-.section-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin:20px 2px 11px
-}
-
-.section-head h2{
-  font-size:18px
-}
-
-.section-head span{
-  font-size:9px;
-  color:#8995a6
-}
-
-.bank-summary{
-  display:flex;
-  gap:10px;
-  overflow-x:auto;
-  padding:2px 1px 8px;
-  scrollbar-width:none
-}
-
-.bank-summary::-webkit-scrollbar{
-  display:none
-}
-
-.bank-mini-card{
-  min-width:160px;
-  background:#fff;
-  border-radius:18px;
-  padding:12px;
-  border:1px solid #e8edf3;
-  box-shadow:0 6px 20px rgba(19,39,67,.07)
-}
-
-.mini-top{
-  display:flex;
-  align-items:center;
-  gap:9px
-}
-
-.bank-mini-name{
-  font-size:10px;
-  font-weight:800;
-  line-height:1.25
-}
-
-.bank-mini-label{
-  font-size:9px;
-  color:#8a94a4;
-  margin-top:10px
-}
-
-.bank-mini-value{
-  font-size:14px;
-  font-weight:800;
-  margin-top:2px
-}
-
-.bank-logo{
-  width:46px;
-  height:46px;
-  min-width:46px;
-  border-radius:13px;
-  background:#fff;
-  border:1px solid #e5ebf2;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:6px;
-  overflow:hidden;
-  box-shadow:0 2px 8px rgba(20,40,70,.05)
-}
-
-.bank-logo img{
-  max-width:100%;
-  max-height:100%;
-  width:auto;
-  height:auto;
-  object-fit:contain
-}
-
-.fallback{
-  width:100%;
-  height:100%;
-  border-radius:9px;
-  background:#edf6ff;
-  color:#1976d2;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  font-size:9px;
-  font-weight:800;
-  padding:3px
-}
-
-.bank-card{
-  background:#fff;
-  border:1px solid #e7edf3;
-  border-radius:21px;
-  padding:17px;
-  margin-bottom:13px;
-  box-shadow:0 9px 25px rgba(17,37,65,.08);
-  position:relative;
-  overflow:hidden
-}
-
-.bank-card:before{
-  content:"";
-  position:absolute;
-  left:0;
-  top:0;
-  bottom:0;
-  width:4px;
-  background:linear-gradient(#1976d2,#45a8ff)
-}
-
-.bank-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px
-}
-
-.bank-title{
-  display:flex;
-  align-items:center;
-  gap:11px;
-  min-width:0
-}
-
-.bank-name{
-  font-size:14px;
-  font-weight:800;
-  line-height:1.3
-}
-
-.bank-sub{
-  font-size:9px;
-  color:#8a94a4;
-  margin-top:3px
-}
-
-.rate{
-  background:#edf6ff;
-  color:#1671c9;
-  padding:6px 8px;
-  border-radius:9px;
-  font-size:9px;
-  font-weight:800;
-  white-space:nowrap
-}
-
-.card-grid{
-  display:grid;
-  grid-template-columns:1.1fr 1fr;
-  gap:13px;
-  border-top:1px solid #eef1f5;
-  margin-top:15px;
-  padding-top:13px
-}
-
-.label{
-  font-size:8px;
-  color:#8b95a5;
-  margin-bottom:4px
-}
-
-.big{
-  font-size:18px;
-  font-weight:800
-}
-
-.pay{
-  font-size:14px;
-  font-weight:800
-}
-
-.date{
-  font-size:11px;
-  font-weight:700
-}
-
-.progress{
-  height:5px;
-  background:#edf1f5;
-  border-radius:20px;
-  overflow:hidden;
-  margin-top:14px
-}
-
-.progress span{
-  display:block;
-  height:100%;
-  background:linear-gradient(90deg,#1976d2,#45a8ff);
-  border-radius:20px
-}
-
-.card-actions{
-  display:grid;
-  grid-template-columns:1fr 42px;
-  gap:8px;
-  margin-top:12px
-}
-
-.pay-btn{
-  border:0;
-  border-radius:11px;
-  background:#1976d2;
-  color:#fff;
-  padding:11px;
-  font-size:10px;
-  font-weight:800
-}
-
-.more-btn{
-  border:0;
-  border-radius:11px;
-  background:#edf3f9;
-  color:#1976d2;
-  font-size:18px
-}
-
-.primary{
-  width:100%;
-  border:0;
-  background:linear-gradient(135deg,#1976d2,#1263ad);
-  color:#fff;
-  border-radius:15px;
-  padding:14px;
-  font-size:13px;
-  font-weight:800;
-  margin-top:3px;
-  box-shadow:0 7px 18px rgba(25,118,210,.2)
-}
-
-.empty{
-  background:#fff;
-  border-radius:18px;
-  padding:28px 18px;
-  text-align:center;
-  color:#8791a1
-}
-
-.ai-card{
-  background:linear-gradient(135deg,#071d3a,#123f70);
-  color:#fff;
-  border-radius:22px;
-  padding:18px;
-  box-shadow:0 13px 30px rgba(6,28,57,.18);
-  margin-top:18px
-}
-
-.ai-head{
-  display:flex;
-  align-items:center;
-  gap:10px
-}
-
-.ai-icon{
-  width:43px;
-  height:43px;
-  border-radius:13px;
-  background:rgba(69,168,255,.17);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:22px
-}
-
-.ai-head h3{
-  font-size:16px
-}
-
-.ai-head p{
-  font-size:9px;
-  color:#b8c9dc;
-  margin-top:2px
-}
-
-.ai-summary{
-  font-size:11px;
-  line-height:1.6;
-  color:#dbe6f2;
-  margin-top:13px
-}
-
-.ai-list{
-  margin-top:11px;
-  display:grid;
-  gap:7px
-}
-
-.ai-item{
-  background:rgba(255,255,255,.08);
-  border-radius:11px;
-  padding:9px;
-  font-size:10px
-}
-
-.ai-item strong{
-  display:block;
-  color:#fff;
-  margin-bottom:2px
-}
-
-.ai-button{
-  margin-top:12px;
-  width:100%;
-  border:1px solid rgba(255,255,255,.18);
-  background:rgba(255,255,255,.08);
-  color:#fff;
-  border-radius:11px;
-  padding:10px;
-  font-size:10px;
-  font-weight:800
-}
-
-.calc-card,
-.profile-card{
-  background:#fff;
-  border-radius:20px;
-  padding:20px;
-  box-shadow:0 7px 22px rgba(20,40,70,.07)
-}
-
-.calc-card h2,
-.profile-card h2{
-  font-size:20px;
-  margin-bottom:17px
-}
-
-.field{
-  margin-bottom:12px
-}
-
-.field label{
-  display:block;
-  font-size:10px;
-  color:#6e798b;
-  margin-bottom:5px;
-  font-weight:800
-}
-
-.field input,
-.field select{
-  width:100%;
-  border:1px solid #dfe4eb;
-  background:#f9fafc;
-  border-radius:12px;
-  padding:12px;
-  outline:none;
-  font-size:13px;
-  color:#172033
-}
-
-.field input:focus,
-.field select:focus{
-  border-color:#1976d2;
-  background:#fff
-}
-
-.calc-result{
-  margin-top:16px;
-  background:#edf6ff;
-  border-radius:14px;
-  padding:15px
-}
-
-.calc-result div{
-  display:flex;
-  justify-content:space-between;
-  margin-bottom:8px;
-  font-size:11px
-}
-
-.calc-result div:last-child{
-  margin:0
-}
-
-.calc-result strong{
-  color:#1267b1
-}
-
-.ai-page-card{
-  background:#fff;
-  border-radius:20px;
-  padding:18px;
-  box-shadow:0 7px 22px rgba(20,40,70,.07);
-  margin-bottom:12px
-}
-
-.ai-page-card h2{
-  font-size:19px
-}
-
-.ai-page-card p{
-  font-size:11px;
-  color:#718094;
-  line-height:1.6;
-  margin-top:7px
-}
-
-.recommendation{
-  background:#f5f9fd;
-  border:1px solid #e1ebf4;
-  border-radius:14px;
-  padding:13px;
-  margin-top:10px
-}
-
-.recommendation strong{
-  font-size:11px
-}
-
-.recommendation p{
-  margin-top:4px;
-  font-size:10px
-}
-
-.profile-logo{
-  width:70px;
-  height:70px;
-  border-radius:20px;
-  background:#071a35;
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:27px;
-  font-weight:800;
-  margin-bottom:14px
-}
-
-.modal{
-  display:none;
-  position:fixed;
-  z-index:1000;
-  inset:0;
-  background:rgba(5,18,35,.58);
-  align-items:flex-end;
-  justify-content:center
-}
-
-.modal.active{
-  display:flex
-}
-
-.modal-box{
-  width:100%;
-  max-width:430px;
-  max-height:93vh;
-  overflow:auto;
-  background:#f5f7fb;
-  border-radius:26px 26px 0 0;
-  padding:20px
-}
-
-.modal-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:16px
-}
-
-.modal-head h2{
-  font-size:19px
-}
-
-.close{
-  width:34px;
-  height:34px;
-  border:0;
-  border-radius:50%;
-  background:#e9edf3;
-  font-size:20px
-}
-
-.detail-hero{
-  background:linear-gradient(135deg,#09264a,#0d477e);
-  color:#fff;
-  border-radius:20px;
-  padding:18px;
-  display:flex;
-  gap:12px;
-  align-items:center;
-  margin-bottom:12px
-}
-
-.detail-hero .bank-logo{
-  width:60px;
-  height:60px;
-  min-width:60px
-}
-
-.detail-hero h3{
-  font-size:17px;
-  margin:3px 0
-}
-
-.detail-hero small{
-  font-size:8px;
-  color:#b8c8db
-}
-
-.detail-hero p{
-  font-size:10px;
-  color:#c9d6e7
-}
-
-.detail-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:9px
-}
-
-.detail-item{
-  background:#fff;
-  border-radius:14px;
-  padding:13px
-}
-
-.detail-item label{
-  display:block;
-  color:#8791a1;
-  font-size:9px;
-  margin-bottom:5px
-}
-
-.detail-item strong{
-  font-size:12px
-}
-
-.delete{
-  width:100%;
-  margin-top:12px;
-  border:0;
-  background:#fff0f0;
-  color:#c62828;
-  border-radius:13px;
-  padding:13px;
-  font-size:11px;
-  font-weight:800
-}
-
-.bottom-nav{
-  position:fixed;
-  bottom:0;
-  left:50%;
-  transform:translateX(-50%);
-  width:100%;
-  max-width:430px;
-  height:70px;
-  background:#fff;
-  border-top:1px solid #e9edf2;
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  z-index:40
-}
-
-.nav-btn{
-  border:0;
-  background:none;
-  color:#8993a3;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:3px
-}
-
-.nav-btn .icon{
-  font-size:18px
-}
-
-.nav-btn span{
-  font-size:9px
-}
-
-.nav-btn.active{
-  color:#1976d2;
-  font-weight:800
-}
-
-.fab{
-  position:fixed;
-  right:max(calc((100vw - 430px)/2 + 18px),18px);
-  bottom:79px;
-  width:53px;
-  height:53px;
-  border-radius:50%;
-  border:0;
-  background:#1976d2;
-  color:#fff;
-  font-size:25px;
-  box-shadow:0 8px 22px rgba(25,118,210,.35);
-  z-index:50
-}
-
-.toast{
-  position:fixed;
-  left:50%;
-  bottom:83px;
-  transform:translateX(-50%) translateY(15px);
-  width:min(390px,calc(100% - 30px));
-  background:#142b48;
-  color:#fff;
-  border-radius:13px;
-  padding:11px 13px;
-  font-size:10px;
-  opacity:0;
-  pointer-events:none;
-  transition:.2s;
-  z-index:2000
-}
-
-.toast.show{
-  opacity:1;
-  transform:translateX(-50%) translateY(0)
-}
-
-@media(min-width:431px){
-  body{
-    padding:20px 0
-  }
-
-  .app{
-    min-height:calc(100vh - 40px);
-    border-radius:25px;
-    overflow:hidden
-  }
-
-  .bottom-nav{
-    bottom:20px;
-    border-radius:0 0 25px 25px
-  }
-
-  .fab{
-    bottom:100px
-  }
-}
+*{box-sizing:border-box;margin:0;padding:0;font-family:"Noto Sans",Arial,sans-serif}
+body{background:#e9eef5;color:#152238}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.app{width:100%;max-width:430px;min-height:100vh;margin:auto;background:#f5f7fb;padding-bottom:88px;position:relative}
+.statusbar{height:28px;background:#061a35;color:#fff;display:flex;justify-content:space-between;align-items:center;padding:0 16px;font-size:11px;font-weight:700}
+.topbar{background:#061a35;color:#fff;padding:17px 20px 23px}
+.logo{font-size:27px;font-weight:800}.logo span{color:#45a8ff}.subtitle{margin-top:4px;font-size:11px;color:#aebdd2}
+.content{padding:16px}.page{display:none}.page.active{display:block}
+.balance-card{background:linear-gradient(135deg,#09264a,#0d477e);color:#fff;border-radius:23px;padding:23px;box-shadow:0 15px 35px rgba(5,28,58,.22);margin-bottom:16px}
+.balance-label{font-size:10px;color:#bdcde0;font-weight:800;letter-spacing:1px}.balance-number{font-size:32px;font-weight:800;margin-top:6px}.balance-bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:17px;padding-top:13px;display:flex;justify-content:space-between;font-size:12px;color:#c8d6e7}.balance-bottom strong{color:#fff;font-size:14px}
+.alert-card{background:#fff;border:1px solid #e6edf5;border-radius:20px;padding:15px;margin-bottom:17px;box-shadow:0 7px 22px rgba(20,40,70,.07)}
+.alert-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px}.alert-head h3{font-size:15px}.alert-head span{font-size:9px;color:#8995a6}
+.reminder{border-radius:15px;padding:12px;margin-top:8px;border:1px solid #edf1f5;background:#fafcff}.reminder.warn{background:#fff9ec;border-color:#f5dfab}.reminder.danger{background:#fff0f0;border-color:#f1c6c6}.reminder.today{background:#edf6ff;border-color:#cfe5fb}
+.reminder-top{display:flex;justify-content:space-between;gap:8px}.reminder-bank{font-size:12px;font-weight:800}.reminder-status{font-size:9px;font-weight:800;color:#1976d2}.warn .reminder-status{color:#b47700}.danger .reminder-status{color:#d93025}
+.reminder-info{font-size:10px;color:#687588;margin-top:5px}.reminder-actions{display:flex;gap:8px;margin-top:9px}.pay-mini{border:0;background:#1976d2;color:#fff;border-radius:9px;padding:8px 10px;font-size:10px;font-weight:800}.dismiss-mini{border:0;background:#eef2f6;color:#667386;border-radius:9px;padding:8px 10px;font-size:10px}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin:20px 2px 11px}.section-head h2{font-size:18px}.section-head span{font-size:9px;color:#8995a6}
+.bank-summary{display:flex;gap:10px;overflow-x:auto;padding:2px 1px 8px;scrollbar-width:none}.bank-summary::-webkit-scrollbar{display:none}
+.bank-mini-card{min-width:160px;background:#fff;border-radius:18px;padding:12px;border:1px solid #e8edf3;box-shadow:0 6px 20px rgba(19,39,67,.07)}
+.mini-top{display:flex;align-items:center;gap:9px}.bank-mini-name{font-size:10px;font-weight:800;line-height:1.25}.bank-mini-label{font-size:9px;color:#8a94a4;margin-top:10px}.bank-mini-value{font-size:14px;font-weight:800;margin-top:2px}
+.bank-logo{width:46px;height:46px;min-width:46px;border-radius:13px;background:#fff;border:1px solid #e5ebf2;display:flex;align-items:center;justify-content:center;padding:6px;overflow:hidden;box-shadow:0 2px 8px rgba(20,40,70,.05)}.bank-logo img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}.fallback{width:100%;height:100%;border-radius:9px;background:#edf6ff;color:#1976d2;display:flex;align-items:center;justify-content:center;text-align:center;font-size:9px;font-weight:800;padding:3px}
+.bank-card{background:#fff;border:1px solid #e7edf3;border-radius:21px;padding:17px;margin-bottom:13px;box-shadow:0 9px 25px rgba(17,37,65,.08);position:relative;overflow:hidden}.bank-card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(#1976d2,#45a8ff)}
+.bank-head{display:flex;justify-content:space-between;align-items:center;gap:10px}.bank-title{display:flex;align-items:center;gap:11px;min-width:0}.bank-name{font-size:14px;font-weight:800;line-height:1.3}.bank-sub{font-size:9px;color:#8a94a4;margin-top:3px}.rate{background:#edf6ff;color:#1671c9;padding:6px 8px;border-radius:9px;font-size:9px;font-weight:800;white-space:nowrap}
+.card-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:13px;border-top:1px solid #eef1f5;margin-top:15px;padding-top:13px}.label{font-size:8px;color:#8b95a5;margin-bottom:4px}.big{font-size:18px;font-weight:800}.pay{font-size:14px;font-weight:800}.date{font-size:11px;font-weight:700}
+.progress{height:5px;background:#edf1f5;border-radius:20px;overflow:hidden;margin-top:14px}.progress span{display:block;height:100%;background:linear-gradient(90deg,#1976d2,#45a8ff);border-radius:20px}
+.card-actions{display:grid;grid-template-columns:1fr 42px;gap:8px;margin-top:12px}.pay-btn{border:0;border-radius:11px;background:#1976d2;color:#fff;padding:11px;font-size:10px;font-weight:800}.more-btn{border:0;border-radius:11px;background:#edf3f9;color:#1976d2;font-size:18px}
+.primary{width:100%;border:0;background:linear-gradient(135deg,#1976d2,#1263ad);color:#fff;border-radius:15px;padding:14px;font-size:13px;font-weight:800;margin-top:3px;box-shadow:0 7px 18px rgba(25,118,210,.2)}
+.empty{background:#fff;border-radius:18px;padding:28px 18px;text-align:center;color:#8791a1}
+.ai-card{background:linear-gradient(135deg,#071d3a,#123f70);color:#fff;border-radius:22px;padding:18px;box-shadow:0 13px 30px rgba(6,28,57,.18);margin-top:18px}.ai-head{display:flex;align-items:center;gap:10px}.ai-icon{width:43px;height:43px;border-radius:13px;background:rgba(69,168,255,.17);display:flex;align-items:center;justify-content:center;font-size:22px}.ai-head h3{font-size:16px}.ai-head p{font-size:9px;color:#b8c9dc;margin-top:2px}.ai-summary{font-size:11px;line-height:1.6;color:#dbe6f2;margin-top:13px}.ai-list{margin-top:11px;display:grid;gap:7px}.ai-item{background:rgba(255,255,255,.08);border-radius:11px;padding:9px;font-size:10px}.ai-item strong{display:block;color:#fff;margin-bottom:2px}.ai-button{margin-top:12px;width:100%;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);color:#fff;border-radius:11px;padding:10px;font-size:10px;font-weight:800}
+.calc-card,.profile-card{background:#fff;border-radius:20px;padding:20px;box-shadow:0 7px 22px rgba(20,40,70,.07)}.calc-card h2,.profile-card h2{font-size:20px;margin-bottom:17px}.field{margin-bottom:12px}.field label{display:block;font-size:10px;color:#6e798b;margin-bottom:5px;font-weight:800}.field input,.field select{width:100%;border:1px solid #dfe4eb;background:#f9fafc;border-radius:12px;padding:12px;outline:none;font-size:13px;color:#172033}.field input:focus,.field select:focus{border-color:#1976d2;background:#fff}.calc-result{margin-top:16px;background:#edf6ff;border-radius:14px;padding:15px}.calc-result div{display:flex;justify-content:space-between;margin-bottom:8px;font-size:11px}.calc-result div:last-child{margin:0}.calc-result strong{color:#1267b1}
+.ai-page-card{background:#fff;border-radius:20px;padding:18px;box-shadow:0 7px 22px rgba(20,40,70,.07);margin-bottom:12px}.ai-page-card h2{font-size:19px}.ai-page-card p{font-size:11px;color:#718094;line-height:1.6;margin-top:7px}.recommendation{background:#f5f9fd;border:1px solid #e1ebf4;border-radius:14px;padding:13px;margin-top:10px}.recommendation strong{font-size:11px}.recommendation p{margin-top:4px;font-size:10px}
+.profile-logo{width:70px;height:70px;border-radius:20px;background:#071a35;color:#fff;display:flex;align-items:center;justify-content:center;font-size:27px;font-weight:800;margin-bottom:14px}
+.modal{display:none;position:fixed;z-index:1000;inset:0;background:rgba(5,18,35,.58);align-items:flex-end;justify-content:center}.modal.active{display:flex}.modal-box{width:100%;max-width:430px;max-height:93vh;overflow:auto;background:#f5f7fb;border-radius:26px 26px 0 0;padding:20px}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.modal-head h2{font-size:19px}.close{width:34px;height:34px;border:0;border-radius:50%;background:#e9edf3;font-size:20px}
+.detail-hero{background:linear-gradient(135deg,#09264a,#0d477e);color:#fff;border-radius:20px;padding:18px;display:flex;gap:12px;align-items:center;margin-bottom:12px}.detail-hero .bank-logo{width:60px;height:60px;min-width:60px}.detail-hero h3{font-size:17px;margin:3px 0}.detail-hero small{font-size:8px;color:#b8c8db}.detail-hero p{font-size:10px;color:#c9d6e7}.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.detail-item{background:#fff;border-radius:14px;padding:13px}.detail-item label{display:block;color:#8791a1;font-size:9px;margin-bottom:5px}.detail-item strong{font-size:12px}.delete{width:100%;margin-top:12px;border:0;background:#fff0f0;color:#c62828;border-radius:13px;padding:13px;font-size:11px;font-weight:800}
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:70px;background:#fff;border-top:1px solid #e9edf2;display:grid;grid-template-columns:repeat(5,1fr);z-index:40}.nav-btn{border:0;background:none;color:#8993a3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}.nav-btn .icon{font-size:18px}.nav-btn span{font-size:9px}.nav-btn.active{color:#1976d2;font-weight:800}
+.fab{position:fixed;right:max(calc((100vw - 430px)/2 + 18px),18px);bottom:79px;width:53px;height:53px;border-radius:50%;border:0;background:#1976d2;color:#fff;font-size:25px;box-shadow:0 8px 22px rgba(25,118,210,.35);z-index:50}
+.toast{position:fixed;left:50%;bottom:83px;transform:translateX(-50%) translateY(15px);width:min(390px,calc(100% - 30px));background:#142b48;color:#fff;border-radius:13px;padding:11px 13px;font-size:10px;opacity:0;pointer-events:none;transition:.2s;z-index:2000}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(min-width:431px){body{padding:20px 0}.app{min-height:calc(100vh - 40px);border-radius:25px;overflow:hidden}.bottom-nav{bottom:20px;border-radius:0 0 25px 25px}.fab{bottom:100px}}
 </style>
 </head>
-
 <body>
-
 <div class="app">
-
-<div class="statusbar">
-  <span id="statusTime">09:41</span>
-  <span>● ● ●</span>
-</div>
-
-<header class="topbar">
-  <div class="logo">KRED<span>AR</span></div>
-  <div class="subtitle">Kreditlərini bir yerdən idarə et</div>
-</header>
+<div class="statusbar"><span id="statusTime">09:41</span><span>● ● ●</span></div>
+<header class="topbar"><div class="logo">KRED<span>AR</span></div><div class="subtitle">Kreditlərini bir yerdən idarə et</div></header>
 
 <main class="content">
-
 <section id="homePage" class="page active">
-
-<div class="balance-card">
-  <div class="balance-label">ÜMUMİ QALIQ BORC</div>
-  <div class="balance-number" id="totalDebt">0 ₼</div>
-
-  <div class="balance-bottom">
-    <span>Aylıq ümumi ödəniş</span>
-    <strong id="totalPayment">0 ₼</strong>
-  </div>
-</div>
+<div class="balance-card"><div class="balance-label">ÜMUMİ QALIQ BORC</div><div class="balance-number" id="totalDebt">0 ₼</div><div class="balance-bottom"><span>Aylıq ümumi ödəniş</span><strong id="totalPayment">0 ₼</strong></div></div>
 
 <div class="alert-card">
-
-  <div class="alert-head">
-    <h3>🔔 Ödəniş xatırlatmaları</h3>
-    <span id="reminderCount">0</span>
-  </div>
-
-  <div id="reminders"></div>
-
+<div class="alert-head"><h3>🔔 Ödəniş xatırlatmaları</h3><span id="reminderCount">0</span></div>
+<div id="reminders"></div>
 </div>
 
-<div class="section-head">
-  <h2>Kreditləriniz olan banklar</h2>
-  <span>Sürüşdür</span>
-</div>
-
+<div class="section-head"><h2>Kreditləriniz olan banklar</h2><span>Sürüşdür</span></div>
 <div class="bank-summary" id="bankSummary"></div>
 
-<div class="section-head">
-  <h2>Banklardakı kreditlər</h2>
-  <span>Ətraflı bax</span>
-</div>
-
+<div class="section-head"><h2>Banklardakı kreditlər</h2><span>Ətraflı bax</span></div>
 <div id="bankList"></div>
 
 <div class="ai-card">
-
-  <div class="ai-head">
-
-    <div class="ai-icon">✦</div>
-
-    <div>
-      <h3>KREDAR AI</h3>
-      <p>Kreditlərinizi ağıllı analiz edir</p>
-    </div>
-
-  </div>
-
-  <div class="ai-summary" id="aiSummary">
-    Kreditlərinizi əlavə etdikdən sonra KREDAR AI faiz,
-    qalıq borc və aylıq ödənişlərə əsasən tövsiyələr hazırlayacaq.
-  </div>
-
-  <div class="ai-list" id="aiQuick"></div>
-
-  <button
-    class="ai-button"
-    onclick="showPage('aiPage',document.getElementById('aiNav'))">
-    AI analizinə bax →
-  </button>
-
+<div class="ai-head"><div class="ai-icon">✦</div><div><h3>KREDAR AI</h3><p>Kreditlərinizi ağıllı analiz edir</p></div></div>
+<div class="ai-summary" id="aiSummary">Kreditlərinizi əlavə etdikdən sonra KREDAR AI faiz, qalıq borc və aylıq ödənişlərə əsasən tövsiyələr hazırlayacaq.</div>
+<div class="ai-list" id="aiQuick"></div>
+<button class="ai-button" onclick="showPage('aiPage',document.getElementById('aiNav'))">AI analizinə bax →</button>
 </div>
 
-<button
-  class="primary"
-  style="margin-top:15px"
-  onclick="openAddModal()">
-  ＋ Yeni kredit əlavə et
-</button>
-
+<button class="primary" style="margin-top:15px" onclick="openAddModal()">＋ Yeni kredit əlavə et</button>
 </section>
-
 
 <section id="creditsPage" class="page">
-
-<div class="section-head">
-  <h2>Mənim kreditlərim</h2>
-  <span id="creditCount">0 kredit</span>
-</div>
-
+<div class="section-head"><h2>Mənim kreditlərim</h2><span id="creditCount">0 kredit</span></div>
 <div id="creditPageList"></div>
-
-<button
-  class="primary"
-  onclick="openAddModal()">
-  ＋ Yeni kredit əlavə et
-</button>
-
+<button class="primary" onclick="openAddModal()">＋ Yeni kredit əlavə et</button>
 </section>
-
 
 <section id="aiPage" class="page">
-
-<div class="ai-page-card">
-
-  <h2>✦ KREDAR AI</h2>
-
-  <p>
-    KREDAR AI daxil etdiyiniz kredit məlumatlarını müqayisə edir.
-    Tövsiyələr maliyyə qərarı deyil; real kredit müqaviləsi və
-    bank şərtləri ayrıca yoxlanmalıdır.
-  </p>
-
-</div>
-
+<div class="ai-page-card"><h2>✦ KREDAR AI</h2><p>KREDAR AI daxil etdiyiniz kredit məlumatlarını müqayisə edir. Tövsiyələr maliyyə qərarı deyil; real kredit müqaviləsi və bank şərtləri ayrıca yoxlanmalıdır.</p></div>
 <div id="aiAnalysis"></div>
-
 </section>
-
 
 <section id="calculatorPage" class="page">
-
-<div class="calc-card">
-
-  <h2>Kredit kalkulyatoru</h2>
-
-  <div class="field">
-    <label>Kredit məbləği</label>
-    <input
-      id="calcAmount"
-      type="number"
-      placeholder="50000">
-  </div>
-
-  <div class="field">
-    <label>İllik faiz (%)</label>
-    <input
-      id="calcRate"
-      type="number"
-      step="0.1"
-      placeholder="14">
-  </div>
-
-  <div class="field">
-    <label>Müddət (ay)</label>
-    <input
-      id="calcMonths"
-      type="number"
-      placeholder="48">
-  </div>
-
-  <button
-    class="primary"
-    onclick="calculateLoan()">
-    Hesabla
-  </button>
-
-  <div class="calc-result" id="calcResult">
-
-    <div>
-      <span>Aylıq ödəniş</span>
-      <strong>—</strong>
-    </div>
-
-    <div>
-      <span>Ümumi ödəniş</span>
-      <strong>—</strong>
-    </div>
-
-    <div>
-      <span>Ümumi faiz</span>
-      <strong>—</strong>
-    </div>
-
-  </div>
-
+<div class="calc-card"><h2>Kredit kalkulyatoru</h2>
+<div class="field"><label>Kredit məbləği</label><input id="calcAmount" type="number" placeholder="50000"></div>
+<div class="field"><label>İllik faiz (%)</label><input id="calcRate" type="number" step="0.1" placeholder="14"></div>
+<div class="field"><label>Müddət (ay)</label><input id="calcMonths" type="number" placeholder="48"></div>
+<button class="primary" onclick="calculateLoan()">Hesabla</button>
+<div class="calc-result" id="calcResult"><div><span>Aylıq ödəniş</span><strong>—</strong></div><div><span>Ümumi ödəniş</span><strong>—</strong></div><div><span>Ümumi faiz</span><strong>—</strong></div></div>
 </div>
-
 </section>
-
 
 <section id="profilePage" class="page">
-
-<div class="profile-card">
-
-  <div class="profile-logo">K</div>
-
-  <h2>KREDAR</h2>
-
-  <p style="font-size:11px;color:#718094;line-height:1.6">
-    Bütün kreditlərinizi, ödəniş tarixlərinizi, qalıq borclarınızı
-    və xatırlatmalarınızı bir platformada idarə edin.
-  </p>
-
-  <br>
-
-  <p style="font-size:10px;color:#8a94a4;line-height:1.6">
-    KREDAR AI kredit məlumatlarını analiz edərək prioritetlər və
-    maliyyə planlaşdırması üzrə məlumat xarakterli tövsiyələr təqdim edir.
-  </p>
-
-</div>
-
+<div class="profile-card"><div class="profile-logo">K</div><h2>KREDAR</h2><p style="font-size:11px;color:#718094;line-height:1.6">Bütün kreditlərinizi, ödəniş tarixlərinizi, qalıq borclarınızı və xatırlatmalarınızı bir platformada idarə edin.</p><br><p style="font-size:10px;color:#8a94a4;line-height:1.6">KREDAR AI kredit məlumatlarını analiz edərək prioritetlər və maliyyə planlaşdırması üzrə məlumat xarakterli tövsiyələr təqdim edir.</p></div>
 </section>
-
 </main>
 
-
-<button
-  class="fab"
-  onclick="openAddModal()">
-  ＋
-</button>
-
-
+<button class="fab" onclick="openAddModal()">＋</button>
 <nav class="bottom-nav">
-
-<button
-  class="nav-btn active"
-  onclick="showPage('homePage',this)">
-  <div class="icon">⌂</div>
-  <span>Ana</span>
-</button>
-
-<button
-  class="nav-btn"
-  onclick="showPage('creditsPage',this)">
-  <div class="icon">▣</div>
-  <span>Kreditlər</span>
-</button>
-
-<button
-  class="nav-btn"
-  id="aiNav"
-  onclick="showPage('aiPage',this)">
-  <div class="icon">✦</div>
-  <span>KREDAR AI</span>
-</button>
-
-<button
-  class="nav-btn"
-  onclick="showPage('calculatorPage',this)">
-  <div class="icon">▤</div>
-  <span>Kalkulyator</span>
-</button>
-
-<button
-  class="nav-btn"
-  onclick="showPage('profilePage',this)">
-  <div class="icon">●</div>
-  <span>Profil</span>
-</button>
-
+<button class="nav-btn active" onclick="showPage('homePage',this)"><div class="icon">⌂</div><span>Ana</span></button>
+<button class="nav-btn" onclick="showPage('creditsPage',this)"><div class="icon">▣</div><span>Kreditlər</span></button>
+<button class="nav-btn" id="aiNav" onclick="showPage('aiPage',this)"><div class="icon">✦</div><span>KREDAR AI</span></button>
+<button class="nav-btn" onclick="showPage('calculatorPage',this)"><div class="icon">▤</div><span>Kalkulyator</span></button>
+<button class="nav-btn" onclick="showPage('profilePage',this)"><div class="icon">●</div><span>Profil</span></button>
 </nav>
-
 </div>
 
+<div class="modal" id="addModal"><div class="modal-box">
+<div class="modal-head"><h2>Yeni kredit</h2><button class="close" onclick="closeModal('addModal')">×</button></div>
+<div class="field"><label>Bank</label><select id="creditName"><option value="">Bank seçin</option>
+<option>AccessBank</option><option>AFB Bank</option><option>Azərbaycan Beynəlxalq Bankı (ABB)</option><option>Azərbaycan Sənaye Bankı (ASB)</option><option>Azər-Türk Bank</option><option>Bank Avrasiya</option><option>Bank of Baku</option><option>Bank Respublika</option><option>Premium Bank</option><option>Bank VTB (Azərbaycan)</option><option>Expressbank</option><option>Kapital Bank</option><option>Melli İran Bankı – Bakı filialı</option><option>Yelo Bank</option><option>PAŞA Bank</option><option>Rabitəbank</option><option>TuranBank</option><option>Unibank</option><option>Xalq Bank</option><option>Yapı Kredi Bank Azərbaycan</option><option>Ziraat Bank Azərbaycan</option></select></div>
+<div class="field"><label>İlkin kredit məbləği</label><input id="creditAmount" type="number" placeholder="50000"></div>
+<div class="field"><label>Qalıq borc</label><input id="creditBalance" type="number" placeholder="44380"></div>
+<div class="field"><label>İllik faiz (%)</label><input id="creditRate" type="number" step="0.1" placeholder="14"></div>
+<div class="field"><label>Aylıq ödəniş</label><input id="creditPayment" type="number" placeholder="1309"></div>
+<div class="field"><label>Kreditin bitmə tarixi</label><input id="creditEndDate" type="date"></div>
+<div class="field"><label>Növbəti ödəniş tarixi</label><input id="creditDate" type="date"></div>
+<div class="field"><label>Kredit ödəniş linki <span style="font-weight:400;color:#9aa4b2">(istəyə bağlı)</span></label><input id="creditPayLink" type="url" placeholder="https://..."></div>
+<button class="primary" onclick="addCredit()">Krediti əlavə et</button>
+</div></div>
 
-<div class="modal" id="addModal">
-
-<div class="modal-box">
-
-<div class="modal-head">
-
-  <h2>Yeni kredit</h2>
-
-  <button
-    class="close"
-    onclick="closeModal('addModal')">
-    ×
-  </button>
-
-</div>
-
-
-<div class="field">
-
-<label>Bank</label>
-
-<select id="creditName">
-
-<option value="">Bank seçin</option>
-
-<option>AccessBank</option>
-<option>AFB Bank</option>
-<option>Azərbaycan Beynəlxalq Bankı (ABB)</option>
-<option>Azərbaycan Sənaye Bankı (ASB)</option>
-<option>Azər-Türk Bank</option>
-<option>Bank Avrasiya</option>
-<option>Bank of Baku</option>
-<option>Bank Respublika</option>
-<option>Premium Bank</option>
-<option>Bank VTB (Azərbaycan)</option>
-<option>Expressbank</option>
-<option>Kapital Bank</option>
-<option>Melli İran Bankı – Bakı filialı</option>
-<option>Yelo Bank</option>
-<option>PAŞA Bank</option>
-<option>Rabitəbank</option>
-<option>TuranBank</option>
-<option>Unibank</option>
-<option>Xalq Bank</option>
-<option>Yapı Kredi Bank Azərbaycan</option>
-<option>Ziraat Bank Azərbaycan</option>
-
-</select>
-
-</div>
-
-
-<div class="field">
-
-<label>İlkin kredit məbləği</label>
-
-<input
-  id="creditAmount"
-  type="number"
-  placeholder="50000">
-
-</div>
-
-
-<div class="field">
-
-<label>Qalıq borc</label>
-
-<input
-  id="creditBalance"
-  type="number"
-  placeholder="44380">
-
-</div>
-
-
-<div class="field">
-
-<label>İllik faiz (%)</label>
-
-<input
-  id="creditRate"
-  type="number"
-  step="0.1"
-  placeholder="14">
-
-</div>
-
-
-<div class="field">
-
-<label>Aylıq ödəniş</label>
-
-<input
-  id="creditPayment"
-  type="number"
-  placeholder="1309">
-
-</div>
-
-
-<div class="field">
-
-<label>Kreditin bitmə tarixi</label>
-
-<input
-  id="creditEndDate"
-  type="date">
-
-</div>
-
-
-<div class="field">
-
-<label>Növbəti ödəniş tarixi</label>
-
-<input
-  id="creditDate"
-  type="date">
-
-</div>
-
-
-<div class="field">
-
-<label>
-  Kredit ödəniş linki
-  <span style="font-weight:400;color:#9aa4b2">
-    (istəyə bağlı)
-  </span>
-</label>
-
-<input
-  id="creditPayLink"
-  type="url"
-  placeholder="https://...">
-
-</div>
-
-
-<button
-  class="primary"
-  onclick="addCredit()">
-  Krediti əlavə et
-</button>
-
-</div>
-</div>
-
-
-<div class="modal" id="detailModal">
-
-<div class="modal-box">
-
-<div class="modal-head">
-
-  <h2>Kredit məlumatları</h2>
-
-  <button
-    class="close"
-    onclick="closeModal('detailModal')">
-    ×
-  </button>
-
-</div>
-
-<div id="detailContent"></div>
-
-</div>
-</div>
-
-
+<div class="modal" id="detailModal"><div class="modal-box">
+<div class="modal-head"><h2>Kredit məlumatları</h2><button class="close" onclick="closeModal('detailModal')">×</button></div><div id="detailContent"></div>
+</div></div>
 <div class="toast" id="toast"></div>
 
-
 <script>
-
 const bankData={
-
-"AccessBank":{
-  logo:"https://www.google.com/s2/favicons?domain=accessbank.az&sz=128",
-  short:"AB"
-},
-
-"AFB Bank":{
-  logo:"https://www.google.com/s2/favicons?domain=afb.az&sz=128",
-  short:"AFB"
-},
-
-"Azərbaycan Beynəlxalq Bankı (ABB)":{
-  logo:"https://www.google.com/s2/favicons?domain=abb-bank.az&sz=128",
-  short:"ABB"
-},
-
-"Azərbaycan Sənaye Bankı (ASB)":{
-  logo:"https://www.google.com/s2/favicons?domain=asb.az&sz=128",
-  short:"ASB"
-},
-
-"Azər-Türk Bank":{
-  logo:"https://www.google.com/s2/favicons?domain=azerturkbank.az&sz=128",
-  short:"ATB"
-},
-
-"Bank Avrasiya":{
-  logo:"https://www.google.com/s2/favicons?domain=bankavrasiya.az&sz=128",
-  short:"BA"
-},
-
-"Bank of Baku":{
-  logo:"https://www.google.com/s2/favicons?domain=bankofbaku.com&sz=128",
-  short:"BOB"
-},
-
-"Bank Respublika":{
-  logo:"https://www.google.com/s2/favicons?domain=bankrespublika.az&sz=128",
-  short:"BR"
-},
-
-"Premium Bank":{
-  logo:"https://www.google.com/s2/favicons?domain=premiumbank.az&sz=128",
-  short:"PB"
-},
-
-"Bank VTB (Azərbaycan)":{
-  logo:"https://www.google.com/s2/favicons?domain=vtb.az&sz=128",
-  short:"VTB"
-},
-
-"Expressbank":{
-  logo:"https://www.google.com/s2/favicons?domain=expressbank.az&sz=128",
-  short:"EB"
-},
-
-"Kapital Bank":{
-  logo:"https://www.google.com/s2/favicons?domain=kapitalbank.az&sz=128",
-  short:"KB"
-},
-
-"Melli İran Bankı – Bakı filialı":{
-  logo:"https://www.google.com/s2/favicons?domain=bmibaku.az&sz=128",
-  short:"BMI"
-},
-
-"Yelo Bank":{
-  logo:"https://www.google.com/s2/favicons?domain=yelo.az&sz=128",
-  short:"Y"
-},
-
-"PAŞA Bank":{
-  logo:"https://www.google.com/s2/favicons?domain=pashabank.az&sz=128",
-  short:"PAŞA"
-},
-
-"Rabitəbank":{
-  logo:"https://www.google.com/s2/favicons?domain=rabitabank.com&sz=128",
-  short:"RB"
-},
-
-"TuranBank":{
-  logo:"https://www.google.com/s2/favicons?domain=turanbank.az&sz=128",
-  short:"TB"
-},
-
-"Unibank":{
-  logo:"https://www.google.com/s2/favicons?domain=unibank.az&sz=128",
-  short:"UB"
-},
-
-"Xalq Bank":{
-  logo:"https://www.google.com/s2/favicons?domain=xalqbank.az&sz=128",
-  short:"XB"
-},
-
-"Yapı Kredi Bank Azərbaycan":{
-  logo:"https://www.google.com/s2/favicons?domain=yapikredi.com.az&sz=128",
-  short:"YK"
-},
-
-"Ziraat Bank Azərbaycan":{
-  logo:"https://www.google.com/s2/favicons?domain=ziraatbank.az&sz=128",
-  short:"ZB"
-}
-
+"AccessBank":{logo:"https://www.google.com/s2/favicons?domain=accessbank.az&sz=128",short:"AB"},
+"AFB Bank":{logo:"https://www.google.com/s2/favicons?domain=afb.az&sz=128",short:"AFB"},
+"Azərbaycan Beynəlxalq Bankı (ABB)":{logo:"https://www.google.com/s2/favicons?domain=abb-bank.az&sz=128",short:"ABB"},
+"Azərbaycan Sənaye Bankı (ASB)":{logo:"https://www.google.com/s2/favicons?domain=asb.az&sz=128",short:"ASB"},
+"Azər-Türk Bank":{logo:"https://www.google.com/s2/favicons?domain=azerturkbank.az&sz=128",short:"ATB"},
+"Bank Avrasiya":{logo:"https://www.google.com/s2/favicons?domain=bankavrasiya.az&sz=128",short:"BA"},
+"Bank of Baku":{logo:"https://www.google.com/s2/favicons?domain=bankofbaku.com&sz=128",short:"BOB"},
+"Bank Respublika":{logo:"https://www.google.com/s2/favicons?domain=bankrespublika.az&sz=128",short:"BR"},
+"Premium Bank":{logo:"https://www.google.com/s2/favicons?domain=premiumbank.az&sz=128",short:"PB"},
+"Bank VTB (Azərbaycan)":{logo:"https://www.google.com/s2/favicons?domain=vtb.az&sz=128",short:"VTB"},
+"Expressbank":{logo:"https://www.google.com/s2/favicons?domain=expressbank.az&sz=128",short:"EB"},
+"Kapital Bank":{logo:"https://www.google.com/s2/favicons?domain=kapitalbank.az&sz=128",short:"KB"},
+"Melli İran Bankı – Bakı filialı":{logo:"https://www.google.com/s2/favicons?domain=bmibaku.az&sz=128",short:"BMI"},
+"Yelo Bank":{logo:"https://www.google.com/s2/favicons?domain=yelo.az&sz=128",short:"Y"},
+"PAŞA Bank":{logo:"https://www.google.com/s2/favicons?domain=pashabank.az&sz=128",short:"PAŞA"},
+"Rabitəbank":{logo:"https://www.google.com/s2/favicons?domain=rabitabank.com&sz=128",short:"RB"},
+"TuranBank":{logo:"https://www.google.com/s2/favicons?domain=turanbank.az&sz=128",short:"TB"},
+"Unibank":{logo:"https://www.google.com/s2/favicons?domain=unibank.az&sz=128",short:"UB"},
+"Xalq Bank":{logo:"https://www.google.com/s2/favicons?domain=xalqbank.az&sz=128",short:"XB"},
+"Yapı Kredi Bank Azərbaycan":{logo:"https://www.google.com/s2/favicons?domain=yapikredi.com.az&sz=128",short:"YK"},
+"Ziraat Bank Azərbaycan":{logo:"https://www.google.com/s2/favicons?domain=ziraatbank.az&sz=128",short:"ZB"}
 };
 
+let credits=JSON.parse(localStorage.getItem("kredarCredits")||"[]");
 
-let credits=
-JSON.parse(
-  localStorage.getItem("kredarCredits")||"[]"
-);
+function money(v){return Number(v||0).toLocaleString("az-AZ",{maximumFractionDigits:0})+" ₼"}
+function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function formatDate(v){if(!v)return"—";const d=new Date(v+"T00:00:00");return isNaN(d)?"—":d.toLocaleDateString("az-AZ",{day:"2-digit",month:"2-digit",year:"numeric"})}
+function logoHTML(name){const b=bankData[name]||{logo:"",short:"B"};return b.logo?`<img src="${b.logo}" alt="${esc(name)} loqosu" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="fallback" style="display:none">${esc(b.short)}</div>`:`<div class="fallback">${esc(b.short)}</div>`}
+function save(){localStorage.setItem("kredarCredits",JSON.stringify(credits))}
+function showToast(t){const x=document.getElementById("toast");x.textContent=t;x.classList.add("show");setTimeout(()=>x.classList.remove("show"),2800)}
 
-
-function money(v){
-
-return Number(v||0)
-.toLocaleString(
-  "az-AZ",
-  {maximumFractionDigits:0}
-)
-+" ₼";
-
+function reminderInfo(c){
+  if(!c.date)return null;
+  const target=new Date(c.date+"T00:00:00");const today=new Date();today.setHours(0,0,0,0);
+  const days=Math.round((target-today)/86400000);
+  if(days<0)return{days,status:"Gecikib",cls:"danger"};
+  if(days===0)return{days,status:"Bu gün",cls:"today"};
+  if(days===1)return{days,status:"Sabah",cls:"warn"};
+  if(days===3)return{days,status:"3 gün qalıb",cls:"warn"};
+  return{days,status:`${days} gün qalıb`,cls:""};
 }
 
-
-function esc(v){
-
-return String(v??"")
-.replace(
-  /[&<>"']/g,
-  m=>({
-    "&":"&amp;",
-    "<":"&lt;",
-    ">":"&gt;",
-    '"':"&quot;",
-    "'":"&#039;"
-  }[m])
-);
-
+function reminderHTML(c){
+  const r=reminderInfo(c);if(!r)return"";
+  if(r.days>3)return"";
+  return `<div class="reminder ${r.cls}">
+    <div class="reminder-top"><div class="reminder-bank">${esc(c.name)}</div><div class="reminder-status">${r.status}</div></div>
+    <div class="reminder-info">${money(c.payment)} · Ödəniş tarixi: ${formatDate(c.date)}</div>
+    <div class="reminder-actions">
+      ${c.payLink?`<button class="pay-mini" onclick="payCredit(${c.id})">İndi ödə</button>`:""}
+    </div>
+  </div>`;
 }
 
+function progress(c){const a=Number(c.amount||0),b=Number(c.balance||0);if(!a)return 0;return Math.max(0,Math.min(100,((a-b)/a)*100))}
+function bankCard(c){
+return `<div class="bank-card" onclick="openDetails(${c.id})">
+<div class="bank-head"><div class="bank-title"><div class="bank-logo">${logoHTML(c.name)}</div><div><div class="bank-name">${esc(c.name)}</div><div class="bank-sub">Kredit hesabı</div></div></div><div class="rate">${Number(c.rate||0)}% illik</div></div>
+<div class="card-grid">
+<div><div class="label">QALIQ BORC</div><div class="big">${money(c.balance)}</div></div>
+<div><div class="label">AYLIQ ÖDƏNİŞ</div><div class="pay">${money(c.payment)}</div></div>
+<div><div class="label">NÖVBƏTİ ÖDƏNİŞ</div><div class="date">${formatDate(c.date)}</div></div>
+<div><div class="label">KREDİTİN BİTMƏ TARİXİ</div><div class="date">${formatDate(c.endDate)}</div></div>
+</div>
+<div class="progress"><span style="width:${progress(c)}%"></span></div>
+<div class="card-actions"><button class="pay-btn" onclick="event.stopPropagation();payCredit(${c.id})">Kreditini indi ödə</button><button class="more-btn" onclick="event.stopPropagation();openDetails(${c.id})">›</button></div>
+</div>`;
+}
 
-function formatDate(v){
+function renderBankSummary(){
+ const el=document.getElementById("bankSummary");const groups={};
+ credits.forEach(c=>{groups[c.name]??={name:c.name,balance:0,count:0};groups[c.name].balance+=Number(c.balance||0);groups[c.name].count++});
+ el.innerHTML=Object.values(groups).map(g=>`<div class="bank-mini-card" onclick="openDetails(${credits.find(c=>c.name===g.name).id})"><div class="mini-top"><div class="bank-logo">${logoHTML(g.name)}</div><div class="bank-mini-name">${esc(g.name)}</div></div><div class="bank-mini-label">${g.count} kredit · qalıq borc</div><div class="bank-mini-value">${money(g.balance)}</div></div>`).join("");
+}
 
-if(!v)return"—";
+function renderReminders(){
+ const relevant=credits.map(c=>({c,r:reminderInfo(c)})).filter(x=>x.r&&x.r.days<=3);
+ document.getElementById("reminderCount").textContent=relevant.length?`${relevant.length} aktiv`:"Aktiv deyil";
+ document.getElementById("reminders").innerHTML=relevant.length?relevant.map(x=>reminderHTML(x.c)).join(""):`<div style="font-size:10px;color:#8995a6;padding:7px 0">Yaxın 3 gün üçün ödəniş yoxdur.</div>`;
+}
 
-const d=
-new Date(v+"T00:00:00");
+function aiData(){
+ if(!credits.length)return null;
+ const sorted=[...credits].sort((a,b)=>Number(b.rate||0)-Number(a.rate||0));
+ const highest=sorted[0], largest=credits.reduce((a,b)=>Number(a.balance||0)>Number(b.balance||0)?a:b);
+ const monthly=credits.reduce((s,c)=>s+Number(c.payment||0),0);
+ return {highest,largest,monthly,sorted};
+}
+function renderAI(){
+ const d=aiData();const summary=document.getElementById("aiSummary"),quick=document.getElementById("aiQuick"),analysis=document.getElementById("aiAnalysis");
+ if(!d){summary.textContent="Kreditlərinizi əlavə etdikdən sonra KREDAR AI analizə başlayacaq.";quick.innerHTML="";analysis.innerHTML=`<div class="ai-page-card"><h2>KREDAR AI hazırdır</h2><p>İlk kreditinizi əlavə edin. Sistem faiz, qalıq borc, aylıq ödəniş və bitmə tarixlərini müqayisə edəcək.</p></div>`;return}
+ summary.textContent=`${credits.length} kredit analiz edildi. Ən yüksək faiz ${Number(d.highest.rate||0)}% ilə ${d.highest.name} kreditindədir.`;
+ quick.innerHTML=`<div class="ai-item"><strong>1-ci prioritet</strong>${esc(d.highest.name)} — ${Number(d.highest.rate||0)}% faiz</div><div class="ai-item"><strong>Aylıq borc yükü</strong>${money(d.monthly)}</div>`;
+ const ranking=d.sorted.map((c,i)=>`<div class="recommendation"><strong>${i+1}. ${esc(c.name)} — ${Number(c.rate||0)}%</strong><p>Qalıq: ${money(c.balance)} · Aylıq: ${money(c.payment)}</p></div>`).join("");
+ analysis.innerHTML=`<div class="ai-page-card"><h2>Kredit prioritetləri</h2><p>Faiz dərəcəsi yüksək olan kreditlər əlavə ödəniş üçün daha yüksək prioritet kimi göstərilir.</p>${ranking}</div>
+ <div class="ai-page-card"><h2>Kreditləri birləşdirmək barədə</h2><p>Bir neçə krediti birləşdirmək yalnız yeni kreditin ümumi xərcinin, faizinin, komissiyalarının və müddətinin mövcud kreditlərdən daha sərfəli olduğu halda məntiqli ola bilər.</p><div class="recommendation"><strong>KREDAR AI tövsiyəsi</strong><p>Yeni təklifin effektiv faizini və ümumi geri ödənişini mövcud kreditlərlə müqayisə etmədən birləşdirmə qərarı verməyin.</p></div></div>`;
+}
 
-return isNaN(d)
-?"—"
-:d.toLocaleDateString(
-  "az-AZ",
-  {
-    day:"2-digit",
-    month:"2-digit",
-    year:"numeric"
+function render(){
+ const debt=credits.reduce((s,c)=>s+Number(c.balance||0),0),pay=credits.reduce((s,c)=>s+Number(c.payment||0),0);
+ document.getElementById("totalDebt").textContent=money(debt);document.getElementById("totalPayment").textContent=money(pay);
+ document.getElementById("creditCount").textContent=`${credits.length} kredit`;
+ renderBankSummary();renderReminders();renderAI();
+ document.getElementById("bankList").innerHTML=credits.length?credits.map(bankCard).join(""):`<div class="empty">Hələ kredit əlavə edilməyib.</div>`;
+ document.getElementById("creditPageList").innerHTML=credits.length?credits.map(bankCard).join(""):`<div class="empty">Hələ kredit əlavə edilməyib.</div>`;
+ save();checkNotifications();
+}
+
+function addCredit(){
+ const c={id:Date.now(),name:document.getElementById("creditName").value,amount:Number(document.getElementById("creditAmount").value),balance:Number(document.getElementById("creditBalance").value),rate:Number(document.getElementById("creditRate").value||0),payment:Number(document.getElementById("creditPayment").value),endDate:document.getElementById("creditEndDate").value,date:document.getElementById("creditDate").value,payLink:document.getElementById("creditPayLink").value.trim()};
+ if(!c.name||!c.amount||!c.balance||!c.payment||!c.endDate||!c.date){alert("Bank, məbləğ, qalıq borc, aylıq ödəniş, növbəti ödəniş və kreditin bitmə tarixini doldurun.");return}
+ credits.push(c);save();render();closeModal("addModal");clearForm();showToast("Kredit KREDAR-a əlavə edildi.");
+}
+function clearForm(){["creditName","creditAmount","creditBalance","creditRate","creditPayment","creditEndDate","creditDate","creditPayLink"].forEach(id=>document.getElementById(id).value="")}
+function openDetails(id){
+ const c=credits.find(x=>x.id===id);if(!c)return;
+ document.getElementById("detailContent").innerHTML=`<div class="detail-hero"><div class="bank-logo">${logoHTML(c.name)}</div><div><small>BANK</small><h3>${esc(c.name)}</h3><p>${Number(c.rate||0)}% illik faiz</p></div></div>
+ <div class="detail-grid">
+ <div class="detail-item"><label>Qalıq borc</label><strong>${money(c.balance)}</strong></div>
+ <div class="detail-item"><label>Aylıq ödəniş</label><strong>${money(c.payment)}</strong></div>
+ <div class="detail-item"><label>İlkin məbləğ</label><strong>${money(c.amount)}</strong></div>
+ <div class="detail-item"><label>Növbəti ödəniş</label><strong>${formatDate(c.date)}</strong></div>
+ <div class="detail-item"><label>Kreditin bitmə tarixi</label><strong>${formatDate(c.endDate)}</strong></div>
+ <div class="detail-item"><label>Ödəniş linki</label><strong>${c.payLink?"Hazırdır":"Əlavə edilməyib"}</strong></div></div>
+ ${c.payLink?`<button class="primary" onclick="payCredit(${c.id})">Kreditini indi ödə</button>`:""}
+ <button class="delete" onclick="deleteCredit(${c.id})">Kredit məlumatlarını proqramdan sil</button>`;
+ openModal("detailModal");
+}
+function deleteCredit(id){if(!confirm("Bu kredit məlumatlarını KREDAR proqramından silmək istəyirsiniz?"))return;credits=credits.filter(c=>c.id!==id);save();render();closeModal("detailModal");showToast("Kredit məlumatları silindi.")}
+function payCredit(id){const c=credits.find(x=>x.id===id);if(!c||!c.payLink){showToast("Bu kredit üçün ödəniş linki əlavə edilməyib.");return}window.open(c.payLink,"_blank","noopener,noreferrer")}
+function openAddModal(){document.getElementById("addModal").classList.add("active")}
+function openModal(id){document.getElementById(id).classList.add("active")}
+function closeModal(id){document.getElementById(id).classList.remove("active")}
+document.querySelectorAll(".modal").forEach(m=>m.addEventListener("click",e=>{if(e.target===m)m.classList.remove("active")}));
+
+function showPage(id,btn){document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));document.getElementById(id).classList.add("active");document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));btn.classList.add("active");if(id==="aiPage")renderAI()}
+
+function calculateLoan(){
+ const a=Number(calcAmount.value),r=Number(calcRate.value),n=Number(calcMonths.value);if(!a||!n){alert("Məbləğ və müddəti daxil edin.");return}
+ const m=r/100/12,p=m?a*m*Math.pow(1+m,n)/(Math.pow(1+m,n)-1):a/n,t=p*n,i=t-a;
+ calcResult.innerHTML=`<div><span>Aylıq ödəniş</span><strong>${money(p)}</strong></div><div><span>Ümumi ödəniş</span><strong>${money(t)}</strong></div><div><span>Ümumi faiz</span><strong>${money(i)}</strong></div>`;
+}
+
+function checkNotifications(){
+ if(!("Notification" in window)||Notification.permission!=="granted")return;
+ credits.forEach(c=>{
+  const r=reminderInfo(c);if(!r||r.days>3)return;
+  const key=`kredarNotified_${c.id}_${c.date}_${r.days}`;
+  if(!localStorage.getItem(key)){
+   new Notification("KREDAR — kredit xatırlatması",{body:`${c.name}: ${r.status}. Ödəniş ${money(c.payment)}.`});
+   localStorage.setItem(key,"1");
+  }
+ });
+}
+async function enableNotifications(){if("Notification" in window&&Notification.permission==="default")await Notification.requestPermission()}
+function updateTime(){document.getElementById("statusTime").textContent=new Date().toLocaleTimeString("az-AZ",{hour:"2-digit",minute:"2-digit"})}
+document.addEventListener("click",e=>{if(e.target.closest(".primary"))enableNotifications()});
+render();updateTime();setInterval(updateTime,60000);setInterval(render,60000);
+</script>
+
+<!-- KREDAR SUPABASE BAĞLANTISI -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = "https://mjizjrlckprpsbgyxgm.supabase.co";
+
+/*
+  BURAYA öz Supabase Publishable Key-inizi yazın.
+  Secret key yazmayın.
+*/
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_ruH9LbsdKqN2yVuPSDegrQ_C8Kd_GpE";
+
+const kredarSupabase =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+/*
+  LocalStorage -> Supabase xəritəsi:
+  name      -> bank
+  amount    -> amount
+  balance   -> balance
+  rate      -> rate
+  payment   -> monthly_payment
+  date      -> next_payment_date
+  endDate   -> end_date
+  payLink   -> pay_link
+*/
+
+async function kredarGetUser() {
+  const { data, error } =
+    await kredarSupabase.auth.getUser();
+
+  if (error) {
+    console.error("Supabase user xətası:", error);
+    return null;
+  }
+
+  return data.user || null;
+}
+
+async function kredarLoadCreditsFromSupabase() {
+  const user = await kredarGetUser();
+  if (!user) return false;
+
+  const { data, error } =
+    await kredarSupabase
+      .from("credits")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Kreditlər yüklənmədi:", error);
+    return false;
+  }
+
+  credits = (data || []).map(c => ({
+    id: c.id,
+    name: c.bank || c.credit_name || "",
+    amount: Number(c.amount || 0),
+    balance: Number(c.balance || 0),
+    rate: Number(c.rate || 0),
+    payment: Number(c.monthly_payment || 0),
+    date: c.next_payment_date || "",
+    endDate: c.end_date || "",
+    payLink: c.pay_link || ""
+  }));
+
+  localStorage.setItem(
+    "kredarCredits",
+    JSON.stringify(credits)
+  );
+
+  render();
+  return true;
+}
+
+async function kredarSaveCreditToSupabase(c) {
+  const user = await kredarGetUser();
+
+  if (!user) {
+    showToast("KREDAR-a daxil olun. Kredit əvvəlcə telefonda saxlanılır.");
+    return false;
+  }
+
+  const row = {
+    user_id: user.id,
+    bank: c.name,
+    credit_name: c.name,
+    amount: Number(c.amount || 0),
+    balance: Number(c.balance || 0),
+    rate: Number(c.rate || 0),
+    monthly_payment: Number(c.payment || 0),
+    next_payment_date: c.date || null,
+    end_date: c.endDate || null,
+    pay_link: c.payLink || null
+  };
+
+  const { data, error } =
+    await kredarSupabase
+      .from("credits")
+      .insert(row)
+      .select()
+      .single();
+
+  if (error) {
+    console.error("Supabase kredit əlavə etmə xətası:", error);
+    showToast("Kredit Supabase-ə yazılmadı.");
+    return false;
+  }
+
+  return data;
+}
+
+async function kredarDeleteCreditFromSupabase(id) {
+  const user = await kredarGetUser();
+  if (!user) return false;
+
+  const { error } =
+    await kredarSupabase
+      .from("credits")
+      .delete()
+      .eq("id", id)
+      .eq("user_id", user.id);
+
+  if (error) {
+    console.error("Supabase silmə xətası:", error);
+    return false;
+  }
+
+  return true;
+}
+
+/*
+  İlk dəfə istifadə zamanı mövcud localStorage kreditlərini
+  Supabase hesabına bir dəfə köçürür.
+*/
+async function kredarMigrateLocalCredits() {
+  const user = await kredarGetUser();
+  if (!user) return;
+
+  const localCredits =
+    JSON.parse(
+      localStorage.getItem("kredarCredits") || "[]"
+    );
+
+  if (!localCredits.length) return;
+
+  const { count, error: countError } =
+    await kredarSupabase
+      .from("credits")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", user.id);
+
+  if (countError) {
+    console.error("Supabase yoxlama xətası:", countError);
+    return;
+  }
+
+  /*
+    Hesabda artıq kredit varsa, local məlumatları
+    avtomatik təkrar əlavə etmirik.
+  */
+  if ((count || 0) > 0) return;
+
+  const rows = localCredits.map(c => ({
+    user_id: user.id,
+    bank: c.name || "",
+    credit_name: c.name || "",
+    amount: Number(c.amount || 0),
+    balance: Number(c.balance || 0),
+    rate: Number(c.rate || 0),
+    monthly_payment: Number(c.payment || 0),
+    next_payment_date: c.date || null,
+    end_date: c.endDate || null,
+    pay_link: c.payLink || null
+  }));
+
+  const { error } =
+    await kredarSupabase
+      .from("credits")
+      .insert(rows);
+
+  if (error) {
+    console.error("Local kreditlərin köçürülməsi xətası:", error);
+    return;
+  }
+
+  showToast("Mövcud kreditləriniz Supabase-ə köçürüldü.");
+}
+
+async function kredarSyncAfterLogin() {
+  await kredarMigrateLocalCredits();
+  await kredarLoadCreditsFromSupabase();
+}
+
+kredarSupabase.auth.onAuthStateChange(
+  async (event, session) => {
+    if (event === "SIGNED_IN" && session) {
+      await kredarSyncAfterLogin();
+    }
+
+    if (event === "SIGNED_OUT") {
+      credits = [];
+      localStorage.setItem(
+        "kredarCredits",
+        JSON.stringify([])
+      );
+      render();
+    }
   }
 );
 
-}
-
-
-function logoHTML(name){
-
-const b=
-bankData[name]||{
-  logo:"",
-  short:"B"
-};
-
-return b.logo
-
-?`
-<img
-src="${b.logo}"
-alt="${esc(name)} loqosu"
-onerror="
-this.style.display='none';
-this.nextElementSibling.style.display='flex'
-">
-
-<div
-class="fallback"
-style="display:none">
-${esc(b.short)}
-</div>
-`
-
-:`
-<div class="fallback">
-${esc(b.short)}
-</div>
-`;
-
-}
-
-
-function save(){
-
-localStorage.setItem(
-  "kredarCredits",
-  JSON.stringify(credits)
-);
-
-}
-
-
-function showToast(t){
-
-const x=
-document.getElementById("toast");
-
-x.textContent=t;
-
-x.classList.add("show");
-
-setTimeout(
-  ()=>x.classList.remove("show"),
-  2800
-);
-
-}
-
-
-function reminderInfo(c){
-
-if(!c.date)return null;
-
-const target=
-new Date(c.date+"T00:00:00");
-
-const today=
-new Date();
-
-today.setHours(0,0,0,0);
-
-const days=
-Math.round(
-  (target-today)/86400000
-);
-
-if(days<0)
-
-return{
-  days,
-  status:"Gecikib",
-  cls:"danger"
-};
-
-if(days===0)
-
-return{
-  days,
-  status:"Bu gün",
-  cls:"today"
-};
-
-if(days===1)
-
-return{
-  days,
-  status:"Sabah",
-  cls:"warn"
-};
-
-if(days===3)
-
-return{
-  days,
-  status:"3 gün qalıb",
-  cls:"warn"
-};
-
-return{
-  days,
-  status:`${days} gün qalıb`,
-  cls:""
-};
-
-}
-
-
-function reminderHTML(c){
-
-const r=
-reminderInfo(c);
-
-if(!r)return"";
-
-if(r.days>3)return"";
-
-return`
-
-<div class="reminder ${r.cls}">
-
-<div class="reminder-top">
-
-<div class="reminder-bank">
-${esc(c.name)}
-</div>
-
-<div class="reminder-status">
-${r.status}
-</div>
-
-</div>
-
-<div class="reminder-info">
-${money(c.payment)}
-· Ödəniş tarixi:
-${formatDate(c.date)}
-</div>
-
-<div class="reminder-actions">
-
-${
-c.payLink
-?
-`
-<button
-class="pay-mini"
-onclick="payCredit(${c.id})">
-İndi ödə
-</button>
-`
-:""
-}
-
-</div>
-
-</div>
-
-`;
-
-}
-
-
-function progress(c){
-
-const a=
-Number(c.amount||0);
-
-const b=
-Number(c.balance||0);
-
-if(!a)return 0;
-
-return Math.max(
-  0,
-  Math.min(
-    100,
-    ((a-b)/a)*100
-  )
-);
-
-}
-
-
-function bankCard(c){
-
-return`
-
-<div
-class="bank-card"
-onclick="openDetails(${c.id})">
-
-<div class="bank-head">
-
-<div class="bank-title">
-
-<div class="bank-logo">
-${logoHTML(c.name)}
-</div>
-
-<div>
-
-<div class="bank-name">
-${esc(c.name)}
-</div>
-
-<div class="bank-sub">
-Kredit hesabı
-</div>
-
-</div>
-
-</div>
-
-<div class="rate">
-${Number(c.rate||0)}% illik
-</div>
-
-</div>
-
-
-<div class="card-grid">
-
-<div>
-<div class="label">QALIQ BORC</div>
-<div class="big">
-${money(c.balance)}
-</div>
-</div>
-
-<div>
-<div class="label">AYLIQ ÖDƏNİŞ</div>
-<div class="pay">
-${money(c.payment)}
-</div>
-</div>
-
-<div>
-<div class="label">NÖVBƏTİ ÖDƏNİŞ</div>
-<div class="date">
-${formatDate(c.date)}
-</div>
-</div>
-
-<div>
-<div class="label">
-KREDİTİN BİTMƏ TARİXİ
-</div>
-<div class="date">
-${formatDate(c.endDate)}
-</div>
-</div>
-
-</div>
-
-
-<div class="progress">
-<span style="width:${progress(c)}%"></span>
-</div>
-
-
-<div class="card-actions">
-
-<button
-class="pay-btn"
-onclick="
-event.stopPropagation();
-payCredit(${c.id})
-">
-Kreditini indi ödə
-</button>
-
-<button
-class="more-btn"
-onclick="
-event.stopPropagation();
-openDetails(${c.id})
-">
-›
-</button>
-
-</div>
-
-</div>
-
-`;
-
-}
-
-
-function renderBankSummary(){
-
-const el=
-document.getElementById("bankSummary");
-
-const groups={};
-
-credits.forEach(c=>{
-
-groups[c.name]??={
-  name:c.name,
-  balance:0,
-  count:0
-};
-
-groups[c.name].balance+=
-Number(c.balance||0);
-
-groups[c.name].count++;
-
+window.addEventListener("load", async () => {
+  const user = await kredarGetUser();
+
+  if (user) {
+    await kredarSyncAfterLogin();
+  }
 });
-
-
-el.innerHTML=
-Object.values(groups)
-.map(g=>`
-
-<div
-class="bank-mini-card"
-onclick="
-openDetails(
-${credits.find(c=>c.name===g.name).id}
-)
-">
-
-<div class="mini-top">
-
-<div class="bank-logo">
-${logoHTML(g.name)}
-</div>
-
-<div class="bank-mini-name">
-${esc(g.name)}
-</div>
-
-</div>
-
-<div class="bank-mini-label">
-${g.count} kredit · qalıq borc
-</div>
-
-<div class="bank-mini-value">
-${money(g.balance)}
-</div>
-
-</div>
-
-`)
-.join("");
-
-}
-
-
-function renderReminders(){
-
-const relevant=
-credits
-.map(c=>({
-  c,
-  r:reminderInfo(c)
-}))
-.filter(
-  x=>x.r&&x.r.days<=3
-);
-
-document.getElementById(
-  "reminderCount"
-).textContent=
-relevant.length
-?`${relevant.length} aktiv`
-:"Aktiv deyil";
-
-document.getElementById(
-  "reminders"
-).innerHTML=
-
-relevant.length
-
-?relevant
-  .map(x=>reminderHTML(x.c))
-  .join("")
-
-:`
-<div
-style="
-font-size:10px;
-color:#8995a6;
-padding:7px 0">
-Yaxın 3 gün üçün ödəniş yoxdur.
-</div>
-`;
-
-}
-
-
-function aiData(){
-
-if(!credits.length)return null;
-
-const sorted=
-[...credits]
-.sort(
-  (a,b)=>
-  Number(b.rate||0)-
-  Number(a.rate||0)
-);
-
-const highest=
-sorted[0];
-
-const largest=
-credits.reduce(
-  (a,b)=>
-  Number(a.balance||0)>
-  Number(b.balance||0)
-  ?a:b
-);
-
-const monthly=
-credits.reduce(
-  (s,c)=>
-  s+Number(c.payment||0),
-  0
-);
-
-return{
-  highest,
-  largest,
-  monthly,
-  sorted
-};
-
-}
-
-
-function renderAI(){
-
-const d=
-aiData();
-
-const summary=
-document.getElementById("aiSummary");
-
-const quick=
-document.getElementById("aiQuick");
-
-const analysis=
-document.getElementById("aiAnalysis");
-
-
-if(!d){
-
-summary.textContent=
-"Kreditlərinizi əlavə etdikdən sonra KREDAR AI analizə başlayacaq.";
-
-quick.innerHTML="";
-
-analysis.innerHTML=`
-
-<div class="ai-page-card">
-
-<h2>KREDAR AI hazırdır</h2>
-
-<p>
-İlk kreditinizi əlavə edin.
-Sistem faiz, qalıq borc,
-aylıq ödəniş və bitmə tarixlərini
-müqayisə edəcək.
-</p>
-
-</div>
-
-`;
-
-return;
-
-}
-
-
-summary.textContent=
-`${credits.length} kredit analiz edildi. Ən yüksək faiz ${Number(d.highest.rate||0)}% ilə ${d.highest.name} kreditindədir.`;
-
-
-quick.innerHTML=`
-
-<div class="ai-item">
-
-<strong>
-1-ci prioritet
-</strong>
-
-${esc(d.highest.name)}
-—
-${Number(d.highest.rate||0)}% faiz
-
-</div>
-
-
-<div class="ai-item">
-
-<strong>
-Aylıq borc yükü
-</strong>
-
-${money(d.monthly)}
-
-</div>
-
-`;
-
-
-const ranking=
-d.sorted
-.map(
-(c,i)=>`
-
-<div class="recommendation">
-
-<strong>
-${i+1}.
-${esc(c.name)}
-—
-${Number(c.rate||0)}%
-</strong>
-
-<p>
-Qalıq:
-${money(c.balance)}
-·
-Aylıq:
-${money(c.payment)}
-</p>
-
-</div>
-
-`
-)
-.join("");
-
-
-analysis.innerHTML=`
-
-<div class="ai-page-card">
-
-<h2>
-Kredit prioritetləri
-</h2>
-
-<p>
-Faiz dərəcəsi yüksək olan kreditlər
-əlavə ödəniş üçün daha yüksək
-prioritet kimi göstərilir.
-</p>
-
-${ranking}
-
-</div>
-
-
-<div class="ai-page-card">
-
-<h2>
-Kreditləri birləşdirmək barədə
-</h2>
-
-<p>
-Bir neçə krediti birləşdirmək yalnız
-yeni kreditin ümumi xərcinin,
-faizinin, komissiyalarının və müddətinin
-mövcud kreditlərdən daha sərfəli olduğu
-halda məntiqli ola bilər.
-</p>
-
-<div class="recommendation">
-
-<strong>
-KREDAR AI tövsiyəsi
-</strong>
-
-<p>
-Yeni təklifin effektiv faizini və
-ümumi geri ödənişini mövcud kreditlərlə
-müqayisə etmədən birləşdirmə qərarı verməyin.
-</p>
-
-</div>
-
-</div>
-
-`;
-
-}
-
-
-function render(){
-
-const debt=
-credits.reduce(
-  (s,c)=>
-  s+Number(c.balance||0),
-  0
-);
-
-const pay=
-credits.reduce(
-  (s,c)=>
-  s+Number(c.payment||0),
-  0
-);
-
-
-document.getElementById(
-  "totalDebt"
-).textContent=
-money(debt);
-
-
-document.getElementById(
-  "totalPayment"
-).textContent=
-money(pay);
-
-
-document.getElementById(
-  "creditCount"
-).textContent=
-`${credits.length} kredit`;
-
-
-renderBankSummary();
-
-renderReminders();
-
-renderAI();
-
-
-document.getElementById(
-  "bankList"
-).innerHTML=
-
-credits.length
-
-?credits
-  .map(bankCard)
-  .join("")
-
-:`
-<div class="empty">
-Hələ kredit əlavə edilməyib.
-</div>
-`;
-
-
-document.getElementById(
-  "creditPageList"
-).innerHTML=
-
-credits.length
-
-?credits
-  .map(bankCard)
-  .join("")
-
-:`
-<div class="empty">
-Hələ kredit əlavə edilməyib.
-</div>
-`;
-
-
-save();
-
-checkNotifications();
-
-}
-
-
-function addCredit(){
-
-const c={
-
-id:Date.now(),
-
-name:
-document.getElementById(
-  "creditName"
-).value,
-
-amount:
-Number(
-  document.getElementById(
-    "creditAmount"
-  ).value
-),
-
-balance:
-Number(
-  document.getElementById(
-    "creditBalance"
-  ).value
-),
-
-rate:
-Number(
-  document.getElementById(
-    "creditRate"
-  ).value||0
-),
-
-payment:
-Number(
-  document.getElementById(
-    "creditPayment"
-  ).value
-),
-
-endDate:
-document.getElementById(
-  "creditEndDate"
-).value,
-
-date:
-document.getElementById(
-  "creditDate"
-).value,
-
-payLink:
-document.getElementById(
-  "creditPayLink"
-).value.trim()
-
-};
-
-
-if(
-!c.name||
-!c.amount||
-!c.balance||
-!c.payment||
-!c.endDate||
-!c.date
-){
-
-alert(
-"Bank, məbləğ, qalıq borc, aylıq ödəniş, növbəti ödəniş və kreditin bitmə tarixini doldurun."
-);
-
-return;
-
-}
-
-
-credits.push(c);
-
-save();
-
-render();
-
-closeModal("addModal");
-
-clearForm();
-
-showToast(
-"Kredit KREDAR-a əlavə edildi."
-);
-
-}
-
-
-function clearForm(){
-
-[
-"creditName",
-"creditAmount",
-"creditBalance",
-"creditRate",
-"creditPayment",
-"creditEndDate",
-"creditDate",
-"creditPayLink"
-]
-.forEach(
-id=>
-document.getElementById(id).value=""
-);
-
-}
-
-
-function openDetails(id){
-
-const c=
-credits.find(
-x=>x.id===id
-);
-
-if(!c)return;
-
-
-document.getElementById(
-"detailContent"
-).innerHTML=`
-
-<div class="detail-hero">
-
-<div class="bank-logo">
-${logoHTML(c.name)}
-</div>
-
-<div>
-
-<small>BANK</small>
-
-<h3>
-${esc(c.name)}
-</h3>
-
-<p>
-${Number(c.rate||0)}% illik faiz
-</p>
-
-</div>
-
-</div>
-
-
-<div class="detail-grid">
-
-<div class="detail-item">
-
-<label>
-Qalıq borc
-</label>
-
-<strong>
-${money(c.balance)}
-</strong>
-
-</div>
-
-
-<div class="detail-item">
-
-<label>
-Aylıq ödəniş
-</label>
-
-<strong>
-${money(c.payment)}
-</strong>
-
-</div>
-
-
-<div class="detail-item">
-
-<label>
-İlkin məbləğ
-</label>
-
-<strong>
-${money(c.amount)}
-</strong>
-
-</div>
-
-
-<div class="detail-item">
-
-<label>
-Növbəti ödəniş
-</label>
-
-<strong>
-${formatDate(c.date)}
-</strong>
-
-</div>
-
-
-<div class="detail-item">
-
-<label>
-Kreditin bitmə tarixi
-</label>
-
-<strong>
-${formatDate(c.endDate)}
-</strong>
-
-</div>
-
-
-<div class="detail-item">
-
-<label>
-Ödəniş linki
-</label>
-
-<strong>
-${c.payLink
-?"Hazırdır"
-:"Əlavə edilməyib"}
-</strong>
-
-</div>
-
-</div>
-
-
-${
-c.payLink
-?
-`
-<button
-class="primary"
-onclick="payCredit(${c.id})">
-Kreditini indi ödə
-</button>
-`
-:""
-}
-
-
-<button
-class="delete"
-onclick="deleteCredit(${c.id})">
-
-Kredit məlumatlarını
-proqramdan sil
-
-</button>
-
-`;
-
-
-openModal("detailModal");
-
-}
-
-
-function deleteCredit(id){
-
-if(
-!confirm(
-"Bu kredit məlumatlarını KREDAR proqramından silmək istəyirsiniz?"
-)
-)return;
-
-
-credits=
-credits.filter(
-c=>c.id!==id
-);
-
-save();
-
-render();
-
-closeModal("detailModal");
-
-showToast(
-"Kredit məlumatları silindi."
-);
-
-}
-
-
-function payCredit(id){
-
-const c=
-credits.find(
-x=>x.id===id
-);
-
-if(
-!c||
-!c.payLink
-){
-
-showToast(
-"Bu kredit üçün ödəniş linki əlavə edilməyib."
-);
-
-return;
-
-}
-
-
-window.open(
-c.payLink,
-"_blank",
-"noopener,noreferrer"
-);
-
-}
-
-
-function openAddModal(){
-
-document
-.getElementById("addModal")
-.classList.add("active");
-
-}
-
-
-function openModal(id){
-
-document
-.getElementById(id)
-.classList.add("active");
-
-}
-
-
-function closeModal(id){
-
-document
-.getElementById(id)
-.classList.remove("active");
-
-}
-
-
-document
-.querySelectorAll(".modal")
-.forEach(
-m=>
-m.addEventListener(
-"click",
-e=>{
-  if(e.target===m)
-    m.classList.remove("active")
-}
-)
-);
-
-
-function showPage(id,btn){
-
-document
-.querySelectorAll(".page")
-.forEach(
-p=>p.classList.remove("active")
-);
-
-document
-.getElementById(id)
-.classList.add("active");
-
-
-document
-.querySelectorAll(".nav-btn")
-.forEach(
-b=>b.classList.remove("active")
-);
-
-btn.classList.add("active");
-
-
-if(id==="aiPage")
-renderAI();
-
-}
-
-
-function calculateLoan(){
-
-const a=
-Number(
-  calcAmount.value
-);
-
-const r=
-Number(
-  calcRate.value
-);
-
-const n=
-Number(
-  calcMonths.value
-);
-
-
-if(!a||!n){
-
-alert(
-"Məbləğ və müddəti daxil edin."
-);
-
-return;
-
-}
-
-
-const m=
-r/100/12;
-
-
-const p=
-m
-?a*m*Math.pow(1+m,n)/
-(
-Math.pow(1+m,n)-1
-)
-:a/n;
-
-
-const t=
-p*n;
-
-
-const i=
-t-a;
-
-
-calcResult.innerHTML=`
-
-<div>
-<span>Aylıq ödəniş</span>
-<strong>
-${money(p)}
-</strong>
-</div>
-
-<div>
-<span>Ümumi ödəniş</span>
-<strong>
-${money(t)}
-</strong>
-</div>
-
-<div>
-<span>Ümumi faiz</span>
-<strong>
-${money(i)}
-</strong>
-</div>
-
-`;
-
-}
-
-
-function checkNotifications(){
-
-if(
-!("Notification" in window)||
-Notification.permission!=="granted"
-)return;
-
-
-credits.forEach(c=>{
-
-const r=
-reminderInfo(c);
-
-if(!r||r.days>3)return;
-
-
-const key=
-`kredarNotified_${c.id}_${c.date}_${r.days}`;
-
-
-if(
-!localStorage.getItem(key)
-){
-
-new Notification(
-"KREDAR — kredit xatırlatması",
-{
-body:
-`${c.name}: ${r.status}. Ödəniş ${money(c.payment)}.`
-}
-);
-
-
-localStorage.setItem(
-key,
-"1"
-);
-
-}
-
-});
-
-}
-
-
-async function enableNotifications(){
-
-if(
-"Notification" in window&&
-Notification.permission==="default"
-){
-
-await Notification.requestPermission();
-
-}
-
-}
-
-
-function updateTime(){
-
-document.getElementById(
-"statusTime"
-).textContent=
-new Date().toLocaleTimeString(
-"az-AZ",
-{
-hour:"2-digit",
-minute:"2-digit"
-}
-);
-
-}
-
-
-document.addEventListener(
-"click",
-e=>{
-if(
-e.target.closest(".primary")
-)
-enableNotifications();
-}
-);
-
-
-render();
-
-updateTime();
-
-setInterval(
-updateTime,
-60000
-);
-
-setInterval(
-render,
-60000
-);
-
 </script>
 
 </body>
