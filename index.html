@@ -47,6 +47,44 @@ button{cursor:pointer}
 .fab{position:fixed;right:max(calc((100vw - 430px)/2 + 18px),18px);bottom:79px;width:53px;height:53px;border-radius:50%;border:0;background:#1976d2;color:#fff;font-size:25px;box-shadow:0 8px 22px rgba(25,118,210,.35);z-index:50}
 .toast{position:fixed;left:50%;bottom:83px;transform:translateX(-50%) translateY(15px);width:min(390px,calc(100% - 30px));background:#142b48;color:#fff;border-radius:13px;padding:11px 13px;font-size:10px;opacity:0;pointer-events:none;transition:.2s;z-index:2000}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 @media(min-width:431px){body{padding:20px 0}.app{min-height:calc(100vh - 40px);border-radius:25px;overflow:hidden}.bottom-nav{bottom:20px;border-radius:0 0 25px 25px}.fab{bottom:100px}}
+
+.auth-user{
+  display:none;
+  margin-top:10px;
+  padding:10px 12px;
+  border-radius:12px;
+  background:rgba(255,255,255,.08);
+  color:#dce8f5;
+  font-size:10px;
+}
+.auth-actions{
+  display:flex;
+  gap:8px;
+  margin-top:10px;
+}
+.auth-btn{
+  flex:1;
+  border:0;
+  border-radius:10px;
+  padding:10px;
+  font-size:10px;
+  font-weight:800;
+}
+.auth-primary{background:#1976d2;color:#fff}
+.auth-secondary{background:#edf3f9;color:#1976d2}
+.auth-modal-note{
+  font-size:10px;
+  line-height:1.55;
+  color:#718094;
+  margin:8px 0 14px;
+}
+.auth-error{
+  color:#c62828;
+  font-size:10px;
+  margin-top:8px;
+  min-height:14px;
+}
+
 </style>
 </head>
 <body>
@@ -101,6 +139,22 @@ button{cursor:pointer}
 </section>
 
 <section id="profilePage" class="page">
+
+<div class="profile-card" id="authProfileCard">
+  <div class="profile-logo">K</div>
+  <h2>Hesabınız</h2>
+  <p id="authStatusText" style="font-size:11px;color:#718094;line-height:1.6">
+    Kreditlərinizi təhlükəsiz saxlamaq üçün hesab yaradın və ya daxil olun.
+  </p>
+  <div class="auth-actions">
+    <button class="auth-btn auth-primary" onclick="openAuthModal('login')">Daxil ol</button>
+    <button class="auth-btn auth-secondary" onclick="openAuthModal('signup')">Qeydiyyat</button>
+  </div>
+  <div class="auth-user" id="authUserBox"></div>
+  <button class="auth-btn auth-secondary" id="logoutBtn" style="display:none;width:100%;margin-top:8px" onclick="logoutKredar()">Hesabdan çıx</button>
+</div>
+
+
 <div class="profile-card"><div class="profile-logo">K</div><h2>KREDAR</h2><p style="font-size:11px;color:#718094;line-height:1.6">Bütün kreditlərinizi, ödəniş tarixlərinizi, qalıq borclarınızı və xatırlatmalarınızı bir platformada idarə edin.</p><br><p style="font-size:10px;color:#8a94a4;line-height:1.6">KREDAR AI kredit məlumatlarını analiz edərək prioritetlər və maliyyə planlaşdırması üzrə məlumat xarakterli tövsiyələr təqdim edir.</p></div>
 </section>
 </main>
@@ -132,6 +186,38 @@ button{cursor:pointer}
 <div class="modal" id="detailModal"><div class="modal-box">
 <div class="modal-head"><h2>Kredit məlumatları</h2><button class="close" onclick="closeModal('detailModal')">×</button></div><div id="detailContent"></div>
 </div></div>
+
+<div class="modal" id="authModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h2 id="authTitle">KREDAR-a daxil ol</h2>
+      <button class="close" onclick="closeModal('authModal')">×</button>
+    </div>
+
+    <div class="auth-modal-note" id="authNote">
+      E-poçt və şifrənizlə KREDAR hesabınıza daxil olun.
+    </div>
+
+    <div class="field">
+      <label>E-poçt</label>
+      <input id="authEmail" type="email" autocomplete="email" placeholder="siz@example.com">
+    </div>
+
+    <div class="field">
+      <label>Şifrə</label>
+      <input id="authPassword" type="password" autocomplete="current-password" placeholder="Minimum 6 simvol">
+    </div>
+
+    <button class="primary" id="authSubmitBtn" onclick="submitAuth()">Daxil ol</button>
+    <div class="auth-error" id="authError"></div>
+
+    <button class="auth-btn auth-secondary" style="width:100%;margin-top:8px" onclick="toggleAuthMode()">
+      <span id="authToggleText">Hesabınız yoxdur? Qeydiyyatdan keçin</span>
+    </button>
+  </div>
+</div>
+
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -306,7 +392,7 @@ const SUPABASE_URL = "https://mjizjrlckprpsbgyxgm.supabase.co";
   BURAYA öz Supabase Publishable Key-inizi yazın.
   Secret key yazmayın.
 */
-const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_ruH9LbsdKqN2yVuPSDegrQ_C8Kd_GpE";
+const SUPABASE_PUBLISHABLE_KEY = "BURAYA_PUBLISHABLE_KEY_YAZIN";
 
 const kredarSupabase =
   window.supabase.createClient(
@@ -520,5 +606,173 @@ window.addEventListener("load", async () => {
 });
 </script>
 
+<script>
+
+/* =========================
+   KREDAR AUTH
+   ========================= */
+
+let authMode = "login";
+
+function openAuthModal(mode="login"){
+  authMode = mode;
+  document.getElementById("authModal").classList.add("active");
+  document.getElementById("authEmail").value = "";
+  document.getElementById("authPassword").value = "";
+  document.getElementById("authError").textContent = "";
+  updateAuthModal();
+}
+
+function toggleAuthMode(){
+  authMode = authMode === "login" ? "signup" : "login";
+  document.getElementById("authError").textContent = "";
+  updateAuthModal();
+}
+
+function updateAuthModal(){
+  const title = document.getElementById("authTitle");
+  const note = document.getElementById("authNote");
+  const submit = document.getElementById("authSubmitBtn");
+  const toggle = document.getElementById("authToggleText");
+
+  if(authMode === "login"){
+    title.textContent = "KREDAR-a daxil ol";
+    note.textContent = "E-poçt və şifrənizlə KREDAR hesabınıza daxil olun.";
+    submit.textContent = "Daxil ol";
+    toggle.textContent = "Hesabınız yoxdur? Qeydiyyatdan keçin";
+  }else{
+    title.textContent = "KREDAR-da qeydiyyat";
+    note.textContent = "E-poçt və şifrə yaradın. E-poçt təsdiqi aktivdirsə, sizə təsdiq məktubu göndəriləcək.";
+    submit.textContent = "Qeydiyyatdan keç";
+    toggle.textContent = "Artıq hesabınız var? Daxil olun";
+  }
+}
+
+async function submitAuth(){
+  const email = document.getElementById("authEmail").value.trim();
+  const password = document.getElementById("authPassword").value;
+  const errorBox = document.getElementById("authError");
+  const button = document.getElementById("authSubmitBtn");
+
+  errorBox.textContent = "";
+
+  if(!email || !password){
+    errorBox.textContent = "E-poçt və şifrəni daxil edin.";
+    return;
+  }
+
+  if(password.length < 6){
+    errorBox.textContent = "Şifrə ən azı 6 simvol olmalıdır.";
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = "Gözləyin...";
+
+  try{
+    if(authMode === "signup"){
+      const {data,error} = await kredarSupabase.auth.signUp({
+        email,
+        password
+      });
+
+      if(error) throw error;
+
+      if(data.session){
+        closeModal("authModal");
+        await kredarSyncAfterLogin();
+        updateAuthUI(data.user);
+        showToast("Qeydiyyat tamamlandı.");
+      }else{
+        closeModal("authModal");
+        showToast("Qeydiyyat yaradıldı. E-poçtunuzu təsdiqləyin.");
+      }
+    }else{
+      const {data,error} = await kredarSupabase.auth.signInWithPassword({
+        email,
+        password
+      });
+
+      if(error) throw error;
+
+      closeModal("authModal");
+      await kredarSyncAfterLogin();
+      updateAuthUI(data.user);
+      showToast("KREDAR-a daxil oldunuz.");
+    }
+  }catch(error){
+    console.error("KREDAR auth xətası:", error);
+    errorBox.textContent = authFriendlyError(error);
+  }finally{
+    button.disabled = false;
+    updateAuthModal();
+  }
+}
+
+function authFriendlyError(error){
+  const msg = String(error?.message || "").toLowerCase();
+
+  if(msg.includes("invalid login credentials"))
+    return "E-poçt və ya şifrə yanlışdır.";
+
+  if(msg.includes("email not confirmed"))
+    return "E-poçtunuzu təsdiqləyin və yenidən cəhd edin.";
+
+  if(msg.includes("user already registered"))
+    return "Bu e-poçtla hesab artıq mövcuddur. Daxil olun.";
+
+  if(msg.includes("password"))
+    return "Şifrə ən azı 6 simvol olmalıdır.";
+
+  if(msg.includes("rate limit"))
+    return "Çox sayda cəhd edildi. Bir az sonra yenidən yoxlayın.";
+
+  return "Əməliyyat alınmadı. Məlumatları yoxlayın və yenidən cəhd edin.";
+}
+
+function updateAuthUI(user){
+  const status = document.getElementById("authStatusText");
+  const box = document.getElementById("authUserBox");
+  const logout = document.getElementById("logoutBtn");
+
+  if(!status || !box || !logout) return;
+
+  if(user){
+    status.textContent = "Hesab aktivdir. Kreditləriniz bu hesabla Supabase-də saxlanılır.";
+    box.style.display = "block";
+    box.textContent = user.email || "Hesab aktivdir";
+    logout.style.display = "block";
+  }else{
+    status.textContent = "Kreditlərinizi təhlükəsiz saxlamaq üçün hesab yaradın və ya daxil olun.";
+    box.style.display = "none";
+    logout.style.display = "none";
+  }
+}
+
+async function logoutKredar(){
+  const {error} = await kredarSupabase.auth.signOut();
+
+  if(error){
+    showToast("Hesabdan çıxmaq mümkün olmadı.");
+    console.error(error);
+    return;
+  }
+
+  updateAuthUI(null);
+  showToast("Hesabdan çıxıldı.");
+}
+
+async function initKredarAuth(){
+  const {data} = await kredarSupabase.auth.getUser();
+  updateAuthUI(data?.user || null);
+}
+
+window.addEventListener("load", async ()=>{
+  if(typeof kredarSupabase !== "undefined"){
+    await initKredarAuth();
+  }
+});
+
+</script>
 </body>
 </html>
