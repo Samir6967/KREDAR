@@ -534,7 +534,155 @@ async function kredarSignOut(){
  const {error}=await kredarSupabase.auth.signOut();if(error){kredarAuthMessage("Çıxış xətası: "+error.message);return}
  credits=[];localStorage.setItem("kredarCredits",JSON.stringify([]));render();await kredarUpdateAuthUI();kredarAuthMessage("Hesabdan çıxdınız. Lokal məlumatlar bu sessiyada göstərilmir.");
 }
-async function kredarUpdateAuthUI(){
+async function kredarUpdateAuthUI() {
+  const { data } = await kredarSupabase.auth.getUser();
+  const user = data?.user;
+  const authCard = document.getElementById("authCard");
+  const status = document.getElementById("authStatus");
+  const out = document.getElementById("signOutButton");
+  const profile = document.getElementById("profilePage");
+
+  if (!user) {
+    if (authCard) authCard.style.display = "block";
+    if (status) status.textContent =
+      "Kreditlərinizi saxlamaq üçün hesabınıza daxil olun.";
+    if (out) out.style.display = "none";
+    return;
+  }
+
+  if (authCard) authCard.style.display = "none";
+  if (out) out.style.display = "block";
+  if (status) status.textContent = "Daxil olmusunuz: " + user.email;
+  if (!profile) return;
+
+  const meta = user.user_metadata || {};
+  const fullName = meta.full_name || "";
+  const nameParts = fullName.split(" ");
+  const firstName = meta.first_name || nameParts[0] || "";
+  const lastName = meta.last_name || nameParts.slice(1).join(" ");
+  const birthDate = meta.birth_date || "";
+  const phone = meta.phone || "";
+
+  const totalBalance = credits.reduce(
+    (sum, c) => sum + Number(c.balance || 0), 0
+  );
+  const totalPayment = credits.reduce(
+    (sum, c) => sum + Number(c.payment || 0), 0
+  );
+
+  profile.innerHTML = `
+    <div class="profile-card">
+      <div class="profile-logo">K</div>
+      <h2>Müştəri profili</h2>
+      <p style="font-size:12px;color:#718094">
+        Şəxsi məlumatlarınızı burada idarə edə bilərsiniz.
+      </p>
+
+      <div class="field">
+        <label>Ad</label>
+        <input id="profileFirstName" value="${escapeHTML(firstName)}"
+          placeholder="Adınız">
+      </div>
+
+      <div class="field">
+        <label>Soyad</label>
+        <input id="profileLastName" value="${escapeHTML(lastName)}"
+          placeholder="Soyadınız">
+      </div>
+
+      <div class="field">
+        <label>Doğum tarixi</label>
+        <input id="profileBirthDate" type="date"
+          value="${escapeHTML(birthDate)}">
+      </div>
+
+      <div class="field">
+        <label>E-poçt ünvanı</label>
+        <input type="email" value="${escapeHTML(user.email || "")}" readonly>
+        <small>E-poçt bu bölmədən dəyişdirilmir.</small>
+      </div>
+
+      <div class="field">
+        <label>Mobil nömrə</label>
+        <input id="profilePhone" type="tel"
+          value="${escapeHTML(phone)}" placeholder="+994 XX XXX XX XX">
+      </div>
+
+      <button class="primary" onclick="kredarSaveProfile()">
+        Məlumatları yadda saxla
+      </button>
+
+      <div class="field" style="margin-top:18px">
+        <label>Kreditlərin sayı</label>
+        <input value="${credits.length}" readonly>
+      </div>
+
+      <div class="field">
+        <label>Ümumi qalıq borc</label>
+        <input value="${escapeHTML(String(money(totalBalance)))}" readonly>
+      </div>
+
+      <div class="field">
+        <label>Aylıq ümumi ödəniş</label>
+        <input value="${escapeHTML(String(money(totalPayment)))}" readonly>
+      </div>
+
+      <button class="delete" onclick="kredarSignOut()">
+        Hesabdan çıx
+      </button>
+    </div>
+  `;
+}
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, ch => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[ch]);
+}
+
+async function kredarSaveProfile() {
+  const firstName = document.getElementById("profileFirstName").value.trim();
+  const lastName = document.getElementById("profileLastName").value.trim();
+  const birthDate = document.getElementById("profileBirthDate").value;
+  const phone = document.getElementById("profilePhone").value.trim();
+
+  if (!firstName || !lastName) {
+    alert("Zəhmət olmasa ad və soyadı daxil edin.");
+    return;
+  }
+
+  if (phone && !/^[+0-9\s()-]{7,20}$/.test(phone)) {
+    alert("Mobil nömrəni düzgün formatda daxil edin.");
+    return;
+  }
+
+  const { error } = await kredarSupabase.auth.updateUser({
+    data: {
+      first_name: firstName,
+      last_name: lastName,
+      full_name: firstName + " " + lastName,
+      birth_date: birthDate,
+      phone: phone
+    }
+  });
+
+  if (error) {
+    alert("Məlumatlar yadda saxlanmadı: " + error.message);
+    return;
+  }
+
+  await kredarUpdateAuthUI();
+  if (typeof showToast === "function") {
+    showToast("Profil məlumatları yadda saxlanıldı.");
+  } else {
+    alert("Profil məlumatları yadda saxlanıldı.");
+  }
+}
+
  const {data}=await kredarSupabase.auth.getUser();
  const user=data?.user;
  const authCard=document.getElementById("authCard");
