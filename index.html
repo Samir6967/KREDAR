@@ -268,7 +268,7 @@ async function addCredit(){
 }
 function clearForm(){["creditName","creditAmount","creditBalance","creditRate","creditPayment","creditEndDate","creditDate","creditPayLink"].forEach(id=>document.getElementById(id).value="")}
 function openDetails(id){
- const c=credits.find(x=>x.id===id);if(!c)return;
+ const c=credits.find(x=>String(x.id)===String(id));if(!c)return;
  document.getElementById("detailContent").innerHTML=`<div class="detail-hero"><div class="bank-logo">${logoHTML(c.name)}</div><div><small>BANK</small><h3>${esc(c.name)}</h3><p>${Number(c.rate||0)}% illik faiz</p></div></div>
  <div class="detail-grid">
  <div class="detail-item"><label>Qalıq borc</label><strong>${money(c.balance)}</strong></div>
