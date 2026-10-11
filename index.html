@@ -535,10 +535,47 @@ async function kredarSignOut(){
  credits=[];localStorage.setItem("kredarCredits",JSON.stringify([]));render();await kredarUpdateAuthUI();kredarAuthMessage("Hesabdan çıxdınız. Lokal məlumatlar bu sessiyada göstərilmir.");
 }
 async function kredarUpdateAuthUI(){
- const {data}=await kredarSupabase.auth.getUser();const user=data?.user;
- const status=document.getElementById("authStatus"),out=document.getElementById("signOutButton");
- if(user){status.textContent="Daxil olmusunuz: "+user.email+". Kreditləriniz bu hesabla sinxronlaşdırılır.";out.style.display="block";}
- else{status.textContent="Kreditlərinizi buludda saxlamaq üçün e-poçt və şifrə ilə daxil olun və ya hesab yaradın.";out.style.display="none";}
+ const {data}=await kredarSupabase.auth.getUser();
+ const user=data?.user;
+ const authCard=document.getElementById("authCard");
+ const status=document.getElementById("authStatus");
+ const out=document.getElementById("signOutButton");
+ const profile=document.getElementById("profilePage");
+
+ if(user){
+   authCard.style.display="none";
+   out.style.display="block";
+   if(status) status.textContent="Daxil olmusunuz: "+user.email;
+   if(profile){
+     profile.innerHTML=`
+       <div class="profile-card">
+         <div class="profile-logo">K</div>
+         <h2>Müştəri profili</h2>
+         <p style="font-size:11px;color:#718094;margin:8px 0 16px">KREDAR hesabınız uğurla aktivdir.</p>
+         <div class="field">
+           <label>E-poçt ünvanı</label>
+           <input type="email" value="${user.email||""}" readonly>
+         </div>
+         <div class="field">
+           <label>Kreditlərin sayı</label>
+           <input value="${credits.length}" readonly>
+         </div>
+         <div class="field">
+           <label>Ümumi qalıq borc</label>
+           <input value="${money(credits.reduce((s,c)=>s+Number(c.balance||0),0))}" readonly>
+         </div>
+         <div class="field">
+           <label>Aylıq ümumi ödəniş</label>
+           <input value="${money(credits.reduce((s,c)=>s+Number(c.payment||0),0))}" readonly>
+         </div>
+         <button class="primary" onclick="kredarSignOut()">Hesabdan çıx</button>
+       </div>`;
+   }
+ }else{
+   authCard.style.display="block";
+   if(status) status.textContent="Kreditlərinizi buludda saxlamaq üçün e-poçt və şifrə ilə daxil olun və ya hesab yaradın.";
+   out.style.display="none";
+ }
 }
 kredarSupabase.auth.onAuthStateChange((event, session)=>{
  if(event==="SIGNED_IN" && session){setTimeout(async()=>{await kredarSyncAfterLogin();await kredarUpdateAuthUI();},0);}
