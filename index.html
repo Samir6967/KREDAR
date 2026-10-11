@@ -28,7 +28,7 @@ body{background:#e9eef5;color:#152238}button,input,select{font:inherit}button{cu
 .calc-result{margin-top:16px;background:#edf6ff;border-radius:14px;padding:15px}.calc-result div{display:flex;justify-content:space-between;margin-bottom:8px;font-size:11px}.calc-result div:last-child{margin:0}.calc-result strong{color:#1267b1}
 .profile-logo{width:65px;height:65px;border-radius:18px;background:#071a35;color:#fff;display:flex;align-items:center;justify-content:center;font-size:25px;font-weight:800;margin-bottom:14px}
 .contact-link{display:block;padding:13px;border-radius:12px;background:#f5f9fd;color:#176fc1;text-decoration:none;font-size:12px;font-weight:700;margin-top:8px}
-.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:72px;background:#fff;border-top:1px solid #e9edf2;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));z-index:40}
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:72px;background:#fff;border-top:1px solid #e9edf2;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));z-index:40}
 .nav-btn{border:0;background:none;color:#8993a3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-width:0}.nav-btn .icon{font-size:18px}.nav-btn span{font-size:9px}.nav-btn.active{color:#1976d2;font-weight:800}
 .fab{position:fixed;right:max(calc((100vw - 430px)/2 + 18px),18px);bottom:82px;width:50px;height:50px;border-radius:50%;border:0;background:#1976d2;color:#fff;font-size:25px;box-shadow:0 8px 22px #1976d259;z-index:50}
 .modal{display:none;position:fixed;z-index:1000;inset:0;background:#05122394;align-items:flex-end;justify-content:center}.modal.active{display:flex}.modal-box{width:100%;max-width:430px;max-height:93vh;overflow:auto;background:#f5f7fb;border-radius:26px 26px 0 0;padding:20px}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.close{width:34px;height:34px;border:0;border-radius:50%;background:#e9edf3;font-size:20px}
@@ -41,31 +41,31 @@ body{background:#e9eef5;color:#152238}button,input,select{font:inherit}button{cu
 <div class="statusbar"><span id="statusTime">09:41</span><span>● ● ●</span></div>
 <header class="topbar"><div class="logo">KRED<span>AR</span></div><div class="subtitle">Kreditlərini bir yerdən idarə et</div></header>
 <main class="content">
+
+<section id="homePage" class="page"></section>
+<section id="creditsPage" class="page active">
+<div class="balance-card"><div class="balance-label">ÜMUMİ QALIQ BORC</div><div class="balance-number" id="totalDebt">0 ₼</div><div class="balance-bottom"><span>Aylıq ümumi ödəniş</span><strong id="totalPayment">0 ₼</strong></div></div>
+<div class="card"><div class="section-head" style="margin-top:0"><h2>🔔 Ödəniş xatırlatmaları</h2><span id="reminderCount">0</span></div><div id="reminders" class="empty">Hələ xatırlatma yoxdur.</div></div>
+<div class="section-head"><h2>Kreditləriniz olan banklar</h2><span id="bankCount">0 bank</span></div><div id="bankSummary"></div>
+<div class="section-head"><h2>Banklardakı kreditlər</h2><span>Ətraflı bax</span></div><div id="bankList"></div>
+<div class="section-head"><h2>Mənim kreditlərim</h2><span id="creditCount">0 kredit</span></div><div id="creditPageList"></div>
+<div class="ai-card"><div class="ai-head"><div class="ai-icon">✦</div><div><h3>KREDAR Ai</h3><p>Kreditlərini ağıllı analiz edir</p></div></div><div class="ai-summary" id="aiSummary">Kreditlərini əlavə etdikdən sonra KREDAR Ai tövsiyələr hazırlayacaq.</div><button class="secondary" onclick="showPage('aiPage',document.getElementById('aiNav'))">Ai analizinə bax →</button></div>
+<button class="primary" onclick="openAddModal()">＋ Yeni kredit əlavə et</button></section>
+<section id="aiPage" class="page"><div class="ai-page-card"><h2>✦ KREDAR Ai</h2><p style="font-size:11px;color:#718094;line-height:1.6;margin-top:8px">KREDAR Ai daxil etdiyin kreditləri müqayisə edir. Tövsiyələr məlumat xarakterlidir; bank müqaviləsi və şərtləri ayrıca yoxlanmalıdır.</p></div><div id="aiAnalysis"></div></section>
+<section id="calculatorPage" class="page"><div class="calc-card"><h2>Kredit kalkulyatoru</h2><div class="field"><label>Kredit məbləği (₼)</label><input id="calcAmount" type="number" placeholder="50000"></div><div class="field"><label>İllik faiz (%)</label><input id="calcRate" type="number" step="0.1" placeholder="14"></div><div class="field"><label>Müddət (ay)</label><input id="calcMonths" type="number" placeholder="48"></div><button class="primary" onclick="calculateLoan()">Hesabla</button><div class="calc-result" id="calcResult"><div><span>Aylıq ödəniş</span><strong>—</strong></div><div><span>Ümumi ödəniş</span><strong>—</strong></div><div><span>Ümumi faiz</span><strong>—</strong></div></div></div></section>
+<section id="profilePage" class="page">
 <section id="authCard" class="card">
 <h2>🔐 KREDAR hesabı</h2><p id="authStatus" style="font-size:11px;color:#718094;line-height:1.6;margin:8px 0 12px">Kreditlərini hesabında saxlamaq üçün daxil ol və ya yeni hesab yarat.</p>
 <div class="field"><label>E-poçt</label><input id="authEmail" type="email" autocomplete="email" placeholder="email@example.com"></div>
 <div class="field"><label>Şifrə (ən azı 6 simvol)</label><input id="authPassword" type="password" autocomplete="current-password" placeholder="Şifrəniz"></div>
 <button class="primary" onclick="kredarSignIn()">Daxil ol</button><button class="secondary" onclick="kredarSignUp()">Yeni hesab yarat</button>
-</section>
-<section id="homePage" class="page active">
-<div class="balance-card"><div class="balance-label">ÜMUMİ QALIQ BORC</div><div class="balance-number" id="totalDebt">0 ₼</div><div class="balance-bottom"><span>Aylıq ümumi ödəniş</span><strong id="totalPayment">0 ₼</strong></div></div>
-<div class="card"><div class="section-head" style="margin-top:0"><h2>🔔 Ödəniş xatırlatmaları</h2><span id="reminderCount">0</span></div><div id="reminders" class="empty">Hələ xatırlatma yoxdur.</div></div>
-<div class="section-head"><h2>Kreditləriniz olan banklar</h2><span id="bankCount">0 bank</span></div><div id="bankSummary"></div>
-<div class="section-head"><h2>Banklardakı kreditlər</h2><span>Ətraflı bax</span></div><div id="bankList"></div>
-<div class="ai-card"><div class="ai-head"><div class="ai-icon">✦</div><div><h3>KREDAR Ai</h3><p>Kreditlərini ağıllı analiz edir</p></div></div><div class="ai-summary" id="aiSummary">Kreditlərini əlavə etdikdən sonra KREDAR Ai tövsiyələr hazırlayacaq.</div><button class="secondary" onclick="showPage('aiPage',document.getElementById('aiNav'))">Ai analizinə bax →</button></div>
-<button class="primary" onclick="openAddModal()">＋ Yeni kredit əlavə et</button>
-</section>
-<section id="creditsPage" class="page"><div class="section-head"><h2>Mənim kreditlərim</h2><span id="creditCount">0 kredit</span></div><div id="creditPageList"></div><button class="primary" onclick="openAddModal()">＋ Yeni kredit əlavə et</button></section>
-<section id="aiPage" class="page"><div class="ai-page-card"><h2>✦ KREDAR Ai</h2><p style="font-size:11px;color:#718094;line-height:1.6;margin-top:8px">KREDAR Ai daxil etdiyin kreditləri müqayisə edir. Tövsiyələr məlumat xarakterlidir; bank müqaviləsi və şərtləri ayrıca yoxlanmalıdır.</p></div><div id="aiAnalysis"></div></section>
-<section id="calculatorPage" class="page"><div class="calc-card"><h2>Kredit kalkulyatoru</h2><div class="field"><label>Kredit məbləği (₼)</label><input id="calcAmount" type="number" placeholder="50000"></div><div class="field"><label>İllik faiz (%)</label><input id="calcRate" type="number" step="0.1" placeholder="14"></div><div class="field"><label>Müddət (ay)</label><input id="calcMonths" type="number" placeholder="48"></div><button class="primary" onclick="calculateLoan()">Hesabla</button><div class="calc-result" id="calcResult"><div><span>Aylıq ödəniş</span><strong>—</strong></div><div><span>Ümumi ödəniş</span><strong>—</strong></div><div><span>Ümumi faiz</span><strong>—</strong></div></div></div></section>
-<section id="profilePage" class="page"><div class="profile-card"><div class="profile-logo">K</div><h2>Müştəri profili</h2><p style="font-size:11px;color:#718094;line-height:1.6;margin-bottom:12px">Şəxsi məlumatlarını burada idarə edə bilərsən.</p>
+</section><div class="profile-card"><div class="profile-logo">K</div><h2>Müştəri profili</h2><p style="font-size:11px;color:#718094;line-height:1.6;margin-bottom:12px">Şəxsi məlumatlarını burada idarə edə bilərsən.</p>
 <div class="field"><label>Ad</label><input id="profileFirstName" placeholder="Adın"></div><div class="field"><label>Soyad</label><input id="profileLastName" placeholder="Soyadın"></div><div class="field"><label>Doğum tarixi</label><input id="profileBirthDate" type="date"></div><div class="field"><label>E-poçt</label><input id="profileEmail" type="email" readonly></div><div class="field"><label>Mobil nömrə</label><input id="profilePhone" type="tel" placeholder="+994 XX XXX XX XX"></div><button class="primary" onclick="saveProfile()">Məlumatları yadda saxla</button><button class="delete" onclick="kredarSignOut()">Hesabdan çıx</button></div></section>
 <section id="contactPage" class="page"><div class="profile-card"><div class="profile-logo">☎</div><h2>Əlaqə</h2><p style="font-size:12px;color:#718094;line-height:1.6;margin-bottom:12px">Hər hansı sualın və ya problemin yaranarsa, bizimlə əlaqə saxla.</p><div class="field"><label>Telefon</label><a class="contact-link" href="tel:+994504400020">050 440 00 20 — Zəng et</a></div><div class="field"><label>WhatsApp</label><a class="contact-link" style="color:#16845b" href="https://wa.me/994504400020" target="_blank" rel="noopener noreferrer">WhatsApp ilə mesaj yaz</a></div><div class="field"><label>E-poçt</label><a class="contact-link" href="mailto:samir.abdullayev@yahoo.com">samir.abdullayev@yahoo.com</a></div></div></section>
 </main>
 <button class="fab" onclick="openAddModal()">＋</button>
 <nav class="bottom-nav">
-<button class="nav-btn active" onclick="showPage('homePage',this)"><div class="icon">⌂</div><span>Ana</span></button>
-<button class="nav-btn" onclick="showPage('creditsPage',this)"><div class="icon">▣</div><span>Kreditlər</span></button>
+<button class="nav-btn active" onclick="showPage('creditsPage',this)"><div class="icon">▣</div><span>Kreditlər</span></button>
 <button class="nav-btn" id="aiNav" onclick="showPage('aiPage',this)"><div class="icon">✦</div><span>KREDAR Ai</span></button>
 <button class="nav-btn" onclick="showPage('calculatorPage',this)"><div class="icon">▤</div><span>Kalkul.</span></button>
 <button class="nav-btn" onclick="showPage('profilePage',this)"><div class="icon">●</div><span>Profil</span></button>
