@@ -194,14 +194,14 @@ function reminderHTML(c){
     <div class="reminder-top"><div class="reminder-bank">${esc(c.name)}</div><div class="reminder-status">${r.status}</div></div>
     <div class="reminder-info">${money(c.payment)} · Ödəniş tarixi: ${formatDate(c.date)}</div>
     <div class="reminder-actions">
-      ${c.payLink?`<button class="pay-mini" onclick="payCredit(${c.id})">İndi ödə</button>`:""}
+      ${c.payLink?`<button class="pay-mini" onclick="payCredit('${c.id}')">İndi ödə</button>`:""}
     </div>
   </div>`;
 }
 
 function progress(c){const a=Number(c.amount||0),b=Number(c.balance||0);if(!a)return 0;return Math.max(0,Math.min(100,((a-b)/a)*100))}
 function bankCard(c){
-return `<div class="bank-card" onclick="openDetails(${c.id})">
+return `<div class="bank-card" onclick="openDetails('${c.id}')">
 <div class="bank-head"><div class="bank-title"><div class="bank-logo">${logoHTML(c.name)}</div><div><div class="bank-name">${esc(c.name)}</div><div class="bank-sub">Kredit hesabı</div></div></div><div class="rate">${Number(c.rate||0)}% illik</div></div>
 <div class="card-grid">
 <div><div class="label">QALIQ BORC</div><div class="big">${money(c.balance)}</div></div>
@@ -210,7 +210,7 @@ return `<div class="bank-card" onclick="openDetails(${c.id})">
 <div><div class="label">KREDİTİN BİTMƏ TARİXİ</div><div class="date">${formatDate(c.endDate)}</div></div>
 </div>
 <div class="progress"><span style="width:${progress(c)}%"></span></div>
-<div class="card-actions"><button class="pay-btn" onclick="event.stopPropagation();payCredit(${c.id})">Kreditini indi ödə</button><button class="more-btn" onclick="event.stopPropagation();openDetails(${c.id})">›</button></div>
+<div class="card-actions"><button class="pay-btn" onclick="event.stopPropagation();payCredit('${c.id}')">Kreditini indi ödə</button><button class="more-btn" onclick="event.stopPropagation();openDetails('${c.id}')">›</button></div>
 </div>`;
 }
 
@@ -255,7 +255,7 @@ function render(){
 
 async function addCredit(){
  const c={id:Date.now(),name:document.getElementById("creditName").value,amount:Number(document.getElementById("creditAmount").value),balance:Number(document.getElementById("creditBalance").value),rate:Number(document.getElementById("creditRate").value||0),payment:Number(document.getElementById("creditPayment").value),endDate:document.getElementById("creditEndDate").value,date:document.getElementById("creditDate").value,payLink:document.getElementById("creditPayLink").value.trim()};
- if(!c.name||!c.amount||!c.balance||!c.payment||!c.endDate||!c.date){alert("Bank, məbləğ, qalıq borc, aylıq ödəniş, növbəti ödəniş və kreditin bitmə tarixini doldurun.");return}
+if(!c.name||!Number.isFinite(c.amount)||c.amount<=0||!Number.isFinite(c.balance)||c.balance<0||c.balance>c.amount||!Number.isFinite(c.rate)||c.rate<0||c.rate>100||!Number.isFinite(c.payment)||c.payment<=0||!c.endDate||!c.date){alert("Məlumatları yoxlayın: ilkin məbləğ və aylıq ödəniş 0-dan böyük olmalı, qalıq borc 0 ilə ilkin məbləğ arasında, faiz isə 0–100% aralığında olmalıdır. Tarixləri də doldurun.");return}{alert("Bank, məbləğ, qalıq borc, aylıq ödəniş, növbəti ödəniş və kreditin bitmə tarixini doldurun.");return}
  const user = await kredarGetUser();
  if(user){
    const saved = await kredarSaveCreditToSupabase(c);
@@ -277,12 +277,12 @@ function openDetails(id){
  <div class="detail-item"><label>Növbəti ödəniş</label><strong>${formatDate(c.date)}</strong></div>
  <div class="detail-item"><label>Kreditin bitmə tarixi</label><strong>${formatDate(c.endDate)}</strong></div>
  <div class="detail-item"><label>Ödəniş linki</label><strong>${c.payLink?"Hazırdır":"Əlavə edilməyib"}</strong></div></div>
- ${c.payLink?`<button class="primary" onclick="payCredit(${c.id})">Kreditini indi ödə</button>`:""}
- <button class="delete" onclick="deleteCredit(${c.id})">Kredit məlumatlarını proqramdan sil</button>`;
+ ${c.payLink?`<button class="primary" onclick="payCredit('${c.id}')">Kreditini indi ödə</button>`:""}
+ <button class="delete" onclick="deleteCredit('${c.id}')">Kredit məlumatlarını proqramdan sil</button>`;
  openModal("detailModal");
 }
 async function deleteCredit(id){if(!confirm("Bu kredit məlumatlarını KREDAR proqramından silmək istəyirsiniz?"))return;const user=await kredarGetUser();if(user){const ok=await kredarDeleteCreditFromSupabase(id);if(!ok){showToast("Kredit bazadan silinmədi. Konsolu yoxlayın.");return}}credits=credits.filter(c=>String(c.id)!==String(id));save();render();closeModal("detailModal");showToast("Kredit məlumatları silindi.")}
-function payCredit(id){const c=credits.find(x=>x.id===id);if(!c||!c.payLink){showToast("Bu kredit üçün ödəniş linki əlavə edilməyib.");return}window.open(c.payLink,"_blank","noopener,noreferrer")}
+function payCredit(id){const c=credits.find(x=>String(x.id)===String(id);if(!c||!c.payLink){showToast("Bu kredit üçün ödəniş linki əlavə edilməyib.");return}window.open(c.payLink,"_blank","noopener,noreferrer")}
 function openAddModal(){document.getElementById("addModal").classList.add("active")}
 function openModal(id){document.getElementById(id).classList.add("active")}
 function closeModal(id){document.getElementById(id).classList.remove("active")}
