@@ -282,7 +282,7 @@ function openDetails(id){
  openModal("detailModal");
 }
 async function deleteCredit(id){if(!confirm("Bu kredit məlumatlarını KREDAR proqramından silmək istəyirsiniz?"))return;const user=await kredarGetUser();if(user){const ok=await kredarDeleteCreditFromSupabase(id);if(!ok){showToast("Kredit bazadan silinmədi. Konsolu yoxlayın.");return}}credits=credits.filter(c=>String(c.id)!==String(id));save();render();closeModal("detailModal");showToast("Kredit məlumatları silindi.")}
-function payCredit(id){const c=credits.find(x=>String(x.id)===String(id));if(!c||!c.payLink){showToast("Bu kredit üçün ödəniş linki əlavə edilməyib.");return}window.open(c.payLink,"_blank","noopener,noreferrer")}{showToast("Bu kredit üçün ödəniş linki əlavə edilməyib.");return}window.open(c.payLink,"_blank","noopener,noreferrer")}
+function payCredit(id){const c=credits.find(x=>String(x.id)===String(id));if(!c||!c.payLink){showToast("Bu kredit üçün ödəniş linki əlavə edilməyib.");return}window.open(c.payLink,"_blank","noopener,noreferrer")}
 function openAddModal(){document.getElementById("addModal").classList.add("active")}
 function openModal(id){document.getElementById(id).classList.add("active")}
 function closeModal(id){document.getElementById(id).classList.remove("active")}
