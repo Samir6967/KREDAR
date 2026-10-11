@@ -613,20 +613,6 @@ async function kredarUpdateAuthUI() {
       </button>
 
       <div class="field" style="margin-top:18px">
-        <label>Kreditlərin sayı</label>
-        <input value="${credits.length}" readonly>
-      </div>
-
-      <div class="field">
-        <label>Ümumi qalıq borc</label>
-        <input value="${escapeHTML(String(money(totalBalance)))}" readonly>
-      </div>
-
-      <div class="field">
-        <label>Aylıq ümumi ödəniş</label>
-        <input value="${escapeHTML(String(money(totalPayment)))}" readonly>
-      </div>
-
       <button class="delete" onclick="kredarSignOut()">
         Hesabdan çıx
       </button>
